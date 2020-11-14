@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="183.0" layoutY="62.0" text="3. PANELA" />
+      <ColorPicker layoutX="88.0" layoutY="192.0" />
+      <Label fx:id="lbl3_proba" layoutX="197.0" layoutY="131.0" text="Label" />
+   </children>
+</Pane>
