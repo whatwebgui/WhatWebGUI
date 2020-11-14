@@ -18,7 +18,7 @@ public class DBController {
     private void conOpen() {
 
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:whatweb.db.sql");
+            conn = DriverManager.getConnection("jdbc:sqlite:whatweb.db");
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
