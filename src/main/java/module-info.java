@@ -1,3 +1,6 @@
+/**
+ *
+ */
 open module whatwebgui {
   requires javafx.graphics;
   requires javafx.controls;

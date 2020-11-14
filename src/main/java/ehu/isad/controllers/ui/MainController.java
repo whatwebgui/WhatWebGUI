@@ -70,7 +70,7 @@ public class MainController implements Initializable {
         }
         if (actionEvent.getSource() == btn3) {
             pane.getChildren().add(pane3);
-            lbl_title.setText("WhatWeb");
+            lbl_title.setText("Formatter");
         }
         if (actionEvent.getSource() == btn4) {
             pane.getChildren().add(pane4);

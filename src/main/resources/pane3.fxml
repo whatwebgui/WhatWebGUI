@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.FormatterController">
    <children>
-      <Label layoutX="183.0" layoutY="62.0" text="3. PANELA" />
-      <ColorPicker layoutX="88.0" layoutY="192.0" />
-      <Label fx:id="lbl3_proba" layoutX="197.0" layoutY="131.0" text="Label" />
+      <Label layoutX="42.0" layoutY="31.0" text="WhatWeb" textFill="WHITE" />
+      <Label layoutX="38.0" layoutY="44.0" text="URL:" />
+      <Label layoutX="38.0" layoutY="66.0" text="Log:" />
+      <TextField fx:id="field" layoutX="85.0" layoutY="39.0" prefHeight="26.0" prefWidth="347.0" />
+      <TextArea fx:id="area" layoutX="85.0" layoutY="74.0" prefHeight="250.0" prefWidth="347.0" />
+      <Button fx:id="btn" layoutX="334.0" layoutY="330.0" mnemonicParsing="false" onAction="#onclickScan" text="Scan" />
+      <Button fx:id="whatwebBtn" layoutX="6.0" layoutY="5.0" mnemonicParsing="false" onAction="#onClickWhatWeb" prefHeight="26.0" prefWidth="77.0" text="whatweb" />
+      <Button fx:id="mongoBtn" layoutX="85.0" layoutY="5.0" mnemonicParsing="false" onAction="#onClickMongo" text="mongoDB" />
    </children>
 </Pane>
