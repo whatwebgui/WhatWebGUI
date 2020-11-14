@@ -1,0 +1,62 @@
+// Works with Gradle 5.7 and Java 12
+
+// To run this do:
+// ./gradlew run
+
+// To build a distribution zip:
+// ./gradlew distZip
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+version = '0.0.1'
+group = 'commitToMaster'
+
+java {
+    modularity.inferModulePath.set(true)
+}
+
+application {
+    mainModule = 'whatwebgui' // name defined in module-info.java
+    mainClass = 'ehu.isad.Main'
+}
+
+
+
+// ext.moduleName = 'gradlejavafxhelloworld'
+mainClassName = "$moduleName/ehu.isad.Main"
+
+
+javafx {
+    version = "12"
+    modules = [ 'javafx.graphics', 'javafx.fxml', 'javafx.controls']
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
+repositories {
+    mavenCentral()
+}
+
+run {
+    inputs.property('moduleName', moduleName)
+    doFirst {
+        if (System.getProperty("os.name").split(" ")[0] == "Mac"){
+            def newArgs = [ '--add-exports','java.desktop/com.apple.eawt=ALL-UNNAMED',]
+            jvmArgs = jvmArgs + newArgs
+        }
+        jvmArgs = jvmArgs + ['--module-path', classpath.asPath,
+                             '--patch-module', "$moduleName=" + files(sourceSets.main.output.resourcesDir).asPath,
+                             '--module', "$mainClassName",
+        ]
+        classpath = files()
+    }
+}
