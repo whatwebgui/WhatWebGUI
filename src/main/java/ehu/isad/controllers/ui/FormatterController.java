@@ -9,9 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,37 +57,38 @@ public class FormatterController {
     @FXML
     void onClickScanXML(ActionEvent event) {
         String newLine = System.getProperty("line.separator");
-        textAreaXML.setText(komanduExecutatu("xml").stream().collect(Collectors.joining(newLine)));
+        textAreaXML.setText(executeCommand("xml").stream().collect(Collectors.joining(newLine)));
         textAreaXML.setWrapText(true);
     }
 
     @FXML
     void onClickScanMongo(ActionEvent event) {
         String newLine = System.getProperty("line.separator");
-        textAreaMongo.setText(komanduExecutatu("mongo").stream().collect(Collectors.joining(newLine)));
+        textAreaMongo.setText(executeCommand("mongo").stream().collect(Collectors.joining(newLine)));
         textAreaMongo.setWrapText(true);
     }
 
     @FXML
     void onClickScanWW(ActionEvent event) {
         String newLine = System.getProperty("line.separator");
-        textAreaWW.setText(komanduExecutatu("whatweb").stream().collect(Collectors.joining(newLine)));
+        textAreaWW.setText(executeCommand("whatweb").stream().collect(Collectors.joining(newLine)));
         textAreaWW.setWrapText(true);
     }
 
-    public List<String> komanduExecutatu(String mota) {
+    public List<String> executeCommand(String mota) {
         List<String> emaitza = new LinkedList<String>();
         try {
             String line;
             Process p = null;
             if(mota.equals("whatweb")){
-                p = whatwebKomandoa();
+                p = commandWhatWeb();
             }else if(mota.equals("mongo")){
-                p = mongoKomandoa();
+                p = commandMongo();
             }else {
-                p = xmlKomandoa();
+                p = commandXML();
             }
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            System.out.println(input.readLine());
             while ((line = input.readLine()) != null) { emaitza.add(line); }
             input.close();
         } catch (Exception err) {
@@ -98,7 +97,7 @@ public class FormatterController {
         return emaitza;
     }
 
-    private Process whatwebKomandoa() throws IOException {
+    private Process commandWhatWeb() throws IOException {
         Process p = null;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + textFieldWW.getText()));
@@ -108,30 +107,31 @@ public class FormatterController {
         return p;
     }
 
-    private Process mongoKomandoa() throws IOException {
+    private Process commandMongo() throws IOException {
         Process p = null;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-json=/home/adeiarias/b.json " + textFieldMongo.getText()));
-            p = Runtime.getRuntime().exec(System.getenv("wsl cat /home/adeiarias/b.json"));
+            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText()));
+            p = Runtime.getRuntime().exec(System.getenv("wsl cat --log-json=/jsonFitxategiak/b.json"));
 
         } else {
-            Runtime.getRuntime().exec("whatweb --color=never --log-json=/home/adeiarias/b.json " + textFieldMongo.getText());
-            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /home/adeiarias/b.json"});
+            Runtime.getRuntime().exec("whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText());
+            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /tmp/b.json"});
         }
         return p;
     }
 
-    private Process xmlKomandoa() throws IOException {
+    private Process commandXML() throws IOException {
         Process p = null;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-xml=/home/adeiarias/b.xml " + textFieldXML.getText()));
-            p = Runtime.getRuntime().exec(System.getenv("wsl cat /home/adeiarias/b.xml"));
+            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-xml=/xmlFitxategiak/b.xml " + textFieldXML.getText()));
+            p = Runtime.getRuntime().exec(System.getenv("wsl cat /xmlFitxategiak/b.xml"));
         } else {
-            Runtime.getRuntime().exec("whatweb --color=neve r --log-xml=/home/adeiarias/b.xml " + textFieldXML.getText());
-            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /home/adeiarias/b.xml"});
+            Runtime.getRuntime().exec("whatweb --color=never --log-xml=/xmlFitxaegiak/b.xml " + textFieldXML.getText());
+            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /xmlFitxategiak/b.xml"});
         }
         return p;
     }
+
 
     @FXML
     void initialize() {
