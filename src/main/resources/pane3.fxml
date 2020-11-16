@@ -18,8 +18,8 @@
             <TextArea fx:id="textArea" layoutX="75.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
             <Button fx:id="btn_scan" layoutX="158.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
             <ComboBox fx:id="combo" layoutX="76.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />
-            <Button fx:id="btn_clear" layoutX="314.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Show files in explorer" />
-            <Button fx:id="btn_show" layoutX="234.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Clear" />
+            <Button fx:id="btn_show" layoutX="314.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Show files in explorer" />
+            <Button fx:id="btn_clear" layoutX="234.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Clear" />
          </children>
       </AnchorPane>
    </children>
