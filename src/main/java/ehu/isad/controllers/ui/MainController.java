@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -103,12 +105,12 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        File directory = new File("/tmp/WhatWeb");
-        if(! directory.exists()){
-            directory.mkdir();
-            // If you require it to make the entire directory path including parents,
-            // use directory.mkdirs(); here instead.
-        }
+        Properties p = Utils.getProperties();
+        p.getProperty("path");
+        File directory = new File(p.getProperty("path"));
+        // If you require it to make the entire directory path including parents,
+        // use directory.mkdirs(); here instead.
+        if(!directory.exists()) directory.mkdir();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
         //pane.getChildren().add(pane1);

@@ -41,6 +41,7 @@ public class DBController {
     }
 
     public ResultSet execSQL(String query) {
+        conOpen();
         ResultSet rs = null;
         try {
             Statement s = conn.createStatement();
@@ -53,6 +54,7 @@ public class DBController {
                 System.out.println(count + " rows affected");
             }
         } catch (SQLException e) { e.printStackTrace(); }
+        conClose();
         return rs;
     }
 

@@ -3,4 +3,4 @@
 /gradle/
 whatweb.db
 /.idea/
-setup.properties
+src/main/resources/setup.properties

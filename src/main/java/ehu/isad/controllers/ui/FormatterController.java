@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.FormatterDB;
 import ehu.isad.model.Extension;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class FormatterController {
-
+    FormatterDB formatterDB = FormatterDB.getController();
     @FXML
     private Pane pane3;
 
@@ -45,7 +46,8 @@ public class FormatterController {
     @FXML
     private Button btn_show;
 
-    private String path="/tmp/";
+
+    private String path= Utils.getProperties().getProperty("path");
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
@@ -69,10 +71,14 @@ public class FormatterController {
         List<String> emaitza = new LinkedList<>();
         try {
             String domain = textField.getText().replace("/","").split(":")[1];
+            formatterDB.addDomainToDB(domain);
             if (!FormatterDB.getController().formatExists(domain,combo.getValue().getType())){
                 executeCommand(combo.getValue(),domain); //This will execute and create the file.
+                formatterDB.addFormatToDB(domain,combo.getValue().getType());
             }
+            Thread.sleep(10000);
             //This loads the file with the domain name.
+
             BufferedReader input = new BufferedReader(new FileReader(path+domain+combo.getValue().getExtension()));
             String line;
             while ((line = input.readLine()) != null) { emaitza.add(line); }
@@ -84,19 +90,21 @@ public class FormatterController {
     }
 
     private void executeCommand(Extension ext, String domain) throws IOException {
+
         String target = textField.getText();
         String type = ext.getType();
         String extension = ext.getExtension();
         String command = null;
         switch(type) {
             case "shell":
-                command = "whatweb --color=never --log-brief=" +domain+extension+" "+target;
+                command = "whatweb --color=never --log-brief=" +path+domain+extension+" "+target;
+
                 break;
             case "ruby":
-                command = "whatweb --color=never --log-object=" +domain+extension+" "+target;
+                command = "whatweb --color=never --log-object=" +path+domain+extension+" "+target;
                 break;
             default:
-                command = "whatweb --color=never --log-"+type+"=" +domain+extension+" "+target;
+                command = "whatweb --color=never --log-"+type+"=" +path+domain+extension+" "+target;
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
