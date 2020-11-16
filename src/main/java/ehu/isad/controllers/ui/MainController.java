@@ -1,6 +1,5 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -104,7 +103,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        File directory = new File(Utils.getProperties().getProperty("path"));
+        File directory = new File("/tmp/WhatWeb");
         if(! directory.exists()){
             directory.mkdir();
             // If you require it to make the entire directory path including parents,

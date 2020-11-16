@@ -4,11 +4,14 @@ import javax.print.DocFlavor;
 import java.sql.SQLException;
 
 public class FormatterDB {
-    private static FormatterDB instance = new FormatterDB();
-    private static DBController dbcontroller = DBController.getController();
+    private static final FormatterDB controller = new FormatterDB();
+    public static FormatterDB getController() {
+        return controller;
+    }
     private FormatterDB() {}
+    private DBController dbcontroller = DBController.getController();
 
-    private Boolean formatExists(String domain,String format) throws SQLException {
+    public Boolean formatExists(String domain,String format) throws SQLException {
         // does {domain}.{format} exist?
         String q1 = "Select * from cache  where url = ";
         String q2 = " AND ";
@@ -19,7 +22,12 @@ public class FormatterDB {
         return dbcontroller.execSQL(query.toString()).next();
     }
 
-    private void addFormatToDB(String domain, String format) {
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    void addFormatToDB(String domain, String format) {
         //This method adds the "check" to the database.
         String q1 = "INSERT OR IGNORE (domain) VALUES ('"+domain+"')";
         String q2 = "UPDATE cache SET "+format+" = TRUE WHERE domain='"+domain+"';";

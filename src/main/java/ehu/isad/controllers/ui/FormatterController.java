@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.controllers.db.FormatterDB;
 import ehu.isad.model.Extension;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,13 +66,19 @@ public class FormatterController {
     }
 
     public List<String> getOutput() throws IOException {
+        FormatterDB formatterDB = FormatterDB.getController();
         List<String> emaitza = new LinkedList<>();
         try {
-            String line;
-            executeCommand();
             String target = textField.getText();
-            String extension = combo.getValue().getExtension() ;
-            BufferedReader input = new BufferedReader(new FileReader(""+target+extension));
+            String [] prueba = target.split("//");
+            String [] line2 =  prueba[1].split("/");
+            target = line2[0]; //Target is the URL name. //adeiarias.pw.shell
+            if (!formatterDB.formatExists(target,combo.getValue().getExtension())){
+                executeCommand(combo.getValue(),target); //This will execute and create the file.
+            }
+            //This loads the file with the target name.
+            BufferedReader input = new BufferedReader(new FileReader("tmp/whatweb/"+target+"."+combo.getValue().getExtension()));
+            String line;
             while ((line = input.readLine()) != null) { emaitza.add(line); }
             input.close();
         } catch (Exception err) {
@@ -80,13 +87,26 @@ public class FormatterController {
         return emaitza;
     }
 
-    private void executeCommand() throws IOException {
+    private void executeCommand(Extension ext,String target) throws IOException {
         Process p = null;
-        String target = textField.getText();
+        String target2 = textField.getText();
+        String name = ext.getDisplayName();
+        String command = null;
+        switch(name) {
+            //TODO Put each command.
+            case "shell":
+                break;
+            case "ruby":
+                break;
+            case "magictree":
+                break;
+            default:
+                break;
+        }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + target));
+            p = Runtime.getRuntime().exec(System.getenv("wsl " + command));
         } else {
-            Runtime.getRuntime().exec("whatweb --color=never  " + target);
+            p = Runtime.getRuntime().exec(command);
         }
     }
 
