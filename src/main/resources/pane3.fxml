@@ -2,19 +2,57 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.FormatterController">
    <children>
-      <Label layoutX="42.0" layoutY="31.0" text="WhatWeb" textFill="WHITE" />
-      <Label layoutX="38.0" layoutY="44.0" text="URL:" />
-      <Label layoutX="38.0" layoutY="66.0" text="Log:" />
-      <TextField fx:id="field" layoutX="85.0" layoutY="39.0" prefHeight="26.0" prefWidth="347.0" />
-      <TextArea fx:id="area" layoutX="85.0" layoutY="74.0" prefHeight="250.0" prefWidth="347.0" />
-      <Button fx:id="btn" layoutX="334.0" layoutY="330.0" mnemonicParsing="false" onAction="#onclickScan" text="Scan" />
-      <Button fx:id="whatwebBtn" layoutX="6.0" layoutY="5.0" mnemonicParsing="false" onAction="#onClickWhatWeb" prefHeight="26.0" prefWidth="77.0" text="whatweb" />
-      <Button fx:id="mongoBtn" layoutX="85.0" layoutY="5.0" mnemonicParsing="false" onAction="#onClickMongo" text="mongoDB" />
+      <TabPane prefHeight="500.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab fx:id="whatwebOption" text="whatweb">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
+                     <children>
+                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
+                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
+                        <TextField fx:id="textFieldWW" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
+                        <TextArea fx:id="textAreaWW" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
+                        <Button fx:id="scanBtnWW" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanWW" text="Scan" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="whatwebOption1" text="mongoDB">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
+                     <children>
+                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
+                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
+                        <TextField fx:id="textFieldMongo" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
+                        <TextArea fx:id="textAreaMongo" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
+                        <Button fx:id="scanBtnMongo" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanMongo" text="Scan" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="whatwebOption2" text="xml">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
+                     <children>
+                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
+                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
+                        <TextField fx:id="textFieldXML" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
+                        <TextArea fx:id="textAreaXML" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
+                        <Button fx:id="scanBtnXML" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanXML" text="Scan" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
    </children>
 </Pane>
