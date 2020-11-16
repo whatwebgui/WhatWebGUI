@@ -1,6 +1,8 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.model.Extension;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,20 +15,13 @@ import javafx.scene.layout.Pane;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class FormatterController {
-/*
-
-
-
-
-
-
-*/
 
     @FXML
     private Pane pane3;
@@ -49,12 +44,11 @@ public class FormatterController {
     @FXML
     private Button btn_show;
 
-    private String path="/tmp/WhatWeb";
+    private String path="/tmp/";
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
-
         if (btn_scan.equals(btn)) {
             String newLine = System.getProperty("line.separator");
             textArea.setText(getOutput().stream().collect(Collectors.joining(newLine)));
@@ -90,14 +84,21 @@ public class FormatterController {
         Process p = null;
         String target = textField.getText();
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + target));
+            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + target));
         } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never  " + target);
+            Runtime.getRuntime().exec("whatweb --color=never  " + target);
         }
     }
 
     @FXML
     void initialize() {
+        String target[] = {"shell","json","xml","mysql","ruby","magictree"};
+        String extension[] = {".out",".json",".xml",".sql",".rb",".magictree.xml"};
+        ObservableList<Extension> list = FXCollections.observableArrayList();
+        for(int i = 0; i < target.length; i++){
+            list.add(new Extension(target[i],extension[i]));
+        }
+        combo.setItems(list);
         textArea.setEditable(false);
     }
 

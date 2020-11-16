@@ -17,4 +17,7 @@ public class Extension {
     public String getExtension() {
         return extension;
     }
+
+    @Override
+    public String toString() { return displayName; }
 }
