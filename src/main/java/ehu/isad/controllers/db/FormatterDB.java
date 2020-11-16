@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FormatterDB {
+
     private static final FormatterDB controller = new FormatterDB();
     public static FormatterDB getController() {
         return controller;
@@ -14,7 +15,7 @@ public class FormatterDB {
 
     public boolean formatExists(String domain,String format) throws SQLException {
         // does {domain}.{format} exist?
-        String q1 = "Select * from cache  where domain = '";
+        String q1 = "SELECT * FROM cache WHERE domain = '";
         String q2 = "' AND ";
         String q3 = " = TRUE;";
         StringBuilder query = new StringBuilder();

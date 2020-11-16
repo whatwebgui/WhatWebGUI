@@ -1,4 +1,0 @@
-[
-{"target":"https://adeiarias.pw","http_status":200,"request_config":{"headers":{"User-Agent":"WhatWeb/0.5.0"}},"plugins":{"Country":{"string":["UNITED STATES"],"module":["US"]},"HTML5":{},"HTTPServer":{"os":["Ubuntu Linux"],"string":["Apache/2.4.41 (Ubuntu)"]},"Title":{"string":["Zezenak kudeatzeko aplikazioa - Login"]},"PasswordField":{"string":["pasahitza"]},"IP":{"string":["54.83.127.126"]},"Apache":{"version":["2.4.41"]}}},
-{}
-]

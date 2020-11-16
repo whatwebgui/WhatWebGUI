@@ -1,6 +1,6 @@
 /build/
 /.gradle/
 /gradle/
-whatweb.db
+db/whatweb.db
 /.idea/
 src/main/resources/setup.properties

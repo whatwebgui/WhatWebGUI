@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class FormatterController {
-    FormatterDB formatterDB = FormatterDB.getController();
+
     @FXML
     private Pane pane3;
 
@@ -46,8 +46,8 @@ public class FormatterController {
     @FXML
     private Button btn_show;
 
-
-    private String path= Utils.getProperties().getProperty("path");
+    FormatterDB formatterDB = FormatterDB.getController();
+    private String path= Utils.getProperties().getProperty("pathToCacheFolder");
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
@@ -98,7 +98,6 @@ public class FormatterController {
         switch(type) {
             case "shell":
                 command = "whatweb --color=never --log-brief=" +path+domain+extension+" "+target;
-
                 break;
             case "ruby":
                 command = "whatweb --color=never --log-object=" +path+domain+extension+" "+target;

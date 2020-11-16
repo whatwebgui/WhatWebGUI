@@ -1,11 +1,14 @@
 package ehu.isad.controllers.db;
 
+import ehu.isad.utils.Utils;
+
 import java.sql.*;
 
 public class DBController {
 
     Connection conn=null;
     private static final DBController controller = new DBController();
+    private final String path = Utils.getProperties().getProperty("pathToDB");
 
     private DBController() {
         this.conOpen();
@@ -18,7 +21,7 @@ public class DBController {
     private void conOpen() {
 
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:whatweb.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:"+path);
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -33,7 +36,7 @@ public class DBController {
         if (conn != null)
             try {
                 conn.close();
-                System.out.println("Connection to SQLite has been terminated.");
+                System.out.println("Connection to SQLite has been terminated.\n");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
