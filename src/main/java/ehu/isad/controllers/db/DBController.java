@@ -5,7 +5,7 @@ import java.sql.*;
 public class DBController {
 
     Connection conn=null;
-    private static DBController controller = new DBController();
+    private static final DBController controller = new DBController();
 
     private DBController() {
         this.conOpen();
@@ -40,5 +40,20 @@ public class DBController {
 
     }
 
+    public ResultSet execSQL(String query) {
+        ResultSet rs = null;
+        try {
+            Statement s = conn.createStatement();
+            if (query.toLowerCase().indexOf("select") == 0) {
+                // select
+                rs = s.executeQuery(query);
+            } else {
+                // update, delete, create, insert...
+                int count = s.executeUpdate(query);
+                System.out.println(count + " rows affected");
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return rs;
+    }
 
 }
