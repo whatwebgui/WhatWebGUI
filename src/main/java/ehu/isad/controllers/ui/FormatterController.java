@@ -49,11 +49,12 @@ public class FormatterController {
     @FXML
     private Button btn_show;
 
-    private String path="/tmp/";
+    private String path="/tmp/WhatWeb";
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
+
         if (btn_scan.equals(btn)) {
             String newLine = System.getProperty("line.separator");
             textArea.setText(getOutput().stream().collect(Collectors.joining(newLine)));
