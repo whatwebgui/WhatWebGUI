@@ -65,19 +65,15 @@ public class FormatterController {
 
     }
 
-    public List<String> getOutput() throws IOException {
-        FormatterDB formatterDB = FormatterDB.getController();
+    private List<String> getOutput() throws IOException {
         List<String> emaitza = new LinkedList<>();
         try {
-            String target = textField.getText();
-            String [] prueba = target.split("//");
-            String [] line2 =  prueba[1].split("/");
-            target = line2[0]; //Target is the URL name. //adeiarias.pw.shell
-            if (!formatterDB.formatExists(target,combo.getValue().getExtension())){
-                executeCommand(combo.getValue(),target); //This will execute and create the file.
+            String domain = textField.getText().replace("/","").split(":")[1];
+            if (!FormatterDB.getController().formatExists(domain,combo.getValue().getType())){
+                executeCommand(combo.getValue(),domain); //This will execute and create the file.
             }
-            //This loads the file with the target name.
-            BufferedReader input = new BufferedReader(new FileReader("tmp/whatweb/"+target+"."+combo.getValue().getExtension()));
+            //This loads the file with the domain name.
+            BufferedReader input = new BufferedReader(new FileReader(path+domain+combo.getValue().getExtension()));
             String line;
             while ((line = input.readLine()) != null) { emaitza.add(line); }
             input.close();
@@ -87,36 +83,37 @@ public class FormatterController {
         return emaitza;
     }
 
-    private void executeCommand(Extension ext,String target) throws IOException {
-        Process p = null;
-        String target2 = textField.getText();
-        String name = ext.getDisplayName();
+    private void executeCommand(Extension ext, String domain) throws IOException {
+        String target = textField.getText();
+        String type = ext.getType();
+        String extension = ext.getExtension();
         String command = null;
-        switch(name) {
-            //TODO Put each command.
+        switch(type) {
             case "shell":
+                command = "whatweb --color=never --log-brief=" +domain+extension+" "+target;
                 break;
             case "ruby":
-                break;
-            case "magictree":
+                command = "whatweb --color=never --log-object=" +domain+extension+" "+target;
                 break;
             default:
+                command = "whatweb --color=never --log-"+type+"=" +domain+extension+" "+target;
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            p = Runtime.getRuntime().exec(System.getenv("wsl " + command));
+            Runtime.getRuntime().exec(System.getenv("wsl " + command));
         } else {
-            p = Runtime.getRuntime().exec(command);
+            Runtime.getRuntime().exec(command);
         }
     }
 
     @FXML
     void initialize() {
-        String target[] = {"shell","json","xml","mysql","ruby","magictree"};
-        String extension[] = {".out",".json",".xml",".sql",".rb",".magictree.xml"};
+        String displayName[] = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
+        String extension[] = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
+        String type[] = {"verbose","shell","json","xml","sql","ruby","magictree"};
         ObservableList<Extension> list = FXCollections.observableArrayList();
-        for(int i = 0; i < target.length; i++){
-            list.add(new Extension(target[i],extension[i]));
+        for(int i = 0; i < displayName.length; i++){
+            list.add(new Extension(displayName[i],extension[i],type[i]));
         }
         combo.setItems(list);
         textArea.setEditable(false);
