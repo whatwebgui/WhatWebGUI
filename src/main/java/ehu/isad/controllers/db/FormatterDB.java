@@ -14,10 +14,16 @@ public class FormatterDB {
         String q3 = " = TRUE;";
         StringBuilder query = new StringBuilder();
         query.append(q1).append(url).append(q2).append(format).append(q3);
-
-
+        System.out.println( query.append(q1).append(url).append(q2).append(format).append(q3));
         return dbcontroller.execSQL(query.toString()).next();
     }
+
+    private void addDB(String url, String format) {
+        //This method adds the "check" to the database.
+        String q = "Insert into cache(domain,"+format+") values("+url+", TRUE)";
+        dbcontroller.execSQL(q);
+    }
+
 
 
 }
