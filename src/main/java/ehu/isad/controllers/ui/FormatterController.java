@@ -82,15 +82,20 @@ public class FormatterController {
             Process p = null;
             if(mota.equals("whatweb")){
                 p = commandWhatWeb();
-            }else if(mota.equals("mongo")){
-                p = commandMongo();
-            }else {
-                p = commandXML();
+                BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                while ((line = input.readLine()) != null) { emaitza.add(line); }
+                input.close();
+            }else{
+                if(mota.equals("mongo")){
+                    p = commandMongo();
+                }else {
+                    p = commandXML();
+                }
+                Thread.sleep(8500); // FIXME: wait for thread
+                BufferedReader input = new BufferedReader(new FileReader("/tmp/b.json"));
+                while ((line = input.readLine()) != null) { emaitza.add(line); }
+                input.close();
             }
-            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            System.out.println(input.readLine());
-            while ((line = input.readLine()) != null) { emaitza.add(line); }
-            input.close();
         } catch (Exception err) {
             err.printStackTrace();
         }
@@ -107,15 +112,12 @@ public class FormatterController {
         return p;
     }
 
-    private Process commandMongo() throws IOException {
+    private Process commandMongo() throws IOException {//setup.properties-en jarri path
         Process p = null;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText()));
-            p = Runtime.getRuntime().exec(System.getenv("wsl cat --log-json=/jsonFitxategiak/b.json"));
-
+            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-json=directoriowindows/b.json " + textFieldMongo.getText()));
         } else {
-            Runtime.getRuntime().exec("whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText());
-            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /tmp/b.json"});
+            p = Runtime.getRuntime().exec("whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText());
         }
         return p;
     }
@@ -123,11 +125,9 @@ public class FormatterController {
     private Process commandXML() throws IOException {
         Process p = null;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-xml=/xmlFitxategiak/b.xml " + textFieldXML.getText()));
-            p = Runtime.getRuntime().exec(System.getenv("wsl cat /xmlFitxategiak/b.xml"));
+            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-xml=directoriowindows/b.xml " + textFieldXML.getText()));
         } else {
-            Runtime.getRuntime().exec("whatweb --color=never --log-xml=/xmlFitxaegiak/b.xml " + textFieldXML.getText());
-            p = Runtime.getRuntime().exec(new String[]{"bash","-c","cat /xmlFitxategiak/b.xml"});
+            p = Runtime.getRuntime().exec("whatweb --color=never --log-xml=/tmp/b.xml " + textFieldXML.getText());
         }
         return p;
     }
