@@ -8,7 +8,7 @@ public class FormatterDB {
     private static DBController dbcontroller = DBController.getController();
     private FormatterDB() {}
 
-    private Boolean exists(String domain,String format) throws SQLException {
+    private Boolean formatExists(String domain,String format) throws SQLException {
         // does {domain}.{format} exist?
         String q1 = "Select * from cache  where url = ";
         String q2 = " AND ";

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,48 +10,17 @@
 
 <Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.FormatterController">
    <children>
-      <TabPane prefHeight="500.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-         <tabs>
-            <Tab fx:id="whatwebOption" text="whatweb">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
-                     <children>
-                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
-                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
-                        <TextField fx:id="textFieldWW" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
-                        <TextArea fx:id="textAreaWW" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
-                        <Button fx:id="scanBtnWW" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanWW" text="Scan" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="whatwebOption1" text="mongoDB">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
-                     <children>
-                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
-                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
-                        <TextField fx:id="textFieldMongo" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
-                        <TextArea fx:id="textAreaMongo" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
-                        <Button fx:id="scanBtnMongo" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanMongo" text="Scan" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="whatwebOption2" text="xml">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="350.0">
-                     <children>
-                        <Label layoutX="30.0" layoutY="17.0" text="URL:" />
-                        <Label layoutX="30.0" layoutY="41.0" text="Log:" />
-                        <TextField fx:id="textFieldXML" layoutX="75.0" layoutY="12.0" prefHeight="26.0" prefWidth="456.0" />
-                        <TextArea fx:id="textAreaXML" layoutX="75.0" layoutY="51.0" prefHeight="350.0" prefWidth="456.0" />
-                        <Button fx:id="scanBtnXML" layoutX="278.0" layoutY="417.0" mnemonicParsing="false" onAction="#onClickScanXML" text="Scan" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="31.0" layoutY="36.0" text="URL:" />
+            <Label layoutX="31.0" layoutY="128.0" text="Log:" />
+            <TextField fx:id="textField" layoutX="75.0" layoutY="31.0" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
+            <TextArea fx:id="textArea" layoutX="75.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
+            <Button fx:id="btn_scan" layoutX="158.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
+            <ComboBox fx:id="combo" layoutX="76.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />
+            <Button fx:id="btn_clear" layoutX="314.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Show files in explorer" />
+            <Button fx:id="btn_show" layoutX="234.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Clear" />
+         </children>
+      </AnchorPane>
    </children>
 </Pane>

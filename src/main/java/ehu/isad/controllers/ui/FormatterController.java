@@ -1,14 +1,16 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.model.Extension;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.LinkedList;
@@ -17,127 +19,85 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class FormatterController {
+/*
 
-    @FXML
-    private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+
+
+
+
+*/
 
     @FXML
     private Pane pane3;
 
     @FXML
-    private TextField textFieldWW;
+    private TextField textField;
 
     @FXML
-    private TextArea textAreaWW;
+    private TextArea textArea;
 
     @FXML
-    private Button scanBtnWW;
+    private Button btn_scan;
 
     @FXML
-    private TextField textFieldMongo;
+    private ComboBox<Extension> combo;
 
     @FXML
-    private TextArea textAreaMongo;
+    private Button btn_clear;
 
     @FXML
-    private Button scanBtnMongo;
+    private Button btn_show;
+
+    private String path="/tmp/";
 
     @FXML
-    private TextField textFieldXML;
+    void onClick(ActionEvent event) throws IOException {
+        Button btn = (Button) event.getSource();
+        if (btn_scan.equals(btn)) {
+            String newLine = System.getProperty("line.separator");
+            textArea.setText(getOutput().stream().collect(Collectors.joining(newLine)));
+            textArea.setWrapText(true);
+        }
+        else if (btn_clear.equals(btn)) {
+            textArea.clear();
+            textField.clear();
+        }
+        else if (btn_show.equals(btn)) {
+            Desktop.getDesktop().open(new File(path));
+        }
 
-    @FXML
-    private TextArea textAreaXML;
-
-    @FXML
-    private Button scanBtnXML;
-
-    @FXML
-    void onClickScanXML(ActionEvent event) {
-        String newLine = System.getProperty("line.separator");
-        textAreaXML.setText(executeCommand("xml").stream().collect(Collectors.joining(newLine)));
-        textAreaXML.setWrapText(true);
     }
 
-    @FXML
-    void onClickScanMongo(ActionEvent event) {
-        String newLine = System.getProperty("line.separator");
-        textAreaMongo.setText(executeCommand("mongo").stream().collect(Collectors.joining(newLine)));
-        textAreaMongo.setWrapText(true);
-    }
-
-    @FXML
-    void onClickScanWW(ActionEvent event) {
-        String newLine = System.getProperty("line.separator");
-        textAreaWW.setText(executeCommand("whatweb").stream().collect(Collectors.joining(newLine)));
-        textAreaWW.setWrapText(true);
-    }
-
-    public List<String> executeCommand(String mota) {
-        List<String> emaitza = new LinkedList<String>();
+    public List<String> getOutput() throws IOException {
+        List<String> emaitza = new LinkedList<>();
         try {
             String line;
-            Process p = null;
-            if(mota.equals("whatweb")){
-                p = commandWhatWeb();
-                BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                while ((line = input.readLine()) != null) { emaitza.add(line); }
-                input.close();
-            }else{
-                if(mota.equals("mongo")){
-                    p = commandMongo();
-                }else {
-                    p = commandXML();
-                }
-                Thread.sleep(8500); // FIXME: wait for thread
-                BufferedReader input = new BufferedReader(new FileReader("/tmp/b.json"));
-                while ((line = input.readLine()) != null) { emaitza.add(line); }
-                input.close();
-            }
+            executeCommand();
+            String target = textField.getText();
+            String extension = combo.getValue().getExtension() ;
+            BufferedReader input = new BufferedReader(new FileReader(""+target+extension));
+            while ((line = input.readLine()) != null) { emaitza.add(line); }
+            input.close();
         } catch (Exception err) {
             err.printStackTrace();
         }
         return emaitza;
     }
 
-    private Process commandWhatWeb() throws IOException {
+    private void executeCommand() throws IOException {
         Process p = null;
+        String target = textField.getText();
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + textFieldWW.getText()));
+            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never " + target));
         } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never  " + textFieldWW.getText());
+            p = Runtime.getRuntime().exec("whatweb --color=never  " + target);
         }
-        return p;
     }
-
-    private Process commandMongo() throws IOException {//setup.properties-en jarri path
-        Process p = null;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-json=directoriowindows/b.json " + textFieldMongo.getText()));
-        } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never --log-json=/tmp/b.json " + textFieldMongo.getText());
-        }
-        return p;
-    }
-
-    private Process commandXML() throws IOException {
-        Process p = null;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            p = Runtime.getRuntime().exec(System.getenv("wsl whatweb --color=never --log-xml=directoriowindows/b.xml " + textFieldXML.getText()));
-        } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never --log-xml=/tmp/b.xml " + textFieldXML.getText());
-        }
-        return p;
-    }
-
 
     @FXML
     void initialize() {
-        textAreaMongo.setEditable(false);
-        textAreaWW.setEditable(false);
-        textAreaXML.setEditable(false);
+        textArea.setEditable(false);
     }
 
 }
