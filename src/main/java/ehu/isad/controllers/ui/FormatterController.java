@@ -7,23 +7,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-
 import java.awt.*;
 import java.io.*;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class FormatterController {
 
@@ -62,7 +55,7 @@ public class FormatterController {
             thread = new Thread( () -> {
                 String result = null;
                 try {
-                    result = getOutput().stream().collect(Collectors.joining(newLine));
+                    result = String.join(newLine, getOutput());
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -96,11 +89,10 @@ public class FormatterController {
                 Thread.sleep(10000);
             }
             //This loads the file with the domain name.
-            BufferedReader input = null;
+            BufferedReader input;
             input = new BufferedReader(new FileReader(path + domain + combo.getValue().getExtension()));
-            String line=null;
-            while (true) {
-                if (!((line = input.readLine()) != null)) break;
+            String line;
+            while ((line = input.readLine()) != null) {
                 emaitza.add(line);
             }
             input.close();
@@ -110,12 +102,12 @@ public class FormatterController {
         return emaitza;
     }
 
-    private void executeCommand(Extension ext, String domain) throws IOException, InterruptedException {
+    private void executeCommand(Extension ext, String domain) throws IOException{
         String target = textField.getText();
         String type = ext.getType();
         String extension = ext.getExtension();
-        String command = null;
-        String path2=null;
+        String command;
+        String path2;
         if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path; }
         switch (type) {
             case "shell":
@@ -143,9 +135,9 @@ public class FormatterController {
 
     @FXML
     void initialize() {
-        String displayName[] = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
-        String extension[] = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
-        String type[] = {"verbose","shell","json","xml","sql","ruby","magictree"};
+        String[] displayName = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
+        String[] extension = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
+        String[] type = {"verbose","shell","json","xml","sql","ruby","magictree"};
         ObservableList<Extension> list = FXCollections.observableArrayList();
         for(int i = 0; i < displayName.length; i++){
             list.add(new Extension(displayName[i],extension[i],type[i]));

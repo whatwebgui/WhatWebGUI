@@ -1,8 +1,6 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.utils.Utils;
-
-import javax.print.DocFlavor;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,13 +19,12 @@ public class FormatterDB {
         String q1 = "SELECT * FROM cache WHERE domain = '";
         String q2 = "' AND ";
         String q3 = " = TRUE;";
-        StringBuilder query = new StringBuilder();
-        query.append(q1).append(domain).append(q2).append(format).append(q3);
-        ResultSet rs = dbcontroller.execSQL(query.toString());
-        File file = new File(Utils.getProperties().getProperty("pathToCacheFolder")+domain+"."+format);
-        if (file.length() < 10) file.delete(); //If is empty.
-        boolean exists = file.exists();
-        return rs.next() && exists;
+        try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + format + q3)) {
+            File file = new File(Utils.getProperties().getProperty("pathToCacheFolder") + domain + "." + format);
+            if (file.length() < 10) file.delete(); //If is empty.
+            boolean exists = file.exists();
+            return rs.next() && exists;
+        }
 
     }
 
