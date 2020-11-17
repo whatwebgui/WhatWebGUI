@@ -90,48 +90,21 @@ public class FormatterController {
         List<String> emaitza = new LinkedList<>();
         String domain = textField.getText().replace("/", "").split(":")[1];
         try {
-            Thread commandThread = new Thread( () -> {
-                formatterDB.addDomainToDB(domain);
-                try {
-                    if (!FormatterDB.getController().formatExists(domain, combo.getValue().getType())) {
-                        executeCommand(combo.getValue(), domain); //This will execute and create the file.
-                        formatterDB.addFormatToDB(domain, combo.getValue().getType());
-                    }
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            commandThread.start();
-
-            Thread bufferReaderThread = new Thread( () -> {
-                //This loads the file with the domain name.
-                BufferedReader input = null;
-                try {
-                    input = new BufferedReader(new FileReader(path + domain + combo.getValue().getExtension()));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                String line=null;
-                while (true) {
-                    try {
-                        if (!((line = input.readLine()) != null)) break;
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+            formatterDB.addDomainToDB(domain);
+            if (!FormatterDB.getController().formatExists(domain, combo.getValue().getType())) {
+                executeCommand(combo.getValue(), domain); //This will execute and create the file.
+                formatterDB.addFormatToDB(domain, combo.getValue().getType());
+                Thread.sleep(10000);
+            }
+            //This loads the file with the domain name.
+            BufferedReader input = null;
+            input = new BufferedReader(new FileReader(path + domain + combo.getValue().getExtension()));
+            String line=null;
+            while (true) {
+                if (!((line = input.readLine()) != null)) break;
                     emaitza.add(line);
-                }
-                try {
-                    input.close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            });
-            bufferReaderThread.start();
-
+            }
+            input.close();
         } catch (Exception err) {
             err.printStackTrace();
         }
@@ -156,17 +129,9 @@ public class FormatterController {
                     break;
             }
             if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                try {
-                    Runtime.getRuntime().exec(System.getenv("wsl " + command));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                Runtime.getRuntime().exec(System.getenv("wsl " + command));
             } else {
-                try {
-                    Runtime.getRuntime().exec(command);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                Runtime.getRuntime().exec(command);
             }
     }
 
