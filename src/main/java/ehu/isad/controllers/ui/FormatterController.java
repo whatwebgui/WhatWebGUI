@@ -102,7 +102,7 @@ public class FormatterController {
             String line=null;
             while (true) {
                 if (!((line = input.readLine()) != null)) break;
-                    emaitza.add(line);
+                emaitza.add(line);
             }
             input.close();
         } catch (Exception err) {
@@ -112,27 +112,32 @@ public class FormatterController {
     }
 
     private void executeCommand(Extension ext, String domain) throws IOException, InterruptedException {
-            String target = textField.getText();
-            String type = ext.getType();
-            String extension = ext.getExtension();
-            String command = null;
-            switch (type) {
-                case "shell":
-                    command = "whatweb --color=never --log-brief=" + path + domain + extension + " " + target;
-
-                    break;
-                case "ruby":
-                    command = "whatweb --color=never --log-object=" + path + domain + extension + " " + target;
-                    break;
-                default:
-                    command = "whatweb --color=never --log-" + type + "=" + path + domain + extension + " " + target;
-                    break;
-            }
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                Runtime.getRuntime().exec(System.getenv("wsl " + command));
-            } else {
-                Runtime.getRuntime().exec(command);
-            }
+        String target = textField.getText();
+        String type = ext.getType();
+        String extension = ext.getExtension();
+        String command = null;
+        String path2=null;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path; }
+        switch (type) {
+            case "shell":
+                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
+                break;
+            case "ruby":
+                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target;
+                break;
+            default:
+                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target;
+                break;
+        }
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.directory(new File(path));
+            processBuilder.command("cmd.exe", "/C", "wsl " +command);
+            System.out.println("wsl " +command);
+            processBuilder.start();
+        } else {
+            Runtime.getRuntime().exec(command);
+        }
     }
 
     @FXML
