@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="whatweb" uuid="18be3d39-370a-44fe-9da5-5f3a4ed739dd">
+    <data-source source="LOCAL" name="whatweb" uuid="388d5072-a60e-4d5e-818a-4e1228deecb6">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/whatweb.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/whatweb.db</jdbc-url>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/sqlite-jdbc-3.31.1.jar</url>

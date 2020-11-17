@@ -74,7 +74,6 @@ public class FormatterController {
 
             });
             thread.start();
-
         }
         else if (btn_clear.equals(btn)) {
             textArea.clear();
@@ -139,6 +138,8 @@ public class FormatterController {
             Runtime.getRuntime().exec(command);
         }
     }
+
+
 
     @FXML
     void initialize() {
