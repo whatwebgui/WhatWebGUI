@@ -68,7 +68,7 @@
 .table-view .cell{
     -fx-cell-size: 30;
     -fx-text-fill: #000000;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
 }
 
 .table-row-cell:selected {

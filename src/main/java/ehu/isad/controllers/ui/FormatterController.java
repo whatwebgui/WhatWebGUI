@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.FormatterDB;
+import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.Extension;
 import ehu.isad.utils.Utils;
 import javafx.application.Platform;
@@ -98,6 +99,7 @@ public class FormatterController {
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
                 while (currentProcess.isAlive()) textArea.setPromptText("Loading..."); /* wait for the process to finish */
             }
+            HistoryDB.getInstance().addToHistoryDB(target,"Formatter > "+comboChoice.getType(),domain+"/"+domain+comboChoice.getExtension());
             emaitza = readFile(domain,comboChoice); //This loads the file with the domain name.
         } catch (Exception err) {
             err.printStackTrace();

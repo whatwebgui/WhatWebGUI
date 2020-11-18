@@ -10,6 +10,7 @@ public class DBController {
     private static final DBController controller = new DBController();
     private final String path = Utils.getProperties().getProperty("pathToDB");
 
+
     private DBController() {
         this.conOpen();
     }
@@ -44,7 +45,7 @@ public class DBController {
     }
 
     public ResultSet execSQL(String query) {
-        conOpen();
+        conClose();conOpen();
         ResultSet rs = null;
         try {
             Statement s = conn.createStatement();
@@ -57,7 +58,6 @@ public class DBController {
                 System.out.println(count + " rows affected");
             }
         } catch (SQLException e) { e.printStackTrace(); }
-        conClose();
         return rs;
     }
 

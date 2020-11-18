@@ -13,7 +13,7 @@ public class FormatterDB {
         return controller;
     }
     private FormatterDB() {}
-    private DBController dbcontroller = DBController.getController();
+    private final DBController dbcontroller = DBController.getController();
 
     public boolean formatExists(String domain, Extension choice) throws SQLException {
         // does {domain}.{format} exist?
