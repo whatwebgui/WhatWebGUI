@@ -42,7 +42,7 @@ public class FormatterController {
     private Button btn_show;
 
     FormatterDB formatterDB = FormatterDB.getController();
-    private final String path= Utils.getProperties().getProperty("pathToCacheFolder");
+    private final String path= Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
 
     @FXML

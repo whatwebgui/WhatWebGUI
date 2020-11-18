@@ -20,12 +20,11 @@ public class FormatterDB {
         String q2 = "' AND ";
         String q3 = " = TRUE;";
         try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + format + q3)) {
-            File file = new File(Utils.getProperties().getProperty("pathToCacheFolder") + domain + extension);
+            File file = new File(Utils.getProperties().getProperty("pathToFolder")+"cache/" + domain + extension);
             if (file.length() < 10) file.delete(); //If is empty.
             boolean exists = file.exists();
             return rs.next() && exists;
         }
-
     }
 
     @Override

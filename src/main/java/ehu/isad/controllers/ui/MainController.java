@@ -106,8 +106,9 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Properties p = Utils.getProperties();
-        File directory = new File(p.getProperty("pathToCacheFolder"));
+        File directory = new File(p.getProperty("pathToFolder"));
         if(!directory.exists()) directory.mkdir();
+        Utils.createDirectories();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
     }
