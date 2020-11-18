@@ -71,20 +71,13 @@ public class FormatterController {
             textField.clear();
         }
         else if (btn_show.equals(btn)) {
-            if (System.getProperty("os.name").toLowerCase().contains("linux")) {
-                Runtime.getRuntime().exec("xdg-open " + path);
-            } else { //Windows and Mac OS
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
                 Desktop.getDesktop().open(new File(path));
-            }
-
-
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.directory(new File(path));
-                processBuilder.command("cmd.exe", "/C", "wsl sensible-browser");
-                System.out.println("wsl sensible-browser");
-                processBuilder.start();
-            } else {
+            } else if (os.contains("mac")) {
+                Runtime.getRuntime().exec("open " + path);
+            } else if (os.contains("linux")) {
+                Runtime.getRuntime().exec("xdg-open " + path);
                 Runtime.getRuntime().exec("sensible-browser");
             }
         }
@@ -95,10 +88,11 @@ public class FormatterController {
         String domain = textField.getText().replace("/", "").split(":")[1];
         try {
             formatterDB.addDomainToDB(domain);
-            if (!FormatterDB.getController().formatExists(domain, combo.getValue().getType())) {
+            if (!FormatterDB.getController().formatExists(domain, combo.getValue().getType(),combo.getValue().getExtension())) {
                 executeCommand(combo.getValue(), domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, combo.getValue().getType());
-                Thread.sleep(10000);
+                textArea.setPromptText("Loading...");
+                sleep();
             }
             //This loads the file with the domain name.
             BufferedReader input;
@@ -114,12 +108,17 @@ public class FormatterController {
         return emaitza;
     }
 
+    private void sleep() {
+
+    }
+
     private void executeCommand(Extension ext, String domain) throws IOException{
         String target = textField.getText();
         String type = ext.getType();
         String extension = ext.getExtension();
         String command;
         String path2;
+        String sleep= "";
         if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path; }
         switch (type) {
             case "shell":
@@ -138,6 +137,7 @@ public class FormatterController {
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
             System.out.println("wsl " +command);
             processBuilder.start();
+            System.out.println(processBuilder.redirectOutput());
         } else {
             Runtime.getRuntime().exec(command);
         }
