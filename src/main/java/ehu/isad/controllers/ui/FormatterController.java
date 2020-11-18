@@ -33,6 +33,9 @@ public class FormatterController {
     private Button btn_scan;
 
     @FXML
+    private Button btn_forcescan;
+
+    @FXML
     private ComboBox<Extension> combo;
 
     @FXML
@@ -40,7 +43,7 @@ public class FormatterController {
 
     @FXML
     private Button btn_show;
-
+    private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     private final String path= Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
@@ -48,12 +51,11 @@ public class FormatterController {
     @FXML
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
-        if (btn_scan.equals(btn)) {
-            textArea.setPromptText("Loading...");
+        if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
             textArea.setWrapText(true);
             String newLine = System.getProperty("line.separator");
             Thread thread = new Thread( () -> {
-                String result = String.join(newLine, getOutput());
+                String result = String.join(newLine, getOutput(btn));
                 Platform.runLater( () -> { textArea.setText(result); } );
             });
             thread.start();
@@ -70,36 +72,52 @@ public class FormatterController {
                 Runtime.getRuntime().exec("open " + path);
             } else if (os.contains("linux")) {
                 Runtime.getRuntime().exec("xdg-open " + path);
-                Runtime.getRuntime().exec("sensible-browser");
             }
         }
     }
 
-    private List<String> getOutput() {
+    private List<String> getOutput(Button btn) {
         Extension comboChoice = combo.getValue();
-        String domain = textField.getText().replace("/", "").split(":")[1];
+        String domain=null;
+        target=textField.getText();
+        if (comboChoice==null){comboChoice = combo.getItems().get(1);}
+        try {
+            domain = textField.getText().replace("/", "").split(":")[1];
+        } catch (Exception e){
+            domain = textField.getText().replace("/", "");
+            target = "http://"+textField.getText();
+        }
+
         List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);
-            if (!formatterDB.formatExists(domain, comboChoice)) {
+            if (btn.equals(btn_forcescan) || (btn.equals(btn_scan)&&!formatterDB.formatExists(domain, comboChoice)) ) {
+                deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
-                while (currentProcess.isAlive()){ /* wait for the process to finish */ }
+                while (currentProcess.isAlive()) textArea.setPromptText("Loading..."); /* wait for the process to finish */
             }
-            //This loads the file with the domain name.
-            emaitza = readFile(domain);
+            emaitza = readFile(domain,comboChoice); //This loads the file with the domain name.
         } catch (Exception err) {
             err.printStackTrace();
         }
         return emaitza;
     }
 
-    private List<String> readFile(String domain) {
+    private void deleteFileIfExists(Extension comboChoice, String domain) {
+        String extension = comboChoice.getExtension();
+        String pathcache;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"; }
+        File file = new File(path + pathcache + domain + extension);
+        file.delete();
+    }
+
+    private List<String> readFile(String domain, Extension comboChoice) {
         List<String> emaitza = new LinkedList<>();
         try {
             String pathcache;
             if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"; }
-            BufferedReader input = new BufferedReader(new FileReader(path + pathcache + domain + combo.getValue().getExtension()));
+            BufferedReader input = new BufferedReader(new FileReader(path + pathcache + domain + comboChoice.getExtension()));
             String line;
             while ((line = input.readLine()) != null) {
                 emaitza.add(line);
@@ -112,7 +130,6 @@ public class FormatterController {
     }
 
     private void executeCommand(Extension ext, String domain) throws IOException{
-        String target = textField.getText();
         String type = ext.getType();
         String extension = ext.getExtension();
         String command;
