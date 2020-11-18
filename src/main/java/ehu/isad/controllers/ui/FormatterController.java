@@ -45,6 +45,7 @@ public class FormatterController {
 
     FormatterDB formatterDB = FormatterDB.getController();
     private String path= Utils.getProperties().getProperty("pathToCacheFolder");
+    Process currentProcess = null;
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
@@ -92,7 +93,7 @@ public class FormatterController {
                 executeCommand(combo.getValue(), domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, combo.getValue().getType());
                 textArea.setPromptText("Loading...");
-                sleep();
+                while (currentProcess.isAlive()){ /* wait for the process to finish */ }
             }
             //This loads the file with the domain name.
             BufferedReader input;
@@ -135,11 +136,9 @@ public class FormatterController {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.directory(new File(path));
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
-            System.out.println("wsl " +command);
-            processBuilder.start();
-            System.out.println(processBuilder.redirectOutput());
+            currentProcess = processBuilder.start();
         } else {
-            Runtime.getRuntime().exec(command);
+            currentProcess = Runtime.getRuntime().exec(command);
         }
     }
 
