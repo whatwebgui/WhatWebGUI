@@ -49,13 +49,12 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn)) {
+            textArea.setPromptText("Loading...");
+            textArea.setWrapText(true);
             String newLine = System.getProperty("line.separator");
             Thread thread = new Thread( () -> {
                 String result = String.join(newLine, getOutput());
-                Platform.runLater( () -> {
-                    textArea.setText(result);
-                    textArea.setWrapText(true);
-                } );
+                Platform.runLater( () -> { textArea.setText(result); } );
             });
             thread.start();
         }
@@ -77,26 +76,37 @@ public class FormatterController {
     }
 
     private List<String> getOutput() {
-        List<String> emaitza = new LinkedList<>();
+        Extension comboChoice = combo.getValue();
         String domain = textField.getText().replace("/", "").split(":")[1];
+        List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);
-            if (!FormatterDB.getController().formatExists(domain, combo.getValue().getType(),combo.getValue().getExtension())) {
-                executeCommand(combo.getValue(), domain); //This will execute and create the file.
-                formatterDB.addFormatToDB(domain, combo.getValue().getType());
-                textArea.setPromptText("Loading...");
+            if (!formatterDB.formatExists(domain, comboChoice)) {
+                executeCommand(comboChoice, domain); //This will execute and create the file.
+                formatterDB.addFormatToDB(domain, comboChoice.getType());
                 while (currentProcess.isAlive()){ /* wait for the process to finish */ }
             }
             //This loads the file with the domain name.
-            BufferedReader input;
-            input = new BufferedReader(new FileReader(path + domain + combo.getValue().getExtension()));
+            emaitza = readFile(domain);
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+        return emaitza;
+    }
+
+    private List<String> readFile(String domain) {
+        List<String> emaitza = new LinkedList<>();
+        try {
+            String pathcache;
+            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"; }
+            BufferedReader input = new BufferedReader(new FileReader(path + pathcache + domain + combo.getValue().getExtension()));
             String line;
             while ((line = input.readLine()) != null) {
                 emaitza.add(line);
             }
             input.close();
-        } catch (Exception err) {
-            err.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return emaitza;
     }
@@ -107,7 +117,7 @@ public class FormatterController {
         String extension = ext.getExtension();
         String command;
         String path2;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path; }
+        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path+"cache/"; }
         switch (type) {
             case "shell":
                 command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
@@ -121,7 +131,7 @@ public class FormatterController {
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.directory(new File(path));
+            processBuilder.directory(new File(path+"cache\\"));
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
             currentProcess = processBuilder.start();
         } else {

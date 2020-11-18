@@ -1,5 +1,6 @@
 package ehu.isad.controllers.db;
 
+import ehu.isad.model.Extension;
 import ehu.isad.utils.Utils;
 import java.io.File;
 import java.sql.ResultSet;
@@ -14,13 +15,17 @@ public class FormatterDB {
     private FormatterDB() {}
     private DBController dbcontroller = DBController.getController();
 
-    public boolean formatExists(String domain, String format, String extension) throws SQLException {
+    public boolean formatExists(String domain, Extension choice) throws SQLException {
         // does {domain}.{format} exist?
+        String type = choice.getType();
+        String extension = choice.getExtension();
         String q1 = "SELECT * FROM cache WHERE domain = '";
         String q2 = "' AND ";
         String q3 = " = TRUE;";
-        try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + format + q3)) {
-            File file = new File(Utils.getProperties().getProperty("pathToFolder")+"cache/" + domain + extension);
+        try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + type + q3)) {
+            String filename = Utils.getProperties().getProperty("pathToFolder")+"cache\\" + domain + extension;
+            System.out.println(filename);
+            File file = new File(filename);
             if (file.length() < 10) file.delete(); //If is empty.
             boolean exists = file.exists();
             return rs.next() && exists;

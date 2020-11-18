@@ -25,7 +25,7 @@ public class Utils {
         Properties p = Utils.getProperties();
         File directoryCache = new File(p.getProperty("pathToFolder")+"/cache");
         if(!directoryCache.exists()) directoryCache.mkdir();
-        File directoryScreenshoots = new File(p.getProperty("pathToFolder")+"/screenshoots");
-        if(!directoryScreenshoots.exists()) directoryScreenshoots.mkdir();
+        File directoryScreenshots = new File(p.getProperty("pathToFolder")+"/screenshots");
+        if(!directoryScreenshots.exists()) directoryScreenshots.mkdir();
     }
 }
