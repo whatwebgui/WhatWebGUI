@@ -51,7 +51,6 @@ public class FormatterController {
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn)) {
             String newLine = System.getProperty("line.separator");
-
             thread = new Thread( () -> {
                 String result = null;
                 try {
@@ -64,7 +63,6 @@ public class FormatterController {
                     textArea.setText(finalResult);
                     textArea.setWrapText(true);
                 } );
-
             });
             thread.start();
         }
@@ -73,9 +71,12 @@ public class FormatterController {
             textField.clear();
         }
         else if (btn_show.equals(btn)) {
-            Desktop.getDesktop().open(new File(path));
+            if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                Runtime.getRuntime().exec("xdg-open " + path);
+            } else {
+                Desktop.getDesktop().open(new File(path));
+            }
         }
-
     }
 
     private List<String> getOutput() throws IOException {
