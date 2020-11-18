@@ -51,15 +51,9 @@ public class FormatterController {
         if (btn_scan.equals(btn)) {
             String newLine = System.getProperty("line.separator");
             Thread thread = new Thread( () -> {
-                String result = null;
-                try {
-                    result = String.join(newLine, getOutput());
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                String finalResult = result;
+                String result = String.join(newLine, getOutput());
                 Platform.runLater( () -> {
-                    textArea.setText(finalResult);
+                    textArea.setText(result);
                     textArea.setWrapText(true);
                 } );
             });
@@ -82,7 +76,7 @@ public class FormatterController {
         }
     }
 
-    private List<String> getOutput() throws IOException {
+    private List<String> getOutput() {
         List<String> emaitza = new LinkedList<>();
         String domain = textField.getText().replace("/", "").split(":")[1];
         try {
