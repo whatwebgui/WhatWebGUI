@@ -100,7 +100,7 @@ public class MainController implements Initializable {
         pane3 = FXMLLoader.load(getClass().getResource("/pane3.fxml")); //whatweb
         pane4 = FXMLLoader.load(getClass().getResource("/pane4.fxml")); //history
         //pane5 = FXMLLoader.load(getClass().getResource("/pane5.fxml")); //stats
-        //pane6 = FXMLLoader.load(getClass().getResource("/pane6.fxml")); //settings
+        pane6 = FXMLLoader.load(getClass().getResource("/pane6.fxml")); //settings
     }
 
     @Override
