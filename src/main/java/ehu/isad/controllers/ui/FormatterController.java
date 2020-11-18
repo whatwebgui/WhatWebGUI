@@ -17,6 +17,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 public class FormatterController {
 
@@ -78,7 +79,7 @@ public class FormatterController {
 
     private List<String> getOutput(Button btn) {
         Extension comboChoice = combo.getValue();
-        String domain=null;
+        String domain = null;
         target=textField.getText();
         if (comboChoice==null){comboChoice = combo.getItems().get(1);}
         try {
@@ -116,7 +117,7 @@ public class FormatterController {
         List<String> emaitza = new LinkedList<>();
         try {
             String pathcache;
-            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"; }
+            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"+domain+"/"; }
             BufferedReader input = new BufferedReader(new FileReader(path + pathcache + domain + comboChoice.getExtension()));
             String line;
             while ((line = input.readLine()) != null) {
@@ -134,16 +135,19 @@ public class FormatterController {
         String extension = ext.getExtension();
         String command;
         String path2;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path+"cache/"; }
+        Properties p = new Properties();
+        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path+"cache/"+domain; }
+        File directory = new File(path2);
+        if(!directory.exists()) directory.mkdir();
         switch (type) {
             case "shell":
-                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-brief=" + path2 + "/"+domain + extension + " " + target;
                 break;
             case "ruby":
-                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-object=" + path2 + "/"+domain + extension + " " + target;
                 break;
             default:
-                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-" + type + "=" + path2 +"/"+ domain + extension + " " + target;
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
