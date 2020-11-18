@@ -73,8 +73,19 @@ public class FormatterController {
         else if (btn_show.equals(btn)) {
             if (System.getProperty("os.name").toLowerCase().contains("linux")) {
                 Runtime.getRuntime().exec("xdg-open " + path);
-            } else {
+            } else { //Windows and Mac OS
                 Desktop.getDesktop().open(new File(path));
+            }
+
+
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.directory(new File(path));
+                processBuilder.command("cmd.exe", "/C", "wsl sensible-browser");
+                System.out.println("wsl sensible-browser");
+                processBuilder.start();
+            } else {
+                Runtime.getRuntime().exec("sensible-browser");
             }
         }
     }
