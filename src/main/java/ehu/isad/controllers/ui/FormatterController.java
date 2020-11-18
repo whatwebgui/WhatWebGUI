@@ -108,23 +108,25 @@ public class FormatterController {
     private void deleteFileIfExists(Extension comboChoice, String domain) {
         String extension = comboChoice.getExtension();
         String pathcache;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"; }
+        if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"+domain+"\\"; } else { pathcache="cache/"+domain+"/"; }
         File file = new File(path + pathcache + domain + extension);
         file.delete();
     }
 
-    private List<String> readFile(String domain, Extension comboChoice) {
+    private List<String> readFile(String domain, Extension comboChoice) throws IOException {
         List<String> emaitza = new LinkedList<>();
+        BufferedReader input = null;
         try {
             String pathcache;
-            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"; } else { pathcache="cache/"+domain+"/"; }
-            BufferedReader input = new BufferedReader(new FileReader(path + pathcache + domain + comboChoice.getExtension()));
+            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"+domain+"\\"; } else { pathcache="cache/"+domain+"/"; }
+            input = new BufferedReader(new FileReader(path + pathcache + domain + comboChoice.getExtension()));
             String line;
             while ((line = input.readLine()) != null) {
                 emaitza.add(line);
             }
             input.close();
         } catch (Exception e){
+            input.close();
             e.printStackTrace();
         }
         return emaitza;
@@ -136,23 +138,30 @@ public class FormatterController {
         String command;
         String path2;
         Properties p = new Properties();
-        if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path+"cache/"+domain; }
-        File directory = new File(path2);
+        File directory;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            path2="";
+            directory = new File(path+"cache\\"+domain+"\\");
+        } else {
+            path2=path+"cache/"+domain+"/";
+            directory = new File(path2);
+        }
+
         if(!directory.exists()) directory.mkdir();
         switch (type) {
             case "shell":
-                command = "whatweb --color=never --log-brief=" + path2 + "/"+domain + extension + " " + target;
+                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
                 break;
             case "ruby":
-                command = "whatweb --color=never --log-object=" + path2 + "/"+domain + extension + " " + target;
+                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target;
                 break;
             default:
-                command = "whatweb --color=never --log-" + type + "=" + path2 +"/"+ domain + extension + " " + target;
+                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target;
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.directory(new File(path+"cache\\"));
+            processBuilder.directory(directory);
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
             currentProcess = processBuilder.start();
         } else {
