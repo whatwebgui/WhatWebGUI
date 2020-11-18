@@ -41,10 +41,8 @@ public class FormatterController {
     @FXML
     private Button btn_show;
 
-    private Thread thread;
-
     FormatterDB formatterDB = FormatterDB.getController();
-    private String path= Utils.getProperties().getProperty("pathToCacheFolder");
+    private final String path= Utils.getProperties().getProperty("pathToCacheFolder");
     Process currentProcess = null;
 
     @FXML
@@ -52,7 +50,7 @@ public class FormatterController {
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn)) {
             String newLine = System.getProperty("line.separator");
-            thread = new Thread( () -> {
+            Thread thread = new Thread( () -> {
                 String result = null;
                 try {
                     result = String.join(newLine, getOutput());
@@ -109,17 +107,12 @@ public class FormatterController {
         return emaitza;
     }
 
-    private void sleep() {
-
-    }
-
     private void executeCommand(Extension ext, String domain) throws IOException{
         String target = textField.getText();
         String type = ext.getType();
         String extension = ext.getExtension();
         String command;
         String path2;
-        String sleep= "";
         if (System.getProperty("os.name").toLowerCase().contains("win")) { path2=""; } else { path2=path; }
         switch (type) {
             case "shell":
