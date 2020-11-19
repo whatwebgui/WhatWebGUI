@@ -98,7 +98,7 @@ public class FormatterController {
 
     private List<String> getOutput(Button btn) {
         Extension comboChoice = combo.getValue();
-        String domain = null;
+        String domain;
         target=textField.getText();
         if (comboChoice==null){comboChoice = combo.getItems().get(1);}
         try {
@@ -157,7 +157,6 @@ public class FormatterController {
         String extension = ext.getExtension();
         String command;
         String path2;
-        Properties p = new Properties();
         File directory;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             path2="";
@@ -190,7 +189,7 @@ public class FormatterController {
     }
 
 
-        public ArrayList<String> readExtensionLines() throws IOException {
+        public ArrayList readExtensionLines() throws IOException {
             BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
 
                 ArrayList  sb = new ArrayList();
@@ -206,7 +205,7 @@ public class FormatterController {
 
 
     @FXML
-    void initialize() throws IOException {
+    void initialize() {
         String[] displayName = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
         String[] extension = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
         String[] type = {"verbose","shell","json","xml","sql","ruby","magictree"};
