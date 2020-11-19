@@ -2,8 +2,8 @@ package ehu.isad.controllers.db;
 
 public class WhatWebDB {
 
-    private static final WhatWebDB instance = new WhatWebDB();
-    private static final DBController dbcontroller = DBController.getController();
+        private static final WhatWebDB instance = new WhatWebDB();
+        private static final DBController dbcontroller = DBController.getController();
 
     private WhatWebDB() {
     }

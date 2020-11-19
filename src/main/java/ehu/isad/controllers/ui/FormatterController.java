@@ -69,7 +69,7 @@ public class FormatterController {
             //Else is as before
             if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
                 if (!extensions.contains(keyword)) {
-                    mainController.showPopUp();
+                   mainController.showPopUp(textField.getText());
                 } else {
                     String result = String.join(newLine, getOutput(btn));
                     textArea.setWrapText(true);
@@ -190,10 +190,10 @@ public class FormatterController {
     }
 
 
-        public ArrayList readExtensionLines() throws IOException {
+        public ArrayList<String> readExtensionLines() throws IOException {
             BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
 
-                ArrayList  sb = new ArrayList();
+                ArrayList<String>  sb = new ArrayList<String>();
                 String line = br.readLine();
                 while (line != null) {
                     sb.add(line.toLowerCase());

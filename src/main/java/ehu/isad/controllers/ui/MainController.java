@@ -99,10 +99,12 @@ public class MainController implements Initializable {
         ((Stage)btn_x.getScene().getWindow()).close();
     }
 
-    public void showPopUp() throws IOException {
+    public void showPopUp(String url) throws IOException {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("popUpSure.fxml")));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
+            System.out.println(url);
+            popController = PopUpSureController.getInstantzia();
             stage.setScene(scene);
             stage.show();
     }
