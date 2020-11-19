@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
@@ -14,5 +15,6 @@
             <TableColumn fx:id="col_link" editable="false" minWidth="0.0" prefWidth="35.0" resizable="false" sortable="false" />
         </columns>
       </TableView>
+      <Label fx:id="label" layoutX="286.0" layoutY="6.0" text="Label" />
    </children>
 </Pane>

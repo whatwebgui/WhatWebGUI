@@ -27,7 +27,7 @@ public class HistoryDB {
     }
 
     public List<HistoryModel> getFromHistoryDB(){
-        String query = "SELECT target,tab,date,path FROM history";
+        String query = "SELECT target,tab,date,path FROM history ORDER BY id DESC";
         List<HistoryModel> list = new ArrayList<>();
         ResultSet rs = dbcontroller.execSQL(query);
         try {

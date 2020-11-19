@@ -26,8 +26,9 @@ public class FormatterDB {
             String filename = Utils.getProperties().getProperty("pathToFolder")+"cache\\" + domain + extension;
             System.out.println(filename);
             File file = new File(filename);
-            if (file.length() < 10) file.delete(); //If is empty.
             boolean exists = file.exists();
+            //If is empty.
+            if (file.length() < 10) if (file.delete()) System.out.println("file not deleted"); // is the file empty?
             return rs.next() && exists;
         }
     }
@@ -47,10 +48,6 @@ public class FormatterDB {
         String q1 = "INSERT OR IGNORE into cache(domain) values('"+domain+"')";
         dbcontroller.execSQL(q1);
 
-    }
-
-    private void deleteCache(){
-        dbcontroller.execSQL("DELETE FROM cache");
     }
 
 }

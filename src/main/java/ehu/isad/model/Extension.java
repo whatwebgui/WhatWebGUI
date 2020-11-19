@@ -2,9 +2,9 @@ package ehu.isad.model;
 
 public class Extension {
 
-    private String displayName;
-    private String extension;
-    private String type;
+    private final String displayName;
+    private final String extension;
+    private final String type;
 
     public Extension(String displayName, String extension, String type) {
         this.displayName = displayName;
@@ -12,9 +12,11 @@ public class Extension {
         this.type = type;
     }
 
+/*
     public String getDisplayName() {
         return displayName;
     }
+*/
 
     public String getExtension() {
         return extension;

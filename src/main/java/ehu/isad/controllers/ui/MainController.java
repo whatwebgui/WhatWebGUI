@@ -23,9 +23,9 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     private Parent pane1;
-    //CMSController cmsController;
+    CMSController cmsController;
     private Parent pane2;
-    //ServerController serverController;
+    ServerController serverController;
     private Parent pane3;
     FormatterController formatterController;
     private Parent pane4;
@@ -34,6 +34,7 @@ public class MainController implements Initializable {
     //StatisticsController statisticsController;
     private Parent pane6;
     SettingsController settingsController;
+
     PopUpSureController popController;
     Scene pop;
 
@@ -111,11 +112,11 @@ public class MainController implements Initializable {
     void getPanels() throws IOException {
         FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/pane1.fxml"));
         pane1 = loaderpane1.load(); //cms
-        //cmsController = loaderpane1.getController();
+        cmsController = loaderpane1.getController();
 
         FXMLLoader loaderpane2 = new FXMLLoader(getClass().getResource("/pane2.fxml"));
         pane2 = loaderpane2.load(); //server
-        //serverController = loaderpane2.getController();
+        serverController = loaderpane2.getController();
 
         FXMLLoader loaderpane3 = new FXMLLoader(getClass().getResource("/pane3.fxml"));
         pane3 = loaderpane3.load(); //formatter

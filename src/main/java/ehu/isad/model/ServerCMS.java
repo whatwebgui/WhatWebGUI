@@ -1,7 +1,5 @@
 package ehu.isad.model;
 
-import java.util.Date;
-
 public class ServerCMS {
 
     private String url;

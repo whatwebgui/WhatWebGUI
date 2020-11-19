@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -21,8 +20,8 @@ import java.util.List;
 
 public class FormatterController {
 
-    @FXML
-    private Pane pane3;
+    //@FXML
+    //private Pane pane3;
 
     @FXML
     private TextField textField;
@@ -73,11 +72,7 @@ public class FormatterController {
                 } else {
                     String result = String.join(newLine, getOutput(btn));
                     textArea.setWrapText(true);
-                    Thread thread = new Thread(() -> {
-                        Platform.runLater(() -> {
-                            textArea.setText(result);
-                        });
-                    });
+                    Thread thread = new Thread(() -> Platform.runLater(() -> textArea.setText(result)));
                 thread.start();
             }
             } else if (btn_clear.equals(btn)) {
@@ -147,6 +142,7 @@ public class FormatterController {
             }
             input.close();
         } catch (Exception e){
+            assert input != null;
             input.close();
             e.printStackTrace();
         }
@@ -190,17 +186,16 @@ public class FormatterController {
     }
 
 
-        public ArrayList<String> readExtensionLines() throws IOException {
-            BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
-
-                ArrayList<String>  sb = new ArrayList<String>();
-                String line = br.readLine();
-                while (line != null) {
-                    sb.add(line.toLowerCase());
-                    line = br.readLine();
-                }
-                return sb;
-            }
+    public ArrayList<String> readExtensionLines() throws IOException {
+        BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
+        ArrayList<String>  sb = new ArrayList<>();
+        String line = br.readLine();
+        while (line != null) {
+            sb.add(line.toLowerCase());
+            line = br.readLine();
+        }
+        return sb;
+    }
 
 
 
