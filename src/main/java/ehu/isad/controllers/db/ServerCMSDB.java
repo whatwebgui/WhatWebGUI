@@ -24,10 +24,6 @@ public class ServerCMSDB {
         dbcontroller.execSQL(query);
     }
 
-    public void updateDate(){
-
-    }
-
     public boolean domainInDB(String domain) throws SQLException {
         String query = "select target_id from targets where target = '" + domain + "'";
         ResultSet rs = dbcontroller.execSQL(query);
@@ -43,7 +39,7 @@ public class ServerCMSDB {
         String firstQuery = "select * from targets";
         ResultSet rst = dbcontroller.execSQL(firstQuery);
         if(rst.next()){
-            String query = "select target,name,s.*,date from scans as s,targets as t,plugins as p, servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id";
+            String query = "select target,name,s.* from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id"; // and t.target_id = d.id";
             ResultSet rs = dbcontroller.execSQL(query);
             String loopTarget= null;
             String currentTarget=null;
@@ -58,17 +54,25 @@ public class ServerCMSDB {
                         cms = validCMS(rs.getString("name"));
                         if(cms != null){
                             results.add(new ServerCMS(rs.getString("target"),cms,null,rs.getString("version"),""));
+                           // addDate(rs.getString("target"));
                         }
                     }else{
                         loopTarget = currentTarget;
                         if(cms == null){
                             results.add(new ServerCMS(rs.getString("target"),"unknown",null,"0",""));
+                           // addDate(rs.getString("target"));
                         }
                     }
                 }
             }catch(SQLException e){ e.printStackTrace(); }
         }
         return results;
+    }
+
+    private void addDate(String targ){
+        String d = "";
+        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),'"+ d + "')";
+        dbcontroller.execSQL(query);
     }
 
     private String validCMS(String plugin){
@@ -84,6 +88,12 @@ public class ServerCMSDB {
             default:
                 return null;
         }
+    }
+
+    public void updateDate(String domain){
+
+        //String query = "update servercmsDate set date = '" + + "' where id = (select id from targets where target '" + domain + "')";
+
     }
 
 }
