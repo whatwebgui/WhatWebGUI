@@ -16,9 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import java.awt.*;
 import java.io.*;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
 
 public class FormatterController {
 
@@ -47,36 +46,55 @@ public class FormatterController {
     private Button btn_show;
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
+    MainController mainController = new MainController();
     private final String path= Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
+    ArrayList<String> extensions;
+    {
+        try {
+            extensions = this.readExtensionLines();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
-        if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-            textArea.setWrapText(true);
-            String newLine = System.getProperty("line.separator");
-            Thread thread = new Thread( () -> {
-                String result = String.join(newLine, getOutput(btn));
-                Platform.runLater( () -> { textArea.setText(result); } );
-            });
-            thread.start();
-        }
-        else if (btn_clear.equals(btn)) {
-            textArea.clear();
-            textField.clear();
-        }
-        else if (btn_show.equals(btn)) {
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) {
-                Desktop.getDesktop().open(new File(path));
-            } else if (os.contains("mac")) {
-                Runtime.getRuntime().exec("open " + path);
-            } else if (os.contains("linux")) {
-                Runtime.getRuntime().exec("xdg-open " + path);
+        String newLine = System.getProperty("line.separator");
+        //Kerman changes.
+        String result = String.join(newLine, getOutput(btn));
+        String[] split = textField.getText().split("\\.");
+        String keyword = split[split.length - 1];
+        if (!extensions.contains(keyword)) {
+            mainController.showPopUp();
+        } else {
+            //Else is as before
+            if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
+                textArea.setWrapText(true);
+                Thread thread = new Thread(() -> {
+                    Platform.runLater(() -> {
+                        textArea.setText(result);
+                    });
+                });
+                thread.start();
+            } else if (btn_clear.equals(btn)) {
+                textArea.clear();
+                textField.clear();
+            } else if (btn_show.equals(btn)) {
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    Desktop.getDesktop().open(new File(path));
+                } else if (os.contains("mac")) {
+                    Runtime.getRuntime().exec("open " + path);
+                } else if (os.contains("linux")) {
+                    Runtime.getRuntime().exec("xdg-open " + path);
+                }
             }
         }
     }
+
 
     private List<String> getOutput(Button btn) {
         Extension comboChoice = combo.getValue();
@@ -172,9 +190,23 @@ public class FormatterController {
     }
 
 
+        public ArrayList<String> readExtensionLines() throws IOException {
+            BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
+
+                ArrayList  sb = new ArrayList();
+                String line = br.readLine();
+                while (line != null) {
+                    sb.add(line.toLowerCase());
+                    line = br.readLine();
+                }
+                return sb;
+            }
+
+
+
 
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
         String[] displayName = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
         String[] extension = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
         String[] type = {"verbose","shell","json","xml","sql","ruby","magictree"};
