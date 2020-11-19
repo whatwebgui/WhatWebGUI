@@ -63,22 +63,23 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         String newLine = System.getProperty("line.separator");
-        //Kerman changes.
-        String result = String.join(newLine, getOutput(btn));
         String[] split = textField.getText().split("\\.");
         String keyword = split[split.length - 1];
-        if (!extensions.contains(keyword)) {
-            mainController.showPopUp();
-        } else {
+
             //Else is as before
             if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-                textArea.setWrapText(true);
-                Thread thread = new Thread(() -> {
-                    Platform.runLater(() -> {
-                        textArea.setText(result);
+                if (!extensions.contains(keyword)) {
+                    mainController.showPopUp();
+                } else {
+                    String result = String.join(newLine, getOutput(btn));
+                    textArea.setWrapText(true);
+                    Thread thread = new Thread(() -> {
+                        Platform.runLater(() -> {
+                            textArea.setText(result);
+                        });
                     });
-                });
                 thread.start();
+            }
             } else if (btn_clear.equals(btn)) {
                 textArea.clear();
                 textField.clear();
@@ -93,7 +94,7 @@ public class FormatterController {
                 }
             }
         }
-    }
+
 
 
     private List<String> getOutput(Button btn) {
