@@ -1,6 +1,7 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.model.ServerCMS;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
@@ -29,7 +30,6 @@ public class ServerCMSDB {
 
     public boolean domainInDB(String domain) throws SQLException {
         String query = "select target_id from targets where target = '" + domain + "'";
-        System.out.println(query);
         ResultSet rs = dbcontroller.execSQL(query);
         if(rs.next()){
             return true;
@@ -38,43 +38,52 @@ public class ServerCMSDB {
         }
     }
 
-
-
-    public List<ServerCMS> getCMSDB() throws SQLException {
-        List<ServerCMS> results = new ArrayList<>();
-        String query = "select * from scans";
-        ResultSet rs = dbcontroller.execSQL(query);
-
-        while(rs.next()){
-
+    public ObservableList<ServerCMS> getCMSDB() throws SQLException {
+        ObservableList<ServerCMS> results = FXCollections.observableArrayList();
+        String firstQuery = "select * from targets";
+        ResultSet rst = dbcontroller.execSQL(firstQuery);
+        if(rst.next()){
+            String query = "select target,name,s.*,date from scans as s,targets as t,plugins as p, servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id";
+            ResultSet rs = dbcontroller.execSQL(query);
+            String loopTarget= null;
+            String currentTarget=null;
+            String cms = null;
+            try {
+                if(rs.next()){
+                    loopTarget = rs.getString("target");
+                }
+                while(rs.next()){
+                    currentTarget = rs.getString("target");
+                    if(currentTarget.equals(loopTarget)){
+                        cms = validCMS(rs.getString("name"));
+                        if(cms != null){
+                            results.add(new ServerCMS(rs.getString("target"),cms,null,rs.getString("version"),""));
+                        }
+                    }else{
+                        loopTarget = currentTarget;
+                        if(cms == null){
+                            results.add(new ServerCMS(rs.getString("target"),"unknown",null,"0",""));
+                        }
+                    }
+                }
+            }catch(SQLException e){ e.printStackTrace(); }
         }
-
         return results;
     }
 
-    private String getTarget(int targetid){
-        String query = "select target from targets where target_id = " + targetid;
-        ResultSet rs = dbcontroller.execSQL(query);
-        try {
-            if(rs.next()){
-                return rs.getString("target");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    private String validCMS(String plugin){
+        switch (plugin) {
+            case "WordPress":
+                return "WordPress";
+            case "Joomla":
+                return "Joomla";
+            case "phpMyAdmin":
+                return "phpMyAdmin";
+            case "Drupal":
+                return "Drupal";
+            default:
+                return null;
         }
-        return null;
     }
 
-    private String getPlugin(int pluginid){
-        String query = "select name from plugins where plugin_id = " + pluginid;
-        ResultSet rs = dbcontroller.execSQL(query);
-        try {
-            if(rs.next()){
-                return rs.getString("name");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
 }

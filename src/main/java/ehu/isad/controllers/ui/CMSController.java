@@ -1,14 +1,17 @@
 package ehu.isad.controllers.ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.concurrent.LinkedTransferQueue;
 
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMS;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,6 +55,8 @@ public class CMSController {
     @FXML
     private TableColumn<ServerCMS, String> lastUpdatedColumn;
 
+    private final String path= Utils.getProperties().getProperty("pathToFolder");
+
     @FXML
     void onClick(ActionEvent event) throws IOException, SQLException {
         String domain = textField.getText().replace("/", "").split(":")[1];
@@ -60,16 +65,18 @@ public class CMSController {
 
         }else{//file is not in the table, so we will have to create the sql file and insert it into the database
             createSQLFile(domain+".sql");
-            insertIntoDB(domain+".sql");
-            //borrar el archivo sql
-
-
+            insertIntoDB(domain);
+            cmsTable.setItems(getCMSList());
+            File file = new File(path + domain + ".sql");
+            if(file.exists()){
+                file.delete();
+            }
         }
     }
 
-    private ObservableList<ServerCMS> getCMSList(){
+    private ObservableList<ServerCMS> getCMSList() throws SQLException {
         ServerCMSDB servercmsDB = ServerCMSDB.getInstance();
-        return FXCollections.observableArrayList(servercmsDB.getCMSDB());
+        return  servercmsDB.getCMSDB();
     }
 
     private void createSQLFile(String domain) throws IOException {
@@ -80,14 +87,14 @@ public class CMSController {
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
             currentProcess = processBuilder.start();
         } else {*/
-            p = Runtime.getRuntime().exec("whatweb --color=never --log-sql=/home/adeiarias/"+domain+ " " + textField.getText());
+            p = Runtime.getRuntime().exec("whatweb --color=never --log-sql=" + path + domain+ " " + textField.getText());
             while(p.isAlive()){}
         //}
     }
 
     private void insertIntoDB(String domain) throws IOException {
         BufferedReader input = null;
-        input = new BufferedReader(new FileReader("/home/adeiarias/"+domain));
+        input = new BufferedReader(new FileReader(path + domain + ".sql"));
         String line;
         while ((line = input.readLine()) != null) {
             ServerCMSDB.getInstance().insertQueryIntoDB(line.replace("IGNORE","OR IGNORE"));
@@ -96,7 +103,7 @@ public class CMSController {
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
