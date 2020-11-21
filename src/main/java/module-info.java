@@ -7,5 +7,6 @@ open module whatwebgui {
   requires javafx.base;
   requires javafx.controls;
   requires javafx.fxml;
-  exports ehu.isad;
+    requires javafx.web;
+    exports ehu.isad;
 }

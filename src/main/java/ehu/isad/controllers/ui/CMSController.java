@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
+import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -82,15 +83,20 @@ public class CMSController {
 
     private void createSQLFile(String domain) throws IOException {
         Process p = null;
-        /*if (System.getProperty("os.name").toLowerCase().contains("win")) {
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            String command = "whatweb --color=never --log-sql=" + domain+ " " + textField.getText();
             ProcessBuilder processBuilder = new ProcessBuilder();
+            File directory =  new File(path);
             processBuilder.directory(directory);
+            System.out.println(command);
+            System.out.println(directory);
             processBuilder.command("cmd.exe", "/C", "wsl " +command);
-            currentProcess = processBuilder.start();
-        } else {*/
+            p = processBuilder.start();
+            while(p.isAlive()){}
+        } else {
             p = Runtime.getRuntime().exec("whatweb --color=never --log-sql=" + path + domain+ " " + textField.getText());
             while(p.isAlive()){}
-        //}
+        }
     }
 
     private void insertIntoDB(String domain) throws IOException {

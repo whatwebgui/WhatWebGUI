@@ -11,9 +11,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Date;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
@@ -34,6 +40,7 @@ public class HistoryController implements Initializable {
     private TableColumn<HistoryModel, String> col_link;
 
     private final Tooltip tp = new Tooltip();
+    Desktop desktop = java.awt.Desktop.getDesktop();
 
     private ObservableList<HistoryModel> getUserList() {
         HistoryDB historyDB = HistoryDB.getInstance();
@@ -48,8 +55,8 @@ public class HistoryController implements Initializable {
         tableview.setItems(getUserList());
     }
 
-    private void hover(){
-        tableview.setRowFactory(tableView -> {
+    private void hoverAndLinkClick(){
+        tableview.setRowFactory( tr -> {
             final TableRow<HistoryModel> row = new TableRow<>();
             row.hoverProperty().addListener((observable) -> {
                 final HistoryModel hm = row.getItem();
@@ -58,7 +65,20 @@ public class HistoryController implements Initializable {
                     row.setTooltip(tp);
                 }
             });
-            return row;
+            row.setOnMouseMoved(event -> {
+                if (! row.isEmpty() ) {
+                    Hyperlink hl = row.getItem().getDomain();
+                    hl.setOnAction(e -> {
+                        try {
+                            desktop.browse(URI.create(hl.getText()));
+                            hl.setVisited(false);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                }
+            });
+            return row ;
         });
     }
 
@@ -67,6 +87,8 @@ public class HistoryController implements Initializable {
         String pathToScreenshots = Utils.getProperties().getProperty("pathToFolder")+"screenshots/";
 
         Image image = new Image("file:///"+pathToScreenshots+screen+".jpeg", 250, 250, true, false);
+        if (image.getHeight()>10) image = new Image("file:///"+pathToScreenshots+"imgna.jpg", 250, 250, true, false);
+        image = new Image("https://image.shutterstock.com/image-illustration/not-available-red-rubber-stamp-260nw-586791809.jpg", 250, 250, true, false);
         ImageView imageView = new ImageView(image);
         tp.setGraphic(imageView);
     }
@@ -74,6 +96,6 @@ public class HistoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeDatabase();
-        hover();
+        hoverAndLinkClick();
     }
 }

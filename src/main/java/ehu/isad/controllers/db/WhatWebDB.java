@@ -20,7 +20,7 @@ public class WhatWebDB {
     public void clearDB(){
         String del1 = "DELETE FROM ";
         String del2 = "DELETE FROM sqlite_sequence WHERE name = '";
-        String[] tables = {"scans","targets"};
+        String[] tables = {"scans","targets","history","servercmsDate"};
         for (String table : tables) {
             dbcontroller.execSQL(del1+table);
             dbcontroller.execSQL(del2+table+"';");
