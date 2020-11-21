@@ -39,67 +39,50 @@ public class ServerCMSDB {
 
     public ObservableList<ServerCMSModel> getCMSDB(){
         ObservableList<ServerCMSModel> results = FXCollections.observableArrayList();
-        String firstQuery = "select * from targets";
-        ResultSet rst = dbcontroller.execSQL(firstQuery);
+        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') UNION SELECT t.target, CASE WHEN p.name = 'WordPress' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Wordpress' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name not in ('WordPress','Joomla','phpMyAdmin','Drupal') GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
+        ResultSet rs = dbcontroller.execSQL(query);
+        String url;
+        String plugin;
+        String version;
+        String lastUpdated;
         try {
-            if(rst.next()){
-                String query = "select * from(select target as url,name=null as plugin,version=0 as version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name not in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target except select target as url,name=null,version=0,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target union select target as url,name as plugin,version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target) order by lastUpdated desc";
-                ResultSet rs = dbcontroller.execSQL(query);
-                try {
-                    String url;
-                    String plugin;
-                    String version;
-                    String lastUpdated;
-                    while(rs.next()){
-                        url = rs.getString("url");
-                        plugin = rs.getString("plugin");
-                        version = rs.getString("version");
-                        lastUpdated = rs.getString("lastUpdated");
-                        if(plugin==null){
-                            results.add(new ServerCMSModel(url,"unknown",null,"0",lastUpdated));
-                        }else{
-                            results.add(new ServerCMSModel(url,plugin,null,version,lastUpdated));
-                        }
-                    }
-                }catch(SQLException e){ e.printStackTrace(); }
+            while (rs.next()) {
+                url = rs.getString("target");
+                plugin = rs.getString("name");
+                version = rs.getString("version");
+                lastUpdated = rs.getString("date");
+                if (plugin == null) {
+                    results.add(new ServerCMSModel(url, "unknown", null, "0", lastUpdated));
+                } else {
+                    results.add(new ServerCMSModel(url, plugin, null, version, lastUpdated));
+                }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return results;
+        return  results;
     }
 
-    public ObservableList<ServerCMSModel> getServerDB() {
+    public ObservableList<ServerCMSModel> getServerDB(){
         ObservableList<ServerCMSModel> results = FXCollections.observableArrayList();
-        String firstQuery = "select * from targets";
-        ResultSet rst = dbcontroller.execSQL(firstQuery);
+        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name='Apache' UNION SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name!='Apache' GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
+        ResultSet rs = dbcontroller.execSQL(query);
+        String url;
+        String plugin;
+        String version;
+        String lastUpdated;
         try {
-            if(rst.next()){
-                String query = "select * from(select target as url,name=null as plugin,version=0 as version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name not in (\"Apache\") group by target except select target as url,name=null,version=0,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"Apache\") group by target union select target as url,name as plugin,version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"Apache\") group by target) order by lastUpdated desc;";
-                ResultSet rs = dbcontroller.execSQL(query);
-                try {
-                    String url;
-                    String plugin;
-                    String version;
-                    String lastUpdated;
-                    while(rs.next()){
-                        url = rs.getString("url");
-                        plugin = rs.getString("plugin");
-                        version = rs.getString("version");
-                        lastUpdated = rs.getString("lastUpdated");
-
-                        if(plugin==null){
-                            results.add(new ServerCMSModel(url,null,"unknown","0",lastUpdated));
-                        }else{
-                            results.add(new ServerCMSModel(url,null,plugin,version,lastUpdated));
-                        }
-                    }
-                }catch(SQLException e){ e.printStackTrace(); }
+            while (rs.next()) {
+                url = rs.getString("target");
+                plugin = rs.getString("name");
+                version = rs.getString("version");
+                lastUpdated = rs.getString("date");
+                results.add(new ServerCMSModel(url, null, plugin, version, lastUpdated));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return results;
+        return  results;
     }
 
     public void addDate(String targ){
