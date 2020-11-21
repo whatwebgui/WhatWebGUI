@@ -25,11 +25,15 @@ public class PopUpSureController implements Initializable {
         @FXML
         private Label lbl;
 
+        public void loadLabel(String url){
+                lbl.setText("Are you sure you want to continue to  site?");
+
+        }
 
         @Override
-        public void initialize(URL location, ResourceBundle resources) {
-                lbl = new Label();
-                lbl.setText("hola");
-        }
+        public void initialize(URL location, ResourceBundle resources) {}
+
+
+
 
 }

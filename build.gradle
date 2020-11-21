@@ -35,7 +35,7 @@ mainClassName = "$moduleName/ehu.isad.Main"
 
 javafx {
     version = "12"
-    modules = [ 'javafx.graphics', 'javafx.fxml', 'javafx.controls', 'javafx.base' ]
+    modules = [ 'javafx.graphics', 'javafx.fxml', 'javafx.controls', 'javafx.base','javafx.web']
 }
 
 dependencies {

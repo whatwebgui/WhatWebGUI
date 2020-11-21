@@ -10,6 +10,6 @@
       <Button fx:id="yesBtn" layoutX="374.0" layoutY="311.0" mnemonicParsing="false" text="Si" />
       <Button fx:id="noBtn" layoutX="216.0" layoutY="311.0" mnemonicParsing="false" text="No" />
       <ImageView fx:id="img" fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="lbl" layoutX="181.0" layoutY="194.0" prefHeight="62.0" prefWidth="239.0" text="Label" />
+      <Label fx:id="lbl" layoutX="181.0" layoutY="189.0" prefHeight="62.0" prefWidth="239.0" text="Label" />
    </children>
 </AnchorPane>

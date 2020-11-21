@@ -106,7 +106,7 @@ public class MainController implements Initializable {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("popUpSure.fxml")));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-            System.out.println(url);
+            PopUpSureController.getInstantzia().loadLabel(url);
             popController = PopUpSureController.getInstantzia();
             stage.setScene(scene);
             stage.show();
