@@ -6,8 +6,6 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerCMSDB {
 
@@ -39,29 +37,20 @@ public class ServerCMSDB {
         String firstQuery = "select * from targets";
         ResultSet rst = dbcontroller.execSQL(firstQuery);
         if(rst.next()){
-            String query = "select target,name,s.* from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id"; // and t.target_id = d.id";
+            String query = "select target as url,name=null as plugin,version=0 as version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name not in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target except select target as url,name=null,version=0 from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target union select target as url,name as plugin,version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target";
             ResultSet rs = dbcontroller.execSQL(query);
-            String loopTarget= null;
-            String currentTarget=null;
-            String cms = null;
             try {
-                if(rs.next()){
-                    loopTarget = rs.getString("target");
-                }
+                String url;
+                String plugin;
+                String version;
                 while(rs.next()){
-                    currentTarget = rs.getString("target");
-                    if(currentTarget.equals(loopTarget)){
-                        cms = validCMS(rs.getString("name"));
-                        if(cms != null){
-                            results.add(new ServerCMS(rs.getString("target"),cms,null,rs.getString("version"),""));
-                           // addDate(rs.getString("target"));
-                        }
+                    url = rs.getString("url");
+                    plugin = rs.getString("plugin");
+                    version = rs.getString("version");
+                    if(plugin==null){
+                        results.add(new ServerCMS(url,"unknown",null,"0",null));
                     }else{
-                        loopTarget = currentTarget;
-                        if(cms == null){
-                            results.add(new ServerCMS(rs.getString("target"),"unknown",null,"0",""));
-                           // addDate(rs.getString("target"));
-                        }
+                        results.add(new ServerCMS(url,plugin,null,version,null));
                     }
                 }
             }catch(SQLException e){ e.printStackTrace(); }
@@ -69,25 +58,35 @@ public class ServerCMSDB {
         return results;
     }
 
-    private void addDate(String targ){
-        String d = "";
-        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),'"+ d + "')";
-        dbcontroller.execSQL(query);
+    public ObservableList<ServerCMS> getServerDB() throws SQLException {
+        ObservableList<ServerCMS> results = FXCollections.observableArrayList();
+        String firstQuery = "select * from targets";
+        ResultSet rst = dbcontroller.execSQL(firstQuery);
+        if(rst.next()){
+            String query = "select target as url,name=null as plugin,version=0 as version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name not in (\"Apache\") group by target except select target as url,name=null,version=0 from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"Apache\") group by target union select target as url,name as plugin,version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"Apache\") group by target";
+            ResultSet rs = dbcontroller.execSQL(query);
+            try {
+                String url;
+                String plugin;
+                String version;
+                while(rs.next()){
+                    url = rs.getString("url");
+                    plugin = rs.getString("plugin");
+                    version = rs.getString("version");
+                    if(plugin==null){
+                        results.add(new ServerCMS(url,null,"unknown","0",null));
+                    }else{
+                        results.add(new ServerCMS(url,null,plugin,version,null));
+                    }
+                }
+            }catch(SQLException e){ e.printStackTrace(); }
+        }
+        return results;
     }
 
-    private String validCMS(String plugin){
-        switch (plugin) {
-            case "WordPress":
-                return "WordPress";
-            case "Joomla":
-                return "Joomla";
-            case "phpMyAdmin":
-                return "phpMyAdmin";
-            case "Drupal":
-                return "Drupal";
-            default:
-                return null;
-        }
+    public void addDate(String targ){
+        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),'"+"kaixo"+"')";
+        dbcontroller.execSQL(query);
     }
 
     public void updateDate(String domain){

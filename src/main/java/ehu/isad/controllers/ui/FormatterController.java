@@ -108,7 +108,7 @@ public class FormatterController {
         try {
             formatterDB.addDomainToDB(domain);
             if (btn.equals(btn_forcescan) || (btn.equals(btn_scan)&&!formatterDB.formatExists(domain, comboChoice)) ) {
-                deleteFileIfExists(comboChoice, domain);
+                //deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
                 while (currentProcess.isAlive()) textArea.setPromptText("Loading..."); /* wait for the process to finish */

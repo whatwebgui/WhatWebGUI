@@ -1,5 +1,16 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.controllers.db.HistoryDB;
+import ehu.isad.controllers.db.ServerCMSDB;
+import ehu.isad.model.ServerCMS;
+import ehu.isad.utils.Utils;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,19 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.concurrent.LinkedTransferQueue;
-
-import ehu.isad.controllers.db.HistoryDB;
-import ehu.isad.controllers.db.ServerCMSDB;
-import ehu.isad.model.ServerCMS;
-import ehu.isad.utils.Utils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 
 public class CMSController {
 
@@ -103,6 +101,9 @@ public class CMSController {
             ServerCMSDB.getInstance().insertQueryIntoDB(line.replace("IGNORE","OR IGNORE"));
         }
         input.close();
+
+        //now, we will insert date information
+       // ServerCMSDB.getInstance().addDate(textField.getText());
     }
 
     @FXML
