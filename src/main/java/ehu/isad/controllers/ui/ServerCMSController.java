@@ -61,12 +61,24 @@ public class ServerCMSController {
         if(serverCMSDB.domainInDB(target)){//file is already in the table
             serverCMSDB.updateDate(target);
         }else{//file is not in the table, so we will have to create the sql file and insert it into the database
-            createSQLFile(domain+".sql",target);
-            insertIntoDB(domain,target);
-            File file = new File(path + domain + ".sql");
-            if(file.exists()){
-                file.delete();
-            }
+            Thread thread = new Thread( () -> {
+                try {
+                    createSQLFile(domain+".sql",target);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+                    insertIntoDB(domain,target);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                File file = new File(path + domain + ".sql");
+                if(file.exists()){
+                    file.delete();
+                }
+            });
+            thread.start();
+
         }
         HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER",target);
     }

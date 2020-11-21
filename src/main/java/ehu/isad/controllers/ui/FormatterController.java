@@ -62,30 +62,33 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         String newLine = System.getProperty("line.separator");
-
-            if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-                if (!this.formatInput()) {
-                   mainController.showPopUp(textField.getText());
-                } else {
+        if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
+            if (!this.formatInput()) {
+                mainController.showPopUp(textField.getText());
+            } else {
+                Thread thread = new Thread(() -> {
                     String result = String.join(newLine, getOutput(btn));
-                    textArea.setWrapText(true);
-                    Thread thread = new Thread(() -> Platform.runLater(() -> textArea.setText(result)));
+                    Platform.runLater(() -> {
+                        textArea.setText(result);
+                        textArea.setWrapText(true);
+                    });
+                });
                 thread.start();
             }
-            } else if (btn_clear.equals(btn)) {
-                textArea.clear();
-                textField.clear();
-            } else if (btn_show.equals(btn)) {
-                String os = System.getProperty("os.name").toLowerCase();
-                if (os.contains("win")) {
-                    Desktop.getDesktop().open(new File(path));
-                } else if (os.contains("mac")) {
-                    Runtime.getRuntime().exec("open " + path);
-                } else if (os.contains("linux")) {
-                    Runtime.getRuntime().exec("xdg-open " + path);
-                }
+        } else if (btn_clear.equals(btn)) {
+            textArea.clear();
+            textField.clear();
+        } else if (btn_show.equals(btn)) {
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                Desktop.getDesktop().open(new File(path));
+            } else if (os.contains("mac")) {
+                Runtime.getRuntime().exec("open " + path);
+            } else if (os.contains("linux")) {
+                Runtime.getRuntime().exec("xdg-open " + path);
             }
         }
+    }
     public boolean formatInput(){
         //extension split.
         String[] split = textField.getText().split("\\.");
