@@ -37,20 +37,22 @@ public class ServerCMSDB {
         String firstQuery = "select * from targets";
         ResultSet rst = dbcontroller.execSQL(firstQuery);
         if(rst.next()){
-            String query = "select target as url,name=null as plugin,version=0 as version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name not in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target except select target as url,name=null,version=0 from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target union select target as url,name as plugin,version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target";
+            String query = "select * from(select target as url,name=null as plugin,version=0 as version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name not in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target except select target as url,name=null,version=0,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target union select target as url,name as plugin,version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"WordPress\",\"Joomla\",\"phpMyAdmin\",\"Drupal\") group by target) order by lastUpdated desc";
             ResultSet rs = dbcontroller.execSQL(query);
             try {
                 String url;
                 String plugin;
                 String version;
+                String lastUpdated;
                 while(rs.next()){
                     url = rs.getString("url");
                     plugin = rs.getString("plugin");
                     version = rs.getString("version");
+                    lastUpdated = rs.getString("lastUpdated");
                     if(plugin==null){
-                        results.add(new ServerCMS(url,"unknown",null,"0",null));
+                        results.add(new ServerCMS(url,"unknown",null,"0",lastUpdated));
                     }else{
-                        results.add(new ServerCMS(url,plugin,null,version,null));
+                        results.add(new ServerCMS(url,plugin,null,version,lastUpdated));
                     }
                 }
             }catch(SQLException e){ e.printStackTrace(); }
@@ -63,20 +65,23 @@ public class ServerCMSDB {
         String firstQuery = "select * from targets";
         ResultSet rst = dbcontroller.execSQL(firstQuery);
         if(rst.next()){
-            String query = "select target as url,name=null as plugin,version=0 as version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name not in (\"Apache\") group by target except select target as url,name=null,version=0 from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"Apache\") group by target union select target as url,name as plugin,version from scans as s,targets as t,plugins as p where s.plugin_id = p.plugin_id and t.target_id = s.target_id and status=200 AND name in (\"Apache\") group by target";
+            String query = "select * from(select target as url,name=null as plugin,version=0 as version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name not in (\"Apache\") group by target except select target as url,name=null,version=0,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"Apache\") group by target union select target as url,name as plugin,version,date as lastUpdated from scans as s,targets as t,plugins as p,servercmsDate as d where s.plugin_id = p.plugin_id and t.target_id = s.target_id and d.id = t.target_id and status=200 AND name in (\"Apache\") group by target) order by lastUpdated desc;";
             ResultSet rs = dbcontroller.execSQL(query);
             try {
                 String url;
                 String plugin;
                 String version;
+                String lastUpdated;
                 while(rs.next()){
                     url = rs.getString("url");
                     plugin = rs.getString("plugin");
                     version = rs.getString("version");
+                    lastUpdated = rs.getString("lastUpdated");
+
                     if(plugin==null){
-                        results.add(new ServerCMS(url,null,"unknown","0",null));
+                        results.add(new ServerCMS(url,null,"unknown","0",lastUpdated));
                     }else{
-                        results.add(new ServerCMS(url,null,plugin,version,null));
+                        results.add(new ServerCMS(url,null,plugin,version,lastUpdated));
                     }
                 }
             }catch(SQLException e){ e.printStackTrace(); }
@@ -85,13 +90,14 @@ public class ServerCMSDB {
     }
 
     public void addDate(String targ){
-        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),'"+"kaixo"+"')";
+        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),DATETIME())";
         dbcontroller.execSQL(query);
     }
 
     public void updateDate(String domain){
-
-        //String query = "update servercmsDate set date = '" + + "' where id = (select id from targets where target '" + domain + "')";
+        String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + domain + "')";
+        System.out.println(query);
+        dbcontroller.execSQL(query);
 
     }
 

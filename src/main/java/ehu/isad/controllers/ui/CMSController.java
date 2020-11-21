@@ -61,7 +61,7 @@ public class CMSController {
         String domain = textField.getText().replace("/", "").split(":")[1];
         //mirar si el dominio ya esta en la tabla
         if(ServerCMSDB.getInstance().domainInDB(textField.getText())){//file is already in the table
-            //ServerCMSDB.getInstance().updateDate(textField.getText());
+            ServerCMSDB.getInstance().updateDate(textField.getText());
             cmsTable.setItems(getCMSList());
         }else{//file is not in the table, so we will have to create the sql file and insert it into the database
             createSQLFile(domain+".sql");
@@ -103,7 +103,7 @@ public class CMSController {
         input.close();
 
         //now, we will insert date information
-       // ServerCMSDB.getInstance().addDate(textField.getText());
+        ServerCMSDB.getInstance().addDate(textField.getText());
     }
 
     @FXML
