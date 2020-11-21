@@ -11,15 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
@@ -47,7 +44,7 @@ public class HistoryController implements Initializable {
         return FXCollections.observableArrayList(historyDB.getFromHistoryDB());
     }
 
-    public void initializeDatabase() {
+    public void setItems() {
         col_domain.setCellValueFactory(new PropertyValueFactory<>("domain"));
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -95,7 +92,7 @@ public class HistoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeDatabase();
+        setItems();
         hoverAndLinkClick();
     }
 }

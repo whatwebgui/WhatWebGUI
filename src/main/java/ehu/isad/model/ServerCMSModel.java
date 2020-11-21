@@ -1,6 +1,6 @@
 package ehu.isad.model;
 
-public class ServerCMS {
+public class ServerCMSModel {
 
     private String url;
     private String cms;
@@ -8,7 +8,7 @@ public class ServerCMS {
     private String version;
     private String lastUpdated;
 
-    public ServerCMS(String url, String cms, String server, String version, String lastUpdated){
+    public ServerCMSModel(String url, String cms, String server, String version, String lastUpdated){
         this.url = url;
         this.cms = cms;
         this.server = server;

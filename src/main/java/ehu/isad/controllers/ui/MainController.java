@@ -69,10 +69,12 @@ public class MainController implements Initializable {
     void handleClick(ActionEvent actionEvent) {
         pane.getChildren().clear();
         if (actionEvent.getSource() == btn1) {
+            cmsController.setItems();
             pane.getChildren().add(pane1);
             lbl_title.setText("CMS");
         }
         if (actionEvent.getSource() == btn2) {
+            serverController.setItems();
             pane.getChildren().add(pane2);
             lbl_title.setText("Server");
         }
@@ -81,7 +83,7 @@ public class MainController implements Initializable {
             lbl_title.setText("Formatter");
         }
         if (actionEvent.getSource() == btn4) {
-            historyController.initializeDatabase();
+            historyController.setItems();
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
         }

@@ -2,7 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
-import ehu.isad.model.ServerCMS;
+import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,12 +22,6 @@ import java.util.ResourceBundle;
 public class ServerController {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
     private Pane pane1;
 
     @FXML
@@ -40,78 +34,41 @@ public class ServerController {
     private Button scanBtn;
 
     @FXML
-    private TableView<ServerCMS> cmsTable;
+    private TableView<ServerCMSModel> serverTable;
 
     @FXML
-    private TableColumn<ServerCMS, String> urlColumn;
+    private TableColumn<ServerCMSModel, String> urlColumn;
 
     @FXML
-    private TableColumn<ServerCMS, String> serverColumn;
+    private TableColumn<ServerCMSModel, String> serverColumn;
 
     @FXML
-    private TableColumn<ServerCMS, String> versionColumn;
+    private TableColumn<ServerCMSModel, String> versionColumn;
 
     @FXML
-    private TableColumn<ServerCMS, String> lastUpdatedColumn;
+    private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
-    private final String path= Utils.getProperties().getProperty("pathToFolder");
+    private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
 
-    @FXML
-    void onClick(ActionEvent event) throws IOException, SQLException {
-        String domain = textField.getText().replace("/", "").split(":")[1];
-        //mirar si el dominio ya esta en la tabla
-        if(ServerCMSDB.getInstance().domainInDB(textField.getText())){//file is already in the table
-            //ServerCMSDB.getInstance().updateDate(textField.getText());
-            cmsTable.setItems(getServerList());
-        }else{//file is not in the table, so we will have to create the sql file and insert it into the database
-            createSQLFile(domain+".sql");
-            insertIntoDB(domain);
-            cmsTable.setItems(getServerList());
-            File file = new File(path + domain + ".sql");
-            if(file.exists()){
-                file.delete();
-            }
-        }
-        HistoryDB.getInstance().addToHistoryDB(textField.getText(),"CMS/SERVER",null);
-    }
-
-    private ObservableList<ServerCMS> getServerList() throws SQLException {
-        ServerCMSDB servercmsDB = ServerCMSDB.getInstance();
-        return  servercmsDB.getServerDB();
-    }
-
-    private void createSQLFile(String domain) throws IOException {
-        Process p = null;
-        /*if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.directory(directory);
-            processBuilder.command("cmd.exe", "/C", "wsl " +command);
-            currentProcess = processBuilder.start();
-        } else {*/
-        p = Runtime.getRuntime().exec("whatweb --color=never --log-sql=" + path + domain+ " " + textField.getText());
-        while(p.isAlive()){}
-        //}
-    }
-
-    private void insertIntoDB(String domain) throws IOException {
-        BufferedReader input = null;
-        input = new BufferedReader(new FileReader(path + domain + ".sql"));
-        String line;
-        while ((line = input.readLine()) != null) {
-            ServerCMSDB.getInstance().insertQueryIntoDB(line.replace("IGNORE","OR IGNORE"));
-        }
-        input.close();
-
-        //now, we will insert date information
-        // ServerCMSDB.getInstance().addDate(textField.getText());
-    }
-
-    @FXML
-    void initialize() throws SQLException {
+    public void setItems() {
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         serverColumn.setCellValueFactory(new PropertyValueFactory<>("server"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-        cmsTable.setItems(getServerList());
+        serverTable.setItems(serverCMSController.getServerList());
     }
+
+    @FXML
+    void onClick(ActionEvent event) throws IOException {
+        String domain = textField.getText().replace("/", "").split(":")[1];
+        String target = textField.getText();
+        serverCMSController.click(domain,target);
+        serverTable.setItems(serverCMSController.getServerList());
+    }
+
+    @FXML
+    void initialize() {
+        setItems();
+    }
+
 }
