@@ -62,12 +62,9 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         String newLine = System.getProperty("line.separator");
-        String[] split = textField.getText().split("\\.");
-        String keyword = split[split.length - 1];
 
-            //Else is as before
             if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-                if (!extensions.contains(keyword)) {
+                if (!this.formatInput()) {
                    mainController.showPopUp(textField.getText());
                 } else {
                     String result = String.join(newLine, getOutput(btn));
@@ -89,7 +86,17 @@ public class FormatterController {
                 }
             }
         }
-
+    public boolean formatInput(){
+        //extension split.
+        String[] split = textField.getText().split("\\.");
+        String keyword = split[split.length - 1];
+        System.out.println(keyword);
+        //prefix split
+        String [] split2 = textField.getText().split(":");
+        String protocol = split2[0];
+        System.out.println(split2[0]);
+        return (extensions.contains(keyword) && (protocol == "http" || protocol == "https"));
+    }
 
 
     private List<String> getOutput(Button btn) {

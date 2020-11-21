@@ -26,7 +26,7 @@ public class PopUpSureController implements Initializable {
         private Label lbl;
 
         public void loadLabel(String url){
-                lbl.setText("Are you sure you want to continue to  site?");
+                //
 
         }
 
