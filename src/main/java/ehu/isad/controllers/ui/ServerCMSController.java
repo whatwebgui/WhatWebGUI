@@ -52,22 +52,17 @@ public class ServerCMSController {
             ServerCMSDB.getInstance().insertQueryIntoDB(line.replace("IGNORE","OR IGNORE"));
         }
         input.close();
-
         //now, we will insert date information
         serverCMSDB.addDate(target);
     }
 
     public void click(String domain, String target) throws IOException {
-        if(serverCMSDB.domainInDB(target)){//file is already in the table
-            serverCMSDB.updateDate(target);
-        }else{//file is not in the table, so we will have to create the sql file and insert it into the database
-            Thread thread = new Thread( () -> {
+        Thread thread = new Thread( () -> {
+            if(serverCMSDB.domainInDB(target)){//file is already in the table
+                serverCMSDB.updateDate(target);
+            }else{//file is not in the table, so we will have to create the sql file and insert it into the database
                 try {
                     createSQLFile(domain+".sql",target);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                try {
                     insertIntoDB(domain,target);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -76,10 +71,9 @@ public class ServerCMSController {
                 if(file.exists()){
                     file.delete();
                 }
-            });
-            thread.start();
-
-        }
-        HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER",target);
+            }
+            HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER",target);
+        });
+        thread.start();
     }
 }
