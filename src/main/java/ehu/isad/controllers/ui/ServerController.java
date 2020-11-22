@@ -11,12 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ServerController {
@@ -49,6 +47,15 @@ public class ServerController {
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
+    MainController main = new MainController();
+    ArrayList<String> extensions;
+    {
+        try {
+            extensions = this.readExtensionLines();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setItems() {
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
@@ -60,15 +67,47 @@ public class ServerController {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-        String domain = textField.getText().replace("/", "").split(":")[1];
-        String target = textField.getText();
-        serverCMSController.click(domain,target);
-        serverTable.setItems(serverCMSController.getServerList());
+        String url = textField.getText();
+        String domain = url.replace("/", "").split(":")[1];
+        String target = url;
+        if(validateInput()){
+            serverCMSController.click(domain,target);
+            serverTable.setItems(serverCMSController.getServerList());
+        }else {
+            main.showPopUp(url);
+
+        }
     }
 
     @FXML
     void initialize() {
         setItems();
+    }
+
+
+    private boolean validateInput(){
+        //extension split.
+        String[] split = textField.getText().split("\\.");
+        String keyword = split[split.length - 1];
+        System.out.println(keyword);
+        //prefix split
+        String [] split2 = textField.getText().split(":");
+        String protocol = split2[0];
+        System.out.println(split2[0]);
+        return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
+    }
+
+
+
+    public ArrayList<String> readExtensionLines() throws IOException {
+        BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
+        ArrayList<String>  sb = new ArrayList<>();
+        String line = br.readLine();
+        while (line != null) {
+            sb.add(line.toLowerCase());
+            line = br.readLine();
+        }
+        return sb;
     }
 
 }

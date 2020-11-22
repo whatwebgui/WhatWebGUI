@@ -98,7 +98,7 @@ public class FormatterController {
         String [] split2 = textField.getText().split(":");
         String protocol = split2[0];
         System.out.println(split2[0]);
-        return (extensions.contains(keyword) && (protocol == "http" || protocol == "https"));
+        return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
     }
 
 

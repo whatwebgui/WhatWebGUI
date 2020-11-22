@@ -21,7 +21,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-
     private Parent pane1;
     CMSController cmsController;
     private Parent pane2;
