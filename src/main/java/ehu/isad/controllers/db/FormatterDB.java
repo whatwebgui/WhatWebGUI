@@ -24,7 +24,6 @@ public class FormatterDB {
         String q3 = " = TRUE;";
         try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + type + q3)) {
             String filename = Utils.getProperties().getProperty("pathToFolder")+"cache\\" + domain + extension;
-            System.out.println(filename);
             File file = new File(filename);
             boolean exists = file.exists();
             //If is empty.

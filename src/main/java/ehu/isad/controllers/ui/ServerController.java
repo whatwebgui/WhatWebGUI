@@ -89,11 +89,9 @@ public class ServerController {
         //extension split.
         String[] split = textField.getText().split("\\.");
         String keyword = split[split.length - 1];
-        System.out.println(keyword);
         //prefix split
         String [] split2 = textField.getText().split(":");
         String protocol = split2[0];
-        System.out.println(split2[0]);
         return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
     }
 

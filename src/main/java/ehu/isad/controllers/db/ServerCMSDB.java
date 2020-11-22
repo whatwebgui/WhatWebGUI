@@ -73,7 +73,6 @@ public class ServerCMSDB {
         //String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name='Apache' UNION SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name!='Apache' GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
         String list = openFile("server");
         String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
-        System.out.println(query);
         ResultSet rs = dbcontroller.execSQL(query);
         String url;
         String plugin;
@@ -122,7 +121,6 @@ public class ServerCMSDB {
 
     public void updateDate(String domain){
         String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + domain + "')";
-        System.out.println(query);
         dbcontroller.execSQL(query);
 
     }
