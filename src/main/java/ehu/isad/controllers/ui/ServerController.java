@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.*;
@@ -67,11 +68,12 @@ public class ServerController {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-        String url = textField.getText();
+      this.server(textField.getText());
+    }
+    void server(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
-        String target = url;
         if(validateInput()){
-            serverCMSController.click(domain,target);
+            serverCMSController.click(domain,url);
             serverTable.setItems(serverCMSController.getServerList());
         }else {
             main.showPopUp(url);
@@ -89,8 +91,11 @@ public class ServerController {
         //extension split.
         String[] split = textField.getText().split("\\.");
         String keyword = split[split.length - 1];
+        if(keyword.charAt(keyword.length() -1) == '/') {
+            keyword = keyword.substring(0, keyword.length() - 1);
+        }
         //prefix split
-        String [] split2 = textField.getText().split(":");
+        String[] split2 = textField.getText().split(":");
         String protocol = split2[0];
         return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
     }
@@ -107,5 +112,10 @@ public class ServerController {
         }
         return sb;
     }
-
+    @FXML
+    void onEnter(KeyEvent event) throws IOException {
+        if (event.getCode().toString().equals("ENTER")) {
+            this.server(textField.getText());
+        }
+    }
 }

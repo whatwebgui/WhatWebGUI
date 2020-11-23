@@ -104,7 +104,6 @@ public class FormatterController {
         if(keyword.charAt(keyword.length() -1) == '/') {
             keyword = keyword.substring(0, keyword.length() - 1);
         }
-        System.out.println(keyword);
         //prefix split
         String[] split2 = textField.getText().split(":");
         String protocol = split2[0];
