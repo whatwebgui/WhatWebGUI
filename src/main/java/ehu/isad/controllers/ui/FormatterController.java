@@ -97,9 +97,14 @@ public class FormatterController {
 
     }
     public boolean formatInput() {
+
         //extension split.
         String[] split = textField.getText().split("\\.");
         String keyword = split[split.length - 1];
+        if(keyword.charAt(keyword.length() -1) == '/') {
+            keyword = keyword.substring(0, keyword.length() - 1);
+        }
+        System.out.println(keyword);
         //prefix split
         String[] split2 = textField.getText().split(":");
         String protocol = split2[0];
@@ -125,7 +130,6 @@ public class FormatterController {
         try {
             formatterDB.addDomainToDB(domain);
             if ((btn.equals(btn_forcescan) || (btn.equals(btn_scan)) && !formatterDB.formatExists(domain, comboChoice))) {
-
                 if(btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
@@ -193,13 +197,13 @@ public class FormatterController {
         if (!directory.exists()) directory.mkdir();
         switch (type) {
             case "shell":
-                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "ruby":
-                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
                 break;
             default:
-                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target;
+                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target+"/";
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
