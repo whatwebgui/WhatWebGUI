@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,7 +63,7 @@ public class MainController implements Initializable {
     private Label lbl_title;
 
     @FXML
-    private ImageView btn_x;
+    private FontAwesomeIconView btn_x;
 
     @FXML
     void handleClick(ActionEvent actionEvent) {
@@ -99,6 +100,11 @@ public class MainController implements Initializable {
     @FXML
     void close() {
         ((Stage)btn_x.getScene().getWindow()).close();
+    }
+
+    @FXML
+    void hoverClose(){
+        //TODO
     }
 
     public void showPopUp(String url) throws IOException {
