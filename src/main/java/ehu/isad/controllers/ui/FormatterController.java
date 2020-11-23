@@ -124,7 +124,8 @@ public class FormatterController {
         List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);
-            if (btn.equals(btn_forcescan) || (btn.equals(btn_scan) && !formatterDB.formatExists(domain, comboChoice))) {
+            if ((btn.equals(btn_forcescan) || (btn.equals(btn_scan)) && !formatterDB.formatExists(domain, comboChoice))) {
+
                 //deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
