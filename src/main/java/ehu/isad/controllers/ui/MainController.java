@@ -102,7 +102,7 @@ public class MainController implements Initializable {
     }
 
     public void showPopUp(String url) throws IOException {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("popUpSure.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/popUpSure.fxml")));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
             PopUpSureController.getInstantzia().loadLabel(url);
@@ -111,19 +111,19 @@ public class MainController implements Initializable {
             stage.show();
     }
     void getPanels() throws IOException {
-        FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/pane1.fxml"));
+        FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/panes/pane1.fxml"));
         pane1 = loaderpane1.load(); //cms
         cmsController = loaderpane1.getController();
 
-        FXMLLoader loaderpane2 = new FXMLLoader(getClass().getResource("/pane2.fxml"));
+        FXMLLoader loaderpane2 = new FXMLLoader(getClass().getResource("/panes/pane2.fxml"));
         pane2 = loaderpane2.load(); //server
         serverController = loaderpane2.getController();
 
-        FXMLLoader loaderpane3 = new FXMLLoader(getClass().getResource("/pane3.fxml"));
+        FXMLLoader loaderpane3 = new FXMLLoader(getClass().getResource("/panes/pane3.fxml"));
         pane3 = loaderpane3.load(); //formatter
         formatterController = loaderpane3.getController();
 
-        FXMLLoader loaderpane4 = new FXMLLoader(getClass().getResource("/pane4.fxml"));
+        FXMLLoader loaderpane4 = new FXMLLoader(getClass().getResource("/panes/pane4.fxml"));
         pane4 = loaderpane4.load(); //history
         historyController = loaderpane4.getController();
 
@@ -131,7 +131,7 @@ public class MainController implements Initializable {
         pane5 = loaderpane5.load(); //stats
         statisticsController = loaderpane4.getController();*/
 
-        FXMLLoader loaderpane6 = new FXMLLoader(getClass().getResource("/pane6.fxml"));
+        FXMLLoader loaderpane6 = new FXMLLoader(getClass().getResource("/panes/pane6.fxml"));
         pane6 = loaderpane6.load(); //settings
         settingsController = loaderpane6.getController();
     }

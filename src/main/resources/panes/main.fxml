@@ -15,26 +15,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.MainController">
    <children>
       <Pane fx:id="pane" layoutX="200.0" layoutY="100.0" prefHeight="500.0" prefWidth="600.0" />
-      <VBox prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #05071F;" stylesheets="@style.css">
+      <VBox prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #05071F;" stylesheets="@../style.css">
          <children>
             <Pane prefHeight="121.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="31.0" layoutY="44.0" style="-fx-font-size: 23;" stylesheets="@style.css" text="WhatWebGUI" textFill="WHITE">
+                  <Label layoutX="31.0" layoutY="44.0" style="-fx-font-size: 23;" stylesheets="@../style.css" text="WhatWebGUI" textFill="WHITE">
                      <font>
                         <Font size="23.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Button fx:id="btn1" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="199.0" stylesheets="@style.css" text="CMS" />
-            <Button fx:id="btn2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Server" />
-            <Button fx:id="btn3" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Formatter" />
-            <Button fx:id="btn4" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="History" />
-            <Button fx:id="btn5" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Statistics" />
-            <Button fx:id="btn6" layoutX="10.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Settings" />
+            <Button fx:id="btn1" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="199.0" stylesheets="@../style.css" text="CMS" />
+            <Button fx:id="btn2" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@../style.css" text="Server" />
+            <Button fx:id="btn3" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@../style.css" text="Formatter" />
+            <Button fx:id="btn4" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@../style.css" text="History" />
+            <Button fx:id="btn5" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@../style.css" text="Statistics" />
+            <Button fx:id="btn6" layoutX="10.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@../style.css" text="Settings" />
          </children>
       </VBox>
       <GridPane layoutX="200.0" layoutY="145.0" prefHeight="241.0" prefWidth="380.0" visible="false">
@@ -46,7 +46,7 @@
           <RowConstraints maxHeight="229.0" minHeight="10.0" prefHeight="176.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fixedCellSize="1.0" prefHeight="195.0" prefWidth="380.0" stylesheets="@style.css" GridPane.rowIndex="1">
+            <TableView fixedCellSize="1.0" prefHeight="195.0" prefWidth="380.0" stylesheets="@../style.css" GridPane.rowIndex="1">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
@@ -81,7 +81,7 @@
       </Pane>
       <ImageView fx:id="btn_x" fitHeight="17.0" fitWidth="15.0" layoutX="783.0" layoutY="1.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@x.png" />
+            <Image url="@../x.png" />
          </image>
       </ImageView>
    </children>

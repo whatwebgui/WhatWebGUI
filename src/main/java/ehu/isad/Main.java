@@ -18,7 +18,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception{
 
     stage = primaryStage;
-    root = FXMLLoader.load(getClass().getResource("/main.fxml"));
+    root = FXMLLoader.load(getClass().getResource("/panes/main.fxml"));
     stageSetup();
     mouseDragSetup();
     stage.show();

@@ -14,7 +14,7 @@
          <children>
             <Label layoutX="31.0" layoutY="36.0" text="URL:" />
             <Label layoutX="31.0" layoutY="128.0" text="Log:" />
-            <TextField fx:id="textField" layoutX="75.0" layoutY="31.0" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
+            <TextField fx:id="textField" layoutX="75.0" layoutY="31.0" onKeyPressed="#onKeyPressed" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
             <TextArea fx:id="textArea" layoutX="75.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
             <Button fx:id="btn_scan" layoutX="120.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
             <ComboBox fx:id="combo" layoutX="76.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />

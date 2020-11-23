@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -46,9 +48,10 @@ public class FormatterController {
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     MainController mainController = new MainController();
-    private final String path= Utils.getProperties().getProperty("pathToFolder");
+    private final String path = Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
     ArrayList<String> extensions;
+
     {
         try {
             extensions = this.readExtensionLines();
@@ -61,20 +64,8 @@ public class FormatterController {
     @FXML
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
-        String newLine = System.getProperty("line.separator");
         if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-            if (!this.formatInput()) {
-                mainController.showPopUp(textField.getText());
-            } else {
-                Thread thread = new Thread(() -> {
-                    String result = String.join(newLine, getOutput(btn));
-                    Platform.runLater(() -> {
-                        textArea.setText(result);
-                        textArea.setWrapText(true);
-                    });
-                });
-                thread.start();
-            }
+            this.setText(btn);
         } else if (btn_clear.equals(btn)) {
             textArea.clear();
             textField.clear();
@@ -89,12 +80,28 @@ public class FormatterController {
             }
         }
     }
-    public boolean formatInput(){
+    private void setText(Button btn) throws IOException {
+        String newLine = System.getProperty("line.separator");
+        if (!this.formatInput()) {
+            mainController.showPopUp(textField.getText());
+        } else {
+            Thread thread = new Thread(() -> {
+                String result = String.join(newLine, getOutput(btn));
+                Platform.runLater(() -> {
+                    textArea.setText(result);
+                    textArea.setWrapText(true);
+                });
+            });
+            thread.start();
+        }
+
+    }
+    public boolean formatInput() {
         //extension split.
         String[] split = textField.getText().split("\\.");
         String keyword = split[split.length - 1];
         //prefix split
-        String [] split2 = textField.getText().split(":");
+        String[] split2 = textField.getText().split(":");
         String protocol = split2[0];
         return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
     }
@@ -103,26 +110,29 @@ public class FormatterController {
     private List<String> getOutput(Button btn) {
         Extension comboChoice = combo.getValue();
         String domain;
-        target=textField.getText();
-        if (comboChoice==null){comboChoice = combo.getItems().get(1);}
+        target = textField.getText();
+        if (comboChoice == null) {
+            comboChoice = combo.getItems().get(1);
+        }
         try {
             domain = textField.getText().replace("/", "").split(":")[1];
-        } catch (Exception e){
+        } catch (Exception e) {
             domain = textField.getText().replace("/", "");
-            target = "http://"+textField.getText();
+            target = "http://" + textField.getText();
         }
 
         List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);
-            if (btn.equals(btn_forcescan) || (btn.equals(btn_scan)&&!formatterDB.formatExists(domain, comboChoice)) ) {
+            if (btn.equals(btn_forcescan) || (btn.equals(btn_scan) && !formatterDB.formatExists(domain, comboChoice))) {
                 //deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
-                while (currentProcess.isAlive()) textArea.setPromptText("Loading..."); /* wait for the process to finish */
+                while (currentProcess.isAlive())
+                    textArea.setPromptText("Loading..."); /* wait for the process to finish */
             }
-            HistoryDB.getInstance().addToHistoryDB(target,"Formatter > "+comboChoice.getType(),domain+"/"+domain+comboChoice.getExtension());
-            emaitza = readFile(domain,comboChoice); //This loads the file with the domain name.
+            HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType(), domain + "/" + domain + comboChoice.getExtension());
+            emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
         } catch (Exception err) {
             err.printStackTrace();
         }
@@ -132,7 +142,11 @@ public class FormatterController {
     private void deleteFileIfExists(Extension comboChoice, String domain) {
         String extension = comboChoice.getExtension();
         String pathcache;
-        if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"+domain+"\\"; } else { pathcache="cache/"+domain+"/"; }
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            pathcache = "cache\\" + domain + "\\";
+        } else {
+            pathcache = "cache/" + domain + "/";
+        }
         File file = new File(path + pathcache + domain + extension);
         file.delete();
     }
@@ -142,14 +156,18 @@ public class FormatterController {
         BufferedReader input = null;
         try {
             String pathcache;
-            if (System.getProperty("os.name").toLowerCase().contains("win")) { pathcache="cache\\"+domain+"\\"; } else { pathcache="cache/"+domain+"/"; }
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                pathcache = "cache\\" + domain + "\\";
+            } else {
+                pathcache = "cache/" + domain + "/";
+            }
             input = new BufferedReader(new FileReader(path + pathcache + domain + comboChoice.getExtension()));
             String line;
             while ((line = input.readLine()) != null) {
                 emaitza.add(line);
             }
             input.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             assert input != null;
             input.close();
             e.printStackTrace();
@@ -157,21 +175,21 @@ public class FormatterController {
         return emaitza;
     }
 
-    private void executeCommand(Extension ext, String domain) throws IOException{
+    private void executeCommand(Extension ext, String domain) throws IOException {
         String type = ext.getType();
         String extension = ext.getExtension();
         String command;
         String path2;
         File directory;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            path2="";
-            directory = new File(path+"cache\\"+domain+"\\");
+            path2 = "";
+            directory = new File(path + "cache\\" + domain + "\\");
         } else {
-            path2=path+"cache/"+domain+"/";
+            path2 = path + "cache/" + domain + "/";
             directory = new File(path2);
         }
 
-        if(!directory.exists()) directory.mkdir();
+        if (!directory.exists()) directory.mkdir();
         switch (type) {
             case "shell":
                 command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target;
@@ -186,7 +204,7 @@ public class FormatterController {
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.directory(directory);
-            processBuilder.command("cmd.exe", "/C", "wsl " +command);
+            processBuilder.command("cmd.exe", "/C", "wsl " + command);
             currentProcess = processBuilder.start();
         } else {
             currentProcess = Runtime.getRuntime().exec(command);
@@ -195,8 +213,8 @@ public class FormatterController {
 
 
     public ArrayList<String> readExtensionLines() throws IOException {
-        BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
-        ArrayList<String>  sb = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt")));
+        ArrayList<String> sb = new ArrayList<>();
         String line = br.readLine();
         while (line != null) {
             sb.add(line.toLowerCase());
@@ -206,19 +224,24 @@ public class FormatterController {
     }
 
 
-
-
     @FXML
     void initialize() {
-        String[] displayName = {"Verbose output","Brief shell output","JSON format file","XML format file","MySQL INSERT format file","Ruby object inspection format","MagicTree XML format file"};
-        String[] extension = {".txt",".out",".json",".xml",".sql",".rb",".magictree.xml"};
-        String[] type = {"verbose","shell","json","xml","sql","ruby","magictree"};
+        String[] displayName = {"Verbose output", "Brief shell output", "JSON format file", "XML format file", "MySQL INSERT format file", "Ruby object inspection format", "MagicTree XML format file"};
+        String[] extension = {".txt", ".out", ".json", ".xml", ".sql", ".rb", ".magictree.xml"};
+        String[] type = {"verbose", "shell", "json", "xml", "sql", "ruby", "magictree"};
         ObservableList<Extension> list = FXCollections.observableArrayList();
-        for(int i = 0; i < displayName.length; i++){
-            list.add(new Extension(displayName[i],extension[i],type[i]));
+        for (int i = 0; i < displayName.length; i++) {
+            list.add(new Extension(displayName[i], extension[i], type[i]));
         }
         combo.setItems(list);
         textArea.setEditable(false);
     }
 
+    @FXML
+    void onKeyPressed(KeyEvent event) throws IOException {
+        if (event.getCode().toString().equals("ENTER")) {
+            this.setText(btn_scan);
+        }
+
+    }
 }
