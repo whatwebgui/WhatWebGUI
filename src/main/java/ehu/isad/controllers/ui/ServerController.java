@@ -68,11 +68,16 @@ public class ServerController {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-      this.server(textField.getText());
+        String target = textField.getText();
+        if(target.charAt(target.length()-1)!='/') textField.setText(textField.getText()+"/");
+        if(!target.contains(":")){
+            textField.setText("http://"+textField.getText());
+        }
+        this.server(textField.getText());
     }
     void server(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
-        if(validateInput()){
+        if(validateInput(url)){
             serverCMSController.click(domain,url);
             serverTable.setItems(serverCMSController.getServerList());
         }else {
@@ -87,15 +92,15 @@ public class ServerController {
     }
 
 
-    private boolean validateInput(){
+    private boolean validateInput(String url){
         //extension split.
-        String[] split = textField.getText().split("\\.");
+        String[] split = url.split("\\.");
         String keyword = split[split.length - 1];
         if(keyword.charAt(keyword.length() -1) == '/') {
             keyword = keyword.substring(0, keyword.length() - 1);
         }
         //prefix split
-        String[] split2 = textField.getText().split(":");
+        String[] split2 = url.split(":");
         String protocol = split2[0];
         return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
     }
