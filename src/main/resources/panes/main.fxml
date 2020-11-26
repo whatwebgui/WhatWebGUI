@@ -69,6 +69,14 @@
                     <padding>
                         <Insets left="50.0" />
                     </padding></Button>
+            <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="9.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Multi-add">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CODE" size="15" />
+               </graphic>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
                 <Button fx:id="btn5" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Statistics">
                     <graphic>
                         <FontAwesomeIconView fill="WHITE" glyphName="HASHTAG" size="15" />

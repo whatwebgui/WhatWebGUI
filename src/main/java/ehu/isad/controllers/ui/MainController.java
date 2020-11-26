@@ -34,9 +34,10 @@ public class MainController implements Initializable {
     //StatisticsController statisticsController;
     private Parent pane6;
     SettingsController settingsController;
-
+    private  Parent pane7;
+    MultiController multiController;
     PopUpSureController popController;
-    Scene pop;
+
 
     @FXML
     private Pane pane;
@@ -58,6 +59,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button btn6;
+
+    @FXML
+    private Button btn7;
 
     @FXML
     private Label lbl_title;
@@ -94,6 +98,10 @@ public class MainController implements Initializable {
         if (actionEvent.getSource() == btn6) {
             pane.getChildren().add(pane6);
             lbl_title.setText("Settings");
+        }
+        if (actionEvent.getSource() == btn7) {
+            pane.getChildren().add(pane7);
+            lbl_title.setText("Multi-add");
         }
     }
 
@@ -140,6 +148,10 @@ public class MainController implements Initializable {
         FXMLLoader loaderpane6 = new FXMLLoader(getClass().getResource("/panes/pane6.fxml"));
         pane6 = loaderpane6.load(); //settings
         settingsController = loaderpane6.getController();
+
+        FXMLLoader loaderpane7 = new FXMLLoader(getClass().getResource("/panes/pane7.fxml"));
+        pane7 = loaderpane7.load(); //Multi-add option
+        multiController = loaderpane7.getController();
     }
 
     @Override

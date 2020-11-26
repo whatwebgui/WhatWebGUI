@@ -43,6 +43,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // https://mvnrepository.com/artifact/com.lynden/GMapsFX
+    compile group: 'com.lynden', name: 'GMapsFX', version: '2.10.0'
 }
 
 repositories {
