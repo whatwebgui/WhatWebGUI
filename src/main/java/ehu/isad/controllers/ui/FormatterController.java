@@ -39,7 +39,8 @@ public class FormatterController {
 
     @FXML
     private ComboBox<Extension> combo;
-
+    @FXML
+    private ProgressIndicator pgr;
     @FXML
     private Button btn_clear;
 
@@ -63,10 +64,14 @@ public class FormatterController {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
+
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
+            textArea.clear();
+            pgr.setVisible(true);
             correctUrl(textField.getText());
             this.setText(btn);
+
         } else if (btn_clear.equals(btn)) {
             textArea.clear();
             textField.clear();
@@ -80,6 +85,7 @@ public class FormatterController {
                 Runtime.getRuntime().exec("xdg-open " + path);
             }
         }
+
     }
 
     private void correctUrl(String url){
@@ -93,11 +99,18 @@ public class FormatterController {
     private void setText(Button btn) throws IOException {
         String newLine = System.getProperty("line.separator");
         if (!this.formatInput()) {
-            mainController.showPopUp(textField.getText());
+            //mainController.showPopUp(textField.getText());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on URL");
+            alert.setHeaderText("Error on reading the provided URL");
+            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
+
+            alert.showAndWait();
         } else {
             Thread thread = new Thread(() -> {
                 String result = String.join(newLine, getOutput(btn));
                 Platform.runLater(() -> {
+                    pgr.setVisible(false);
                     textArea.setText(result);
                     textArea.setWrapText(true);
                 });
@@ -133,11 +146,12 @@ public class FormatterController {
         try {
             formatterDB.addDomainToDB(domain);
             if ((btn.equals(btn_forcescan) || (btn.equals(btn_scan)) && !formatterDB.formatExists(domain, comboChoice))) {
-                if(btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
+                if (btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
                 executeCommand(comboChoice, domain); //This will execute and create the file.
                 formatterDB.addFormatToDB(domain, comboChoice.getType());
-                while (currentProcess.isAlive())
-                    textArea.setPromptText("Loading..."); /* wait for the process to finish */
+                while (currentProcess.isAlive()) {
+                    textArea.setPromptText(""); /* wait for the process to finish */
+                }
             }
             HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType(), domain + "/" + domain + comboChoice.getExtension());
             emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
@@ -243,6 +257,7 @@ public class FormatterController {
         }
         combo.setItems(list);
         textArea.setEditable(false);
+        pgr.setVisible(false);
     }
 
     @FXML
