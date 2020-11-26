@@ -1,11 +1,13 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.controllers.db.ServerCMSDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.awt.*;
@@ -34,11 +36,17 @@ public class MultiController implements Initializable {
         Button btn = (Button) event.getSource();
         if (btn.equals(btnOk)) {
             System.out.println(this.readFile(textField.getText()));
-        } else {
-
+        }else{
+            File file = fileChooser.showOpenDialog(null);
+            BufferedReader input;
+            input = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = input.readLine()) != null) {
+                //scan url with whatweb
             }
-
+            input.close();
         }
+    }
 
 
     @Override
