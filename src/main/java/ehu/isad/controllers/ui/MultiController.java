@@ -42,7 +42,7 @@ public class MultiController implements Initializable {
             input = new BufferedReader(new FileReader(file));
             String line;
             while ((line = input.readLine()) != null) {
-                //scan url with whatweb
+                System.out.println(line);
             }
             input.close();
         }
