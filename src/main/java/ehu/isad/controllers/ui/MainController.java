@@ -116,11 +116,9 @@ public class MainController implements Initializable {
     }
 
     public void showPopUp(String url) throws IOException {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/popUpSure.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/tutorial.fxml")));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-            PopUpSureController.getInstantzia().loadLabel(url);
-            popController = PopUpSureController.getInstantzia();
             stage.setScene(scene);
             stage.show();
     }
@@ -156,11 +154,17 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         Properties p = Utils.getProperties();
         File directory = new File(p.getProperty("pathToFolder"));
         if(!directory.exists()) directory.mkdir();
         Utils.createDirectories();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
+        try {
+            this.showPopUp("hola");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
