@@ -65,6 +65,7 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
+            correctUrl(textField.getText());
             this.setText(btn);
         } else if (btn_clear.equals(btn)) {
             textArea.clear();
@@ -80,6 +81,15 @@ public class FormatterController {
             }
         }
     }
+
+    private void correctUrl(String url){
+        String target = textField.getText();
+        if(target.charAt(target.length()-1)!='/') textField.setText(textField.getText()+"/");
+        if(!target.contains(":")){
+            textField.setText("http://"+textField.getText());
+        }
+    }
+
     private void setText(Button btn) throws IOException {
         String newLine = System.getProperty("line.separator");
         if (!this.formatInput()) {
@@ -118,13 +128,7 @@ public class FormatterController {
         if (comboChoice == null) {
             comboChoice = combo.getItems().get(1);
         }
-        try {
-            domain = textField.getText().replace("/", "").split(":")[1];
-        } catch (Exception e) {
-            domain = textField.getText().replace("/", "");
-            target = "http://" + textField.getText();
-        }
-
+        domain = textField.getText().replace("/", "").split(":")[1];
         List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);

@@ -5,6 +5,7 @@ import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.transform.Result;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -115,14 +116,44 @@ public class ServerCMSDB {
     }
 
     public void addDate(String targ){
-        String query = "insert into servercmsDate values((select target_id from targets where target = '" + targ + "'),DATETIME())";
+        System.out.println(targ);
+        String domain;
+        try {
+            domain = targ.replace("/", "").split(":")[1];
+        } catch (Exception e) {
+            domain = targ.replace("/", "");
+        }
+        String target = correctDomain(domain);
+        String query = "insert into servercmsDate values((select target_id from targets where target = '" + target + "'),DATETIME())";
+        System.out.println(query);
         dbcontroller.execSQL(query);
     }
 
-    public void updateDate(String domain){
-        String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + domain + "')";
+    public void updateDate(String targ){
+        String domain;
+        try {
+            domain = targ.replace("/", "").split(":")[1];
+        } catch (Exception e) {
+            domain = targ.replace("/", "");
+        }
+        String target = correctDomain(domain)+"/";
+        String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + target + "')";
         dbcontroller.execSQL(query);
 
+    }
+
+    public String correctDomain(String domain){
+        String result = domain;
+        String query = "SELECT target from targets where target like '%" + domain + "%' and status = 200";
+        ResultSet rs = dbcontroller.execSQL(query);
+        try {
+            while(rs.next()){
+                result = rs.getString("target");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 
 }
