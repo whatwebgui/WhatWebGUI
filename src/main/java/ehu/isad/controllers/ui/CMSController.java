@@ -72,7 +72,11 @@ public class CMSController {
             serverCMSController.click(domain, url);
             cmsTable.setItems(serverCMSController.getCMSList());
         } else {
-            mainController.showPopUp(url);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on URL");
+            alert.setHeaderText("Error on reading the provided URL");
+            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
+
         }
     }
 

@@ -81,7 +81,11 @@ public class ServerController {
             serverCMSController.click(domain,url);
             serverTable.setItems(serverCMSController.getServerList());
         }else {
-            main.showPopUp(url);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on URL");
+            alert.setHeaderText("Error on reading the provided URL");
+            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
+
 
         }
     }
