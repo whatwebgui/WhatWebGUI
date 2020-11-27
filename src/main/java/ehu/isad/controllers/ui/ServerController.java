@@ -65,17 +65,17 @@ public class ServerController {
         }
     }
 
-    void Server(String url) throws IOException {
-        String domain = url.replace("/", "").split(":")[1];
-        serverCMSController.click(domain, url);
-        serverTable.setItems(serverCMSController.getServerList());
-    }
-
     @FXML
     void onKeyPressed(KeyEvent event) throws IOException, SQLException {
         if (event.getCode().toString().equals("ENTER")) {
             urlUtils.processUrl(textField.getText());
         }
+    }
+
+    void Server(String url) throws IOException {
+        String domain = url.replace("/", "").split(":")[1];
+        serverCMSController.click(domain, url);
+        serverTable.setItems(serverCMSController.getServerList());
     }
 
     public void setItems() {

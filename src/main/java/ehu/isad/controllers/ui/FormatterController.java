@@ -3,6 +3,7 @@ package ehu.isad.controllers.ui;
 import ehu.isad.controllers.db.FormatterDB;
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.Extension;
+import ehu.isad.utils.Url;
 import ehu.isad.utils.Utils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 
 import java.awt.*;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
@@ -49,29 +51,23 @@ public class FormatterController {
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     MainController mainController = new MainController();
+    Url urlUtils = new Url();
     private final String path = Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
-    ArrayList<String> extensions;
-
-    {
-        try {
-            extensions = this.readExtensionLines();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
             textArea.clear();
-            pgr.setVisible(true);
-            correctUrl(textField.getText());
-            this.setText(btn);
-
+            try {
+                if(urlUtils.processUrl(textField.getText())!=null){
+                    pgr.setVisible(true);
+                    setText(btn,urlUtils.processUrl(textField.getText()));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         } else if (btn_clear.equals(btn)) {
             textArea.clear();
             textField.clear();
@@ -88,60 +84,41 @@ public class FormatterController {
 
     }
 
-    private void correctUrl(String url){
-        String target = textField.getText();
-        if(target.charAt(target.length()-1)!='/') textField.setText(textField.getText()+"/");
-        if(!target.contains(":")){
-            textField.setText("http://"+textField.getText());
+    @FXML
+    void onKeyPressed(KeyEvent event) throws IOException {
+        if (event.getCode().toString().equals("ENTER")) {
+            try {
+                if(urlUtils.processUrl(textField.getText())!=null){
+                    setText(btn_scan,urlUtils.processUrl(textField.getText()));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
-    private void setText(Button btn) throws IOException {
+    private void setText(Button btn,String url) throws IOException {
         String newLine = System.getProperty("line.separator");
-        if (!this.formatInput()) {
-            //mainController.showPopUp(textField.getText());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error on URL");
-            alert.setHeaderText("Error on reading the provided URL");
-            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
-
-            alert.showAndWait();
-        } else {
-            Thread thread = new Thread(() -> {
-                String result = String.join(newLine, getOutput(btn));
-                Platform.runLater(() -> {
-                    pgr.setVisible(false);
-                    textArea.setText(result);
-                    textArea.setWrapText(true);
-                });
+        Thread thread = new Thread(() -> {
+            String result = String.join(newLine, getOutput(btn,url));
+            Platform.runLater(() -> {
+                pgr.setVisible(false);
+                textArea.setText(result);
+                textArea.setWrapText(true);
             });
-            thread.start();
-        }
-
-    }
-    public boolean formatInput() {
-
-        //extension split.
-        String[] split = textField.getText().split("\\.");
-        String keyword = split[split.length - 1];
-        if(keyword.charAt(keyword.length() -1) == '/') {
-            keyword = keyword.substring(0, keyword.length() - 1);
-        }
-        //prefix split
-        String[] split2 = textField.getText().split(":");
-        String protocol = split2[0];
-        return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
+        });
+        thread.start();
     }
 
 
-    private List<String> getOutput(Button btn) {
+    private List<String> getOutput(Button btn,String url) {
         Extension comboChoice = combo.getValue();
         String domain;
-        target = textField.getText();
+        target = url;
         if (comboChoice == null) {
             comboChoice = combo.getItems().get(1);
         }
-        domain = textField.getText().replace("/", "").split(":")[1];
+        domain = url.replace("/", "").split(":")[1];
         List<String> emaitza = null;
         try {
             formatterDB.addDomainToDB(domain);
@@ -233,19 +210,6 @@ public class FormatterController {
         }
     }
 
-
-    public ArrayList<String> readExtensionLines() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt")));
-        ArrayList<String> sb = new ArrayList<>();
-        String line = br.readLine();
-        while (line != null) {
-            sb.add(line.toLowerCase());
-            line = br.readLine();
-        }
-        return sb;
-    }
-
-
     @FXML
     void initialize() {
         String[] displayName = {"Verbose output", "Brief shell output", "JSON format file", "XML format file", "MySQL INSERT format file", "Ruby object inspection format", "MagicTree XML format file"};
@@ -258,13 +222,5 @@ public class FormatterController {
         combo.setItems(list);
         textArea.setEditable(false);
         pgr.setVisible(false);
-    }
-
-    @FXML
-    void onKeyPressed(KeyEvent event) throws IOException {
-        if (event.getCode().toString().equals("ENTER")) {
-            this.setText(btn_scan);
-        }
-
     }
 }
