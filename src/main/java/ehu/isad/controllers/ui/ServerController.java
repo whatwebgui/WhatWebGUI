@@ -3,6 +3,7 @@ package ehu.isad.controllers.ui;
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
+import ehu.isad.utils.Url;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,12 +50,31 @@ public class ServerController {
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     MainController main = new MainController();
-    ArrayList<String> extensions;
-    {
+    Url urlUtils = new Url();
+
+    @FXML
+    void onClick(ActionEvent event) {
         try {
-            extensions = this.readExtensionLines();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(urlUtils.processUrl(textField.getText())!=null){
+                Server(urlUtils.processUrl(textField.getText()));
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    void Server(String url) throws IOException {
+        String domain = url.replace("/", "").split(":")[1];
+        serverCMSController.click(domain, url);
+        serverTable.setItems(serverCMSController.getServerList());
+    }
+
+    @FXML
+    void onKeyPressed(KeyEvent event) throws IOException, SQLException {
+        if (event.getCode().toString().equals("ENTER")) {
+            urlUtils.processUrl(textField.getText());
         }
     }
 
@@ -67,64 +87,7 @@ public class ServerController {
     }
 
     @FXML
-    void onClick(ActionEvent event) throws IOException {
-        String target = textField.getText();
-        if(target.charAt(target.length()-1)!='/') textField.setText(textField.getText()+"/");
-        if(!target.contains(":")){
-            textField.setText("http://"+textField.getText());
-        }
-        this.server(textField.getText());
-    }
-    void server(String url) throws IOException {
-        String domain = url.replace("/", "").split(":")[1];
-        if(validateInput(url)){
-            serverCMSController.click(domain,url);
-            serverTable.setItems(serverCMSController.getServerList());
-        }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error on URL");
-            alert.setHeaderText("Error on reading the provided URL");
-            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
-
-
-        }
-    }
-
-    @FXML
     void initialize() {
         setItems();
-    }
-
-
-    private boolean validateInput(String url){
-        //extension split.
-        String[] split = url.split("\\.");
-        String keyword = split[split.length - 1];
-        if(keyword.charAt(keyword.length() -1) == '/') {
-            keyword = keyword.substring(0, keyword.length() - 1);
-        }
-        //prefix split
-        String[] split2 = url.split(":");
-        String protocol = split2[0];
-        return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
-    }
-
-
-
-    public ArrayList<String> readExtensionLines() throws IOException {
-        BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
-        ArrayList<String>  sb = new ArrayList<>();
-        String line = br.readLine();
-        while (line != null) {
-            sb.add(line.toLowerCase());
-            line = br.readLine();
-        }
-        return sb;
-    }
-    @FXML
-    void onEnter(KeyEvent event) throws IOException {
-        if (event.getCode().toString().equals("ENTER")) {
-            this.server(textField.getText());
-        }
     }
 }

@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.model.ServerCMSModel;
+import ehu.isad.utils.Url;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,9 @@ import javafx.scene.layout.Pane;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -43,40 +47,34 @@ public class CMSController {
 
     @FXML
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
-    MainController mainController = new MainController();
-    ArrayList<String> extensions;
 
-    {
-        try {
-            extensions = this.readExtensionLines();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
-    private final String path= Utils.getProperties().getProperty("pathToFolder");
+    MainController mainController = new MainController();
+    Url urlUtils = new Url();
 
     @FXML
-    void onClick(ActionEvent event) throws IOException, SQLException {
-        String target = textField.getText();
-        if(target.charAt(target.length()-1)!='/') textField.setText(textField.getText()+"/");
-        if(!target.contains(":")){
-            textField.setText("http://"+textField.getText());
+    void onClick(ActionEvent event) {
+        try {
+            if(urlUtils.processUrl(textField.getText())!=null){
+                CMS(urlUtils.processUrl(textField.getText()));
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        this.CMS(textField.getText());
-
     }
+
     void CMS(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
-        if (validateInput(url)) {
-            serverCMSController.click(domain, url);
-            cmsTable.setItems(serverCMSController.getCMSList());
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error on URL");
-            alert.setHeaderText("Error on reading the provided URL");
-            alert.setContentText("The URL "+ textField.getText()+"  seems to no exist");
+        serverCMSController.click(domain, url);
+        cmsTable.setItems(serverCMSController.getCMSList());
+    }
 
+    @FXML
+    void onKeyPressed(KeyEvent event) throws IOException, SQLException {
+        if (event.getCode().toString().equals("ENTER")) {
+            urlUtils.processUrl(textField.getText());
         }
     }
 
@@ -92,36 +90,4 @@ public class CMSController {
     void initialize() throws SQLException {
         setItems();
     }
-    private boolean validateInput(String url){
-        //extension split.
-        String[] split = url.split("\\.");
-        String keyword = split[split.length - 1];
-        if(keyword.charAt(keyword.length() -1) == '/') {
-            keyword = keyword.substring(0, keyword.length() - 1);
-        }
-        //prefix split
-        String[] split2 = url.split(":");
-        String protocol = split2[0];
-        return (extensions.contains(keyword) && (protocol.equals("http") || protocol.equals("https")));
-    }
-
-
-
-    public ArrayList<String> readExtensionLines() throws IOException {
-        BufferedReader br  = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extensions.txt" )));
-        ArrayList<String>  sb = new ArrayList<>();
-        String line = br.readLine();
-        while (line != null) {
-            sb.add(line.toLowerCase());
-            line = br.readLine();
-        }
-        return sb;
-    }
-    @FXML
-    void onKeyPressed(KeyEvent event) throws IOException {
-        if (event.getCode().toString().equals("ENTER")) {
-            this.CMS(textField.getText());
-        }
-    }
-
 }

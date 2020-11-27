@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextArea;
 
 public class MultiController implements Initializable {
     FileChooser fileChooser = new FileChooser();
+    CMSController cms = new CMSController();
     private Desktop desktop = Desktop.getDesktop();
     @FXML
     private Button btnOk;
@@ -43,6 +45,8 @@ public class MultiController implements Initializable {
             String line;
             while ((line = input.readLine()) != null) {
                 System.out.println(line);
+                cms.CMS(line);
+                HistoryDB.getInstance().addToHistoryDB(line,"CMS/SERVER",line);
             }
             input.close();
         }
@@ -64,6 +68,7 @@ public class MultiController implements Initializable {
             );
         }
     }
+
     public ArrayList<String> readFile(String text) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(text.getBytes())));
         ArrayList<String> sb = new ArrayList<>();
