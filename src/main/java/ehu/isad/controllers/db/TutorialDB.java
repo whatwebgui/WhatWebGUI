@@ -27,4 +27,8 @@ public class TutorialDB {
 
         return rs.next();
     }
+    public  void unsetTutorial(){
+        String query = "update tutorial set used = 1";
+        dbcontroller.execSQL(query);
+    }
 }

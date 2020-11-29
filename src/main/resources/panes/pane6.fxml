@@ -7,5 +7,6 @@
     <children>
       <Button fx:id="btn_clear" layoutX="269.0" layoutY="214.0" mnemonicParsing="false" onAction="#onClick" text="Clear DB" />
       <Button fx:id="btn_cache" layoutX="246.0" layoutY="250.0" mnemonicParsing="false" onAction="#onClick" text="Delete cache files" />
+      <Button fx:id="btn_tutorial" layoutX="256.0" layoutY="293.0" mnemonicParsing="false" onAction="#onClick" text="Show Tutorial" />
     </children>
 </Pane>
