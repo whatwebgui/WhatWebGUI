@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,6 +123,8 @@ public class MainController implements Initializable {
             if(!tutorialDB.tutorialDone()) {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/tutorial.fxml")));
                 Stage stage = new Stage();
+                stage.setResizable(false);
+                stage.initStyle(StageStyle.UNDECORATED);
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
