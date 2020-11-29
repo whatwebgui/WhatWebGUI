@@ -6,6 +6,6 @@
 <Pane fx:id="pane6" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.SettingsController">
     <children>
       <Button fx:id="btn_clear" layoutX="269.0" layoutY="214.0" mnemonicParsing="false" onAction="#onClick" text="Clear DB" />
-      <Button fx:id="btn_cache" layoutX="246.0" layoutY="250.0" mnemonicParsing="false" text="Delete cache files" />
+      <Button fx:id="btn_cache" layoutX="246.0" layoutY="250.0" mnemonicParsing="false" onAction="#onClick" text="Delete cache files" />
     </children>
 </Pane>

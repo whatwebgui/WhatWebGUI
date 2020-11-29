@@ -112,7 +112,6 @@ public class FormatterController {
         thread.start();
     }
 
-
     private List<String> getOutput(Button btn,String url) {
         Extension comboChoice = combo.getValue();
         String domain;
