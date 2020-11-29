@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
+import ehu.isad.utils.Url;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.stage.FileChooser;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,6 +24,7 @@ import javafx.scene.control.TextArea;
 
 public class MultiController implements Initializable {
     FileChooser fileChooser = new FileChooser();
+    Url urlUtils = new Url();
     CMSController cms = new CMSController();
     private Desktop desktop = Desktop.getDesktop();
     @FXML
@@ -37,18 +40,34 @@ public class MultiController implements Initializable {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         if (btn.equals(btnOk)) {
-            System.out.println(this.readFile(textField.getText()));
+            String[] parts = textField.getText().split("\n");
+            for(int i = 0; i < parts.length; i++){
+                processURL(parts[i]);
+            }
         }else{
             File file = fileChooser.showOpenDialog(null);
             BufferedReader input;
             input = new BufferedReader(new FileReader(file));
             String line;
             while ((line = input.readLine()) != null) {
-                System.out.println(line);
-                cms.CMS(line);
-                HistoryDB.getInstance().addToHistoryDB(line,"CMS/SERVER",line);
+                processURL(line);
             }
             input.close();
+        }
+    }
+
+    private void processURL(String url){
+        String target = null;
+        try {
+            target = urlUtils.processUrl(url);
+        } catch (IOException ioException) { ioException.printStackTrace();
+        } catch (SQLException throwables) { throwables.printStackTrace(); }
+
+        if(target!=null){
+            //try {
+                //cms.CMS(target);
+                HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER",target);
+           // } catch (IOException ioException) { ioException.printStackTrace(); }
         }
     }
 

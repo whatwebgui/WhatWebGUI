@@ -21,6 +21,7 @@ public class Url {
             alert.setTitle("Error on URL");
             alert.setHeaderText("Error on reading the provided URL");
             alert.setContentText("The URL "+ url + "  seems to no exist");
+            alert.showAndWait();
             return null;
         }else{
             return target;
