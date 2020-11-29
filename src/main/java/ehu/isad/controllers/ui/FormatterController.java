@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.io.*;
@@ -24,8 +25,8 @@ import java.util.List;
 
 public class FormatterController {
 
-    //@FXML
-    //private Pane pane3;
+    @FXML
+    private Pane pane3;
 
     @FXML
     private TextField textField;
@@ -54,6 +55,7 @@ public class FormatterController {
     Url urlUtils = new Url();
     private final String path = Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
+
 
     @FXML
     void onClick(ActionEvent event) throws IOException {

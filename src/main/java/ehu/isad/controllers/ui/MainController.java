@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import ehu.isad.controllers.db.TutorialDB;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -115,12 +117,15 @@ public class MainController implements Initializable {
         //TODO
     }
 
-    public void showPopUp(String url) throws IOException {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/tutorial.fxml")));
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+    public void showPopUp(String url) throws IOException, SQLException {
+            TutorialDB tutorialDB = TutorialDB.getInstance();
+            if(!tutorialDB.tutorialDone()) {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/tutorial.fxml")));
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
     }
     void getPanels() throws IOException {
         FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/panes/pane1.fxml"));
@@ -161,10 +166,6 @@ public class MainController implements Initializable {
         Utils.createDirectories();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
-        try {
-            this.showPopUp("hola");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

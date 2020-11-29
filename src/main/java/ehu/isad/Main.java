@@ -1,5 +1,6 @@
 package ehu.isad;
 
+import ehu.isad.controllers.ui.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,7 @@ public class Main extends Application {
   private double x, y;
   private Parent root;
   private Stage stage;
-
+  MainController mainController = new MainController();
   @Override
   public void start(Stage primaryStage) throws Exception{
 
@@ -22,6 +23,8 @@ public class Main extends Application {
     stageSetup();
     mouseDragSetup();
     stage.show();
+
+    mainController.showPopUp("Prueba");
   }
 
   private void stageSetup(){
