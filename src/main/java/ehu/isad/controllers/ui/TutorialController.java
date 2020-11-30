@@ -35,11 +35,11 @@ public class TutorialController implements Initializable {
     @FXML
     void onClickImg(MouseEvent event) throws FileNotFoundException {
         System.out.println(i);
-        String path = this.getClass().getResource("/resources/Image"+i+".png").getFile();
-        File file = new File(path);
-        InputStream isImage = new FileInputStream(file);
-        Image a =new Image(isImage);
-        img.setImage(a);
+        String path = this.getClass().getResource("/tutorial/Image"+i+".png").getFile();
+        Image file = new Image(path);
+        //InputStream isImage = new FileInputStream(file);
+        //Image a =new Image(isImage);
+        img.setImage(file);
 
     }
 

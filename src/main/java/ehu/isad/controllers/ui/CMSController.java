@@ -3,6 +3,11 @@ package ehu.isad.controllers.ui;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
 import ehu.isad.utils.Utils;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -83,11 +88,40 @@ public class CMSController {
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-        cmsTable.setItems(serverCMSController.getCMSList());
+
     }
 
     @FXML
     void initialize() throws SQLException {
         setItems();
+        cmsTable.setItems(serverCMSController.getCMSList());
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getCMSList(), b -> true);
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(employee -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (employee.getUrl().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                    return true; // Filter matches first name.
+                } else if (employee.getCms().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                }
+                else if (employee.getVersion().toLowerCase().indexOf(lowerCaseFilter)!=-1)
+                    return true;
+                else
+                    return false; // Does not match.
+            });
+        });
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(cmsTable.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        cmsTable.setItems(sortedData);
     }
 }
