@@ -88,7 +88,7 @@ public class CMSController {
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-
+        //cmsTable.setItems(serverCMSController.getCMSList());
     }
 
     @FXML
@@ -98,19 +98,19 @@ public class CMSController {
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getCMSList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(employee -> {
+            filteredData.setPredicate(cmsmodel -> {
                 // If filter text is empty, display all persons.
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (employee.getUrl().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (employee.getCms().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
                 }
-                else if (employee.getVersion().toLowerCase().indexOf(lowerCaseFilter)!=-1)
+                else if (cmsmodel.getVersion().toLowerCase().contains(lowerCaseFilter))
                     return true;
                 else
                     return false; // Does not match.

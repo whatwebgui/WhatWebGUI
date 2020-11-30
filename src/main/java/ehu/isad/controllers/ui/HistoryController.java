@@ -2,12 +2,16 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.HistoryModel;
+import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +24,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
+
+    @FXML
+    private TextField textField;
 
     @FXML
     private TableView<HistoryModel> tableview;
@@ -49,7 +56,7 @@ public class HistoryController implements Initializable {
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
         col_link.setCellValueFactory(new PropertyValueFactory<>("path"));
-        tableview.setItems(getUserList());
+        //tableview.setItems(getUserList());
     }
 
     private void hoverAndLinkClick(){
@@ -94,5 +101,32 @@ public class HistoryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setItems();
         hoverAndLinkClick();
+        tableview.setItems(getUserList());
+        FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(historymodel -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (historymodel.getPath().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                else
+                    return false; // Does not match.
+            });
+        });
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<HistoryModel> sortedData = new SortedList<>(filteredData);
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableview.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        tableview.setItems(sortedData);
     }
 }

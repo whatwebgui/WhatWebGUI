@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane fx:id="pane4" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.HistoryController">
    <children>
-      <TableView fx:id="tableview" layoutY="30.0" prefHeight="450.0" prefWidth="600.0">
+      <TableView fx:id="tableview" layoutY="57.0" prefHeight="423.0" prefWidth="600.0">
         <columns>
           <TableColumn fx:id="col_domain" editable="false" maxWidth="225.0" minWidth="215.0" prefWidth="215.0" resizable="false" text="Domain" />
             <TableColumn fx:id="col_tab" editable="false" prefWidth="175.0" resizable="false" text="Tab" />
@@ -15,5 +15,6 @@
             <TableColumn fx:id="col_link" editable="false" minWidth="0.0" prefWidth="35.0" resizable="false" sortable="false" />
         </columns>
       </TableView>
+      <TextField fx:id="textField" alignment="CENTER" layoutX="139.0" layoutY="17.0" prefHeight="26.0" prefWidth="322.0" promptText="FIND WHATEVER YOU WANT" />
    </children>
 </Pane>
