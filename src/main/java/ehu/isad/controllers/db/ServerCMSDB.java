@@ -98,10 +98,10 @@ public class ServerCMSDB {
         FileReader fr;
         try {
             if (tab.equals("cms")) {
-                fr = new FileReader(new File(ServerCMSDB.class.getResource("/cmslist.txt").getFile()));
+                fr = new FileReader(new File(ServerCMSDB.class.getResource("/txt/cmslist.txt").getFile()));
                 sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
             } else {
-                fr=new FileReader(new File(ServerCMSDB.class.getResource("/serverlist.txt").getFile()));
+                fr=new FileReader(new File(ServerCMSDB.class.getResource("/txt/serverlist.txt").getFile()));
                 sb.append("('Apache', 'nginx', ");
             }
             BufferedReader br=new BufferedReader(fr);

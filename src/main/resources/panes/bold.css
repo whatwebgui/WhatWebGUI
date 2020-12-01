@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'Noto Sans', sans-serif;
+    src: url('../fonts/NotoSans-Bold.ttf');
+}
+.root {
+    -fx-font-family: 'Noto Sans:700';
+}
+.text{
+    -fx-font-family: 'Noto Sans:700';
+    -fx-font-size: 32;
+}

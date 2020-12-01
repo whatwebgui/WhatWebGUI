@@ -88,10 +88,7 @@ public class ServerController {
        // serverTable.setItems(serverCMSController.getServerList());
     }
 
-    @FXML
-    void initialize() {
-        setItems();
-        serverTable.setItems(serverCMSController.getServerList());
+    private void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -120,5 +117,12 @@ public class ServerController {
         sortedData.comparatorProperty().bind(serverTable.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.
         serverTable.setItems(sortedData);
+    }
+
+    @FXML
+    void initialize() {
+        setItems();
+        serverTable.setItems(serverCMSController.getServerList());
+        filter();
     }
 }

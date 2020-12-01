@@ -97,11 +97,7 @@ public class HistoryController implements Initializable {
         tp.setGraphic(imageView);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        setItems();
-        hoverAndLinkClick();
-        tableview.setItems(getUserList());
+    private void filter(){
         FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -128,5 +124,17 @@ public class HistoryController implements Initializable {
         sortedData.comparatorProperty().bind(tableview.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.
         tableview.setItems(sortedData);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setItems();
+        hoverAndLinkClick();
+        tableview.setItems(getUserList());
+        filter();
+        col_domain.setReorderable(false);
+        col_link.setReorderable(false);
+        col_date.setReorderable(false);
+        col_tab.setReorderable(false);
     }
 }

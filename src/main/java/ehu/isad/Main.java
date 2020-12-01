@@ -30,7 +30,7 @@ public class Main extends Application {
   private void stageSetup(){
     stage.setScene(new Scene(root));
     stage.setTitle("WhatWebGUI");
-    stage.getIcons().add(new Image(Main.class.getResourceAsStream("/wwlogo.png")));
+    stage.getIcons().add(new Image(Main.class.getResourceAsStream("/img/iconsmall.png")));
     stage.setResizable(false);
     stage.initStyle(StageStyle.UNDECORATED);
   }

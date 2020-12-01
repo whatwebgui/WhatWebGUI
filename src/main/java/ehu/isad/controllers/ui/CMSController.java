@@ -91,10 +91,7 @@ public class CMSController {
         //cmsTable.setItems(serverCMSController.getCMSList());
     }
 
-    @FXML
-    void initialize() throws SQLException {
-        setItems();
-        cmsTable.setItems(serverCMSController.getCMSList());
+    private void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getCMSList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -123,5 +120,12 @@ public class CMSController {
         sortedData.comparatorProperty().bind(cmsTable.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.
         cmsTable.setItems(sortedData);
+    }
+
+    @FXML
+    void initialize() throws SQLException {
+        setItems();
+        cmsTable.setItems(serverCMSController.getCMSList());
+        filter();
     }
 }

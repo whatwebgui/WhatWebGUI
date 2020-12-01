@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane4" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.HistoryController">
+<Pane fx:id="pane4" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.HistoryController">
    <children>
       <TableView fx:id="tableview" layoutY="57.0" prefHeight="423.0" prefWidth="600.0">
         <columns>
@@ -15,6 +15,6 @@
             <TableColumn fx:id="col_link" editable="false" minWidth="0.0" prefWidth="35.0" resizable="false" sortable="false" />
         </columns>
       </TableView>
-      <TextField fx:id="textField" alignment="CENTER" layoutX="139.0" layoutY="17.0" prefHeight="26.0" prefWidth="322.0" promptText="FIND WHATEVER YOU WANT" />
+      <TextField fx:id="textField" alignment="CENTER" layoutX="139.0" layoutY="14.0" prefHeight="26.0" prefWidth="322.0" promptText="Filter by domain" />
    </children>
 </Pane>

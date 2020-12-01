@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.FormatterController">
+<Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.FormatterController">
    <children>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0">
          <children>
             <Label layoutX="31.0" layoutY="36.0" text="URL:" />
             <Label layoutX="31.0" layoutY="128.0" text="Log:" />
-            <TextField fx:id="textField" layoutX="75.0" layoutY="31.0" onKeyPressed="#onKeyPressed" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
-            <TextArea fx:id="textArea" layoutX="75.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
-            <Button fx:id="btn_scan" layoutX="120.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
-            <ComboBox fx:id="combo" layoutX="76.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />
-            <Button fx:id="btn_show" layoutX="363.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Show files in explorer" />
-            <Button fx:id="btn_clear" layoutX="291.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Clear" />
-            <Button fx:id="btn_forcescan" layoutX="190.0" layoutY="450.0" mnemonicParsing="false" onAction="#onClick" text="Force scan" />
-            <ProgressIndicator fx:id="pgr" layoutX="277.0" layoutY="250.0" prefHeight="95.0" prefWidth="109.0" />
+            <TextField fx:id="textField" layoutX="72.0" layoutY="30.0" onKeyPressed="#onKeyPressed" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
+            <TextArea fx:id="textArea" layoutX="72.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
+            <Button fx:id="btn_scan" layoutX="72.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
+            <ComboBox fx:id="combo" layoutX="72.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />
+            <Button fx:id="btn_show" layoutX="365.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClick" text="Show files in explorer" />
+            <Button fx:id="btn_clear" layoutX="280.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClick" text="Clear" />
+            <Button fx:id="btn_forcescan" layoutX="156.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClick" text="Force scan" />
+            <ProgressIndicator fx:id="pgr" layoutX="273.0" layoutY="250.0" prefHeight="95.0" prefWidth="109.0" />
          </children>
       </AnchorPane>
    </children>

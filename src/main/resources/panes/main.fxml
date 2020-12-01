@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,91 +17,91 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.MainController">
     <children>
-        <Pane fx:id="pane" layoutX="200.0" layoutY="100.0" prefHeight="500.0" prefWidth="600.0" />
-        <VBox prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #05071F;" stylesheets="@style.css">
+        <Pane fx:id="pane" layoutX="250.0" layoutY="100.0" prefHeight="500.0" prefWidth="600.0" />
+        <VBox prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #103373;" stylesheets="@header.css">
             <children>
-                <Pane prefHeight="121.0" prefWidth="200.0">
+                <Pane prefHeight="121.0" prefWidth="250.0">
                     <children>
-                        <Label layoutX="31.0" layoutY="44.0" style="-fx-font-size: 23;" stylesheets="@style.css" text="WhatWebGUI" textFill="WHITE">
-                            <font>
-                                <Font size="23.0" />
-                            </font>
-                        </Label>
+                  <ImageView fitHeight="42.0" fitWidth="200.0" layoutX="23.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/wwgui_xsmall.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </Pane>
-                <Button fx:id="btn1" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="199.0" stylesheets="@style.css" text="CMS">
+                <Button fx:id="btn1" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="CMS">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="TAG" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="TAG" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn2" alignment="BASELINE_LEFT" graphicTextGap="11.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Server">
+                <Button fx:id="btn2" alignment="BASELINE_LEFT" graphicTextGap="11.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Server">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="DATABASE" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="DATABASE" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn3" alignment="BASELINE_LEFT" graphicTextGap="9.0" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Formatter">
+                <Button fx:id="btn3" alignment="BASELINE_LEFT" graphicTextGap="9.0" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Formatter">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CODE" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="CODE" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn4" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="History">
+                <Button fx:id="btn4" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="History">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="LIST" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="ARCHIVE" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
-            <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="9.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Multi-add">
-               <graphic>
-                  <FontAwesomeIconView fill="WHITE" glyphName="CODE" size="15" />
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-                <Button fx:id="btn5" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Statistics">
+                <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="9.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Multi-add">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="HASHTAG" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="LIST" size="18" />
+                    </graphic>
+                    <padding>
+                        <Insets left="65.0" />
+                    </padding>
+                </Button>
+                <Button fx:id="btn5" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Statistics">
+                    <graphic>
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="HASHTAG" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn6" alignment="BASELINE_LEFT" graphicTextGap="12.0" layoutX="10.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="42.0" prefWidth="200.0" stylesheets="@style.css" text="Settings">
+                <Button fx:id="btn6" alignment="BASELINE_LEFT" graphicTextGap="12.0" layoutX="10.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Settings">
                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="COG" size="15" />
+                        <FontAwesomeIconView fill="#FBFBFC" glyphName="COG" size="18" />
                     </graphic>
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
                     <padding>
-                        <Insets left="50.0" />
+                        <Insets left="65.0" />
                     </padding></Button>
             </children>
         </VBox>
-        <GridPane layoutX="200.0" layoutY="145.0" prefHeight="241.0" prefWidth="380.0" visible="false">
+        <GridPane layoutX="250.0" layoutY="145.0" prefHeight="241.0" prefWidth="380.0" visible="false">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
@@ -108,7 +110,7 @@
                 <RowConstraints maxHeight="229.0" minHeight="10.0" prefHeight="176.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <TableView fixedCellSize="1.0" prefHeight="195.0" prefWidth="380.0" stylesheets="@style.css" GridPane.rowIndex="1">
+                <TableView fixedCellSize="1.0" prefHeight="195.0" prefWidth="380.0" stylesheets="@header.css" GridPane.rowIndex="1">
                     <columns>
                         <TableColumn prefWidth="75.0" text="C1" />
                         <TableColumn prefWidth="75.0" text="C2" />
@@ -132,15 +134,15 @@
                 </GridPane>
             </children>
         </GridPane>
-        <Pane layoutX="200.0" layoutY="34.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: #05071F;">
+        <Pane layoutX="250.0" layoutY="34.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #103373, #1F72CD);">
             <children>
-                <Label fx:id="lbl_title" alignment="CENTER" layoutY="11.0" prefHeight="45.0" prefWidth="600.0" text="&gt; click a button &lt;" textAlignment="CENTER" textFill="WHITE">
+                <Label fx:id="lbl_title" alignment="CENTER" layoutY="11.0" prefHeight="45.0" prefWidth="600.0" style="-fx-font-size: 32;-fx-font-family: 'Noto Sans';" stylesheets="@header.css" text="&gt; click a button &lt;" textAlignment="CENTER" textFill="#FBFBFC">
                     <font>
                         <Font size="30.0" />
                     </font>
                 </Label>
             </children>
         </Pane>
-        <FontAwesomeIconView fx:id="btn_x" glyphName="CLOSE" layoutX="776.0" layoutY="23.0" onMouseClicked="#close" onMouseMoved="#hoverClose" selectionFill="RED" size="20" />
+        <FontAwesomeIconView fx:id="btn_x" fill="#1F72CD" glyphName="CLOSE" layoutX="826.0" layoutY="23.0" onMouseClicked="#close" onMouseMoved="#hoverClose" size="20" />
     </children>
 </AnchorPane>
