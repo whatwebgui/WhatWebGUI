@@ -9,5 +9,6 @@ open module whatwebgui {
     requires javafx.fxml;
     requires javafx.web;
     requires de.jensd.fx.fontawesomefx.fontawesome;
+    requires javafx.media;
     exports ehu.isad;
 }

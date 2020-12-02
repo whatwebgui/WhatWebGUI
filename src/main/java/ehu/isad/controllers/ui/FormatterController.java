@@ -78,7 +78,7 @@ public class FormatterController {
             if (os.contains("win")) {
                 Desktop.getDesktop().open(new File(path));
             } else if (os.contains("mac")) {
-                Runtime.getRuntime().exec("open " + path);
+                Runtime.getRuntime().exec("open " + path + "/cache");
             } else if (os.contains("linux")) {
                 Runtime.getRuntime().exec("xdg-open " + path);
             }
