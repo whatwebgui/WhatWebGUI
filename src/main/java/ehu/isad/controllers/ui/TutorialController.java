@@ -53,7 +53,7 @@ public class TutorialController implements Initializable {
         if (event.getButton() == MouseButton.PRIMARY && i<7) i++;
         if (event.getButton() == MouseButton.SECONDARY && i>0) i--;
        // Image image = new Image("/tutorial/Image"+i+".png");
-        Image image = new Image("/tutorial/Image3.png");
+        Image image = new Image("/tutorial/Image"+i+".png");
         System.out.println(i);
         img.setImage(image);
         closeBtn.setVisible(true);
@@ -80,13 +80,8 @@ public class TutorialController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ClassLoader classLoader = getClass().getClassLoader();
-        Media media = new Media(new File(classLoader.getResource("tutorial/Video1.mp4").getFile()).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mv.setFitHeight(500);
-        mv.setFitWidth(750);
-        mv.setMediaPlayer(mediaPlayer);
-        mediaPlayer.setAutoPlay(true);
-
+        Image image = new Image("/tutorial/Image1.png");
+        img.setImage(image);
     }
 }
 
