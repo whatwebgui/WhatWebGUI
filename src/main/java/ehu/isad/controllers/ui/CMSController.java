@@ -54,7 +54,6 @@ public class CMSController {
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
-    MainController mainController = new MainController();
     Url urlUtils = new Url();
 
     @FXML
@@ -89,6 +88,7 @@ public class CMSController {
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
         //cmsTable.setItems(serverCMSController.getCMSList());
+        
     }
 
     private void filter(){
@@ -104,7 +104,7 @@ public class CMSController {
                 String lowerCaseFilter = newValue.toLowerCase();
                 if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
                 }
                 else if (cmsmodel.getVersion().toLowerCase().contains(lowerCaseFilter))
@@ -125,7 +125,7 @@ public class CMSController {
     @FXML
     void initialize() throws SQLException {
         setItems();
-        cmsTable.setItems(serverCMSController.getCMSList());
+        //cmsTable.setItems(serverCMSController.getCMSList());
         filter();
     }
 }

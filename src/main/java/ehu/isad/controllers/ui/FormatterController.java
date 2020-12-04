@@ -131,7 +131,7 @@ public class FormatterController {
                     textArea.setPromptText(""); /* wait for the process to finish */
                 }
             }
-            HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType(), domain + "/" + domain + comboChoice.getExtension());
+            HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType());
             emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
         } catch (Exception err) {
             err.printStackTrace();

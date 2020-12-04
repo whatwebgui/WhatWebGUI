@@ -9,13 +9,11 @@ public class HistoryModel {
     private final Hyperlink domain;
     private final String tab;
     private final Date date;
-    private final String path;
 
-    public HistoryModel(String domain, String tab, Date date, String path) {
+    public HistoryModel(String domain, String tab, Date date) {
         this.domain = new Hyperlink(domain);
         this.tab = tab;
         this.date = date;
-        this.path = path;
     }
 
     public Hyperlink getDomain() {
@@ -28,9 +26,5 @@ public class HistoryModel {
 
     public Date getDate() {
         return date;
-    }
-
-    public String getPath() {
-        return path;
     }
 }

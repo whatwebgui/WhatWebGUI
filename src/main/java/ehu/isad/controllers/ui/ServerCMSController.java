@@ -72,7 +72,7 @@ public class ServerCMSController {
                     file.delete();
                 }
             }
-            HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER",target);
+            HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER");
         });
         thread.start();
     }

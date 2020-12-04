@@ -8,9 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -41,7 +43,84 @@ public class HistoryController implements Initializable {
     private TableColumn<HistoryModel, Date> col_date;
 
     @FXML
-    private TableColumn<HistoryModel, String> col_link;
+    private MenuItem removeRow;
+
+    @FXML
+    private MenuItem openBrowser;
+
+    @FXML
+    private MenuItem favUnFav;
+
+    @FXML
+    private MenuItem scanTwitter;
+
+    @FXML
+    private MenuItem scanReddit1;
+
+    @FXML
+    private MenuItem scanTumblr;
+
+    @FXML
+    private MenuItem targetTwitter;
+
+    @FXML
+    private MenuItem targetFacebook;
+
+    @FXML
+    private MenuItem targetReddit;
+
+    @FXML
+    private MenuItem targetTumblr;
+
+    @FXML
+    void onBrowserRow(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onFavUnFavRow(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onRemoveRow(ActionEvent event) {
+        tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    void scanReddit(ActionEvent event) {
+
+    }
+
+    @FXML
+    void scanTumblr(ActionEvent event) {
+
+    }
+
+    @FXML
+    void scanTwitter(ActionEvent event) {
+
+    }
+
+    @FXML
+    void targetFacebook(ActionEvent event) {
+
+    }
+
+    @FXML
+    void targetReddit(ActionEvent event) {
+
+    }
+
+    @FXML
+    void targetTumblr(ActionEvent event) {
+
+    }
+
+    @FXML
+    void targetTwitter(ActionEvent event) {
+
+    }
 
     private final Tooltip tp = new Tooltip();
     Desktop desktop = java.awt.Desktop.getDesktop();
@@ -55,7 +134,6 @@ public class HistoryController implements Initializable {
         col_domain.setCellValueFactory(new PropertyValueFactory<>("domain"));
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        col_link.setCellValueFactory(new PropertyValueFactory<>("path"));
         //tableview.setItems(getUserList());
     }
 
@@ -87,14 +165,14 @@ public class HistoryController implements Initializable {
     }
 
     private void getScreenshot(HistoryModel hm){
-        String screen = hm.getPath().split("/")[0];
+       /* String screen = hm.getPath().split("/")[0];
         String pathToScreenshots = Utils.getProperties().getProperty("pathToFolder")+"screenshots/";
 
         Image image = new Image("file:///"+pathToScreenshots+screen+".jpeg", 250, 250, true, false);
         if (image.getHeight()>10) image = new Image("file:///"+pathToScreenshots+"imgna.jpg", 250, 250, true, false);
         image = new Image("https://image.shutterstock.com/image-illustration/not-available-red-rubber-stamp-260nw-586791809.jpg", 250, 250, true, false);
         ImageView imageView = new ImageView(image);
-        tp.setGraphic(imageView);
+        tp.setGraphic(imageView);*/
     }
 
     private void filter(){
@@ -110,7 +188,7 @@ public class HistoryController implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
                 if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (historymodel.getPath().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
                 }
                 else
@@ -133,7 +211,6 @@ public class HistoryController implements Initializable {
         tableview.setItems(getUserList());
         filter();
         col_domain.setReorderable(false);
-        col_link.setReorderable(false);
         col_date.setReorderable(false);
         col_tab.setReorderable(false);
     }

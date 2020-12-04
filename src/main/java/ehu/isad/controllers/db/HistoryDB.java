@@ -21,13 +21,13 @@ public class HistoryDB {
         return instance;
     }
 
-    public void addToHistoryDB(String target, String tabformat, String path){
-        String query = "INSERT INTO history(target,tab,date,path) VALUES ('"+target+"','"+tabformat+"',DATETIME(),'"+path+"')";
+    public void addToHistoryDB(String target, String tabformat){
+        String query = "INSERT INTO history(target,tab,date) VALUES ('"+target+"','"+tabformat+"',DATETIME())";
         dbcontroller.execSQL(query);
     }
 
     public List<HistoryModel> getFromHistoryDB(){
-        String query = "SELECT target,tab,date,path FROM history ORDER BY id DESC";
+        String query = "SELECT target,tab,date FROM history ORDER BY id DESC";
         List<HistoryModel> list = new ArrayList<>();
         ResultSet rs = dbcontroller.execSQL(query);
         try {
@@ -35,8 +35,7 @@ public class HistoryDB {
                 String target = rs.getString("target");
                 String tab = rs.getString("tab");
                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date"));
-                String path =  rs.getString("path");
-                list.add(new HistoryModel(target,tab,date,path));
+                list.add(new HistoryModel(target,tab,date));
             }
         } catch(SQLException | ParseException e){
             e.printStackTrace();
