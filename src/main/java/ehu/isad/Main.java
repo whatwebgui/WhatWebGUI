@@ -9,22 +9,32 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 public class Main extends Application {
 
   private double x, y;
   private Parent root;
   private Stage stage;
-  MainController mainController = new MainController();
-  @Override
-  public void start(Stage primaryStage) throws Exception{
 
-    stage = primaryStage;
-    root = FXMLLoader.load(getClass().getResource("/panes/main.fxml"));
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+
+
+    loadUI(primaryStage);
     stageSetup();
     mouseDragSetup();
     stage.show();
 
-    mainController.showPopUp("Prueba");
+    //mainController.showPopUp("Prueba");
+  }
+
+  private void loadUI(Stage primaryStage) throws IOException {
+    stage = primaryStage;
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/panes/main.fxml"));
+    MainController mainController = MainController.getInstance();
+    loader.setController(mainController);
+    root = loader.load();
   }
 
   private void stageSetup(){

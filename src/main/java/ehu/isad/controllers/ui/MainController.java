@@ -39,7 +39,6 @@ public class MainController implements Initializable {
     SettingsController settingsController;
     private  Parent pane7;
     MultiController multiController;
-    PopUpSureController popController;
 
 
     @FXML
@@ -72,6 +71,12 @@ public class MainController implements Initializable {
     @FXML
     private FontAwesomeIconView btn_x;
 
+    private static MainController instance = new MainController();
+
+    private MainController(){ }
+
+    public static MainController getInstance() { return instance; }
+
     @FXML
     void handleClick(ActionEvent actionEvent) {
         pane.getChildren().clear();
@@ -93,11 +98,11 @@ public class MainController implements Initializable {
             historyController.setItems();
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
-        }
+        }/*
         if (actionEvent.getSource() == btn5) {
             pane.getChildren().add(pane5);
             lbl_title.setText("Statistics");
-        }
+        }*/
         if (actionEvent.getSource() == btn6) {
             pane.getChildren().add(pane6);
             lbl_title.setText("Settings");
@@ -132,32 +137,38 @@ public class MainController implements Initializable {
     }
     void getPanels() throws IOException {
         FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/panes/pane1.fxml"));
+        cmsController = CMSController.getInstance();
+        loaderpane1.setController(cmsController);
         pane1 = loaderpane1.load(); //cms
-        cmsController = loaderpane1.getController();
 
         FXMLLoader loaderpane2 = new FXMLLoader(getClass().getResource("/panes/pane2.fxml"));
+        serverController = ServerController.getInstance();
+        loaderpane2.setController(serverController);
         pane2 = loaderpane2.load(); //server
-        serverController = loaderpane2.getController();
 
         FXMLLoader loaderpane3 = new FXMLLoader(getClass().getResource("/panes/pane3.fxml"));
+        formatterController = FormatterController.getInstance();
+        loaderpane3.setController(formatterController);
         pane3 = loaderpane3.load(); //formatter
-        formatterController = loaderpane3.getController();
 
         FXMLLoader loaderpane4 = new FXMLLoader(getClass().getResource("/panes/pane4.fxml"));
+        historyController = HistoryController.getInstance();
+        loaderpane4.setController(historyController);
         pane4 = loaderpane4.load(); //history
-        historyController = loaderpane4.getController();
 
         /*FXMLLoader loaderpane5 = new FXMLLoader(getClass().getResource("/pane5.fxml"));
         pane5 = loaderpane5.load(); //stats
         statisticsController = loaderpane4.getController();*/
 
         FXMLLoader loaderpane6 = new FXMLLoader(getClass().getResource("/panes/pane6.fxml"));
+        settingsController = SettingsController.getInstance();
+        loaderpane6.setController(settingsController);
         pane6 = loaderpane6.load(); //settings
-        settingsController = loaderpane6.getController();
 
         FXMLLoader loaderpane7 = new FXMLLoader(getClass().getResource("/panes/pane7.fxml"));
+        multiController = MultiController.getInstance();
+        loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
-        multiController = loaderpane7.getController();
     }
 
     @Override

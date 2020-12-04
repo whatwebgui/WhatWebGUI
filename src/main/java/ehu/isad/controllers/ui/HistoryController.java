@@ -10,6 +10,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
@@ -22,6 +23,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -42,44 +45,32 @@ public class HistoryController implements Initializable {
     @FXML
     private TableColumn<HistoryModel, Date> col_date;
 
+    private static HistoryController instance = new HistoryController();
+
+    private HistoryController(){ }
+
+    public static HistoryController getInstance() { return instance; }
+
     @FXML
     private MenuItem removeRow;
-
     @FXML
     private MenuItem openBrowser;
-
     @FXML
     private MenuItem favUnFav;
-
-    @FXML
-    private MenuItem scanTwitter;
-
-    @FXML
-    private MenuItem scanReddit1;
-
-    @FXML
-    private MenuItem scanTumblr;
-
     @FXML
     private MenuItem targetTwitter;
-
     @FXML
     private MenuItem targetFacebook;
-
     @FXML
     private MenuItem targetReddit;
-
     @FXML
     private MenuItem targetTumblr;
-
     @FXML
     void onBrowserRow(ActionEvent event) {
-
     }
 
     @FXML
     void onFavUnFavRow(ActionEvent event) {
-
     }
 
     @FXML
@@ -88,38 +79,24 @@ public class HistoryController implements Initializable {
     }
 
     @FXML
-    void scanReddit(ActionEvent event) {
-
-    }
-
-    @FXML
-    void scanTumblr(ActionEvent event) {
-
-    }
-
-    @FXML
-    void scanTwitter(ActionEvent event) {
-
-    }
-
-    @FXML
-    void targetFacebook(ActionEvent event) {
-
-    }
-
-    @FXML
-    void targetReddit(ActionEvent event) {
-
-    }
-
-    @FXML
-    void targetTumblr(ActionEvent event) {
-
-    }
-
-    @FXML
-    void targetTwitter(ActionEvent event) {
-
+    void target(ActionEvent event) throws IOException {
+        MenuItem menuitem = (MenuItem) event.getSource();
+        HistoryModel item = tableview.getSelectionModel().getSelectedItem();
+        if (item != null){
+            String url = null;
+            String targetEncoded = URLEncoder.encode(item.getDomain().getText(), StandardCharsets.UTF_8);
+            //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
+            if (menuitem.equals(targetTwitter)){
+                url = "https://twitter.com/intent/tweet?url=";
+            } else if (menuitem.equals(targetFacebook)){
+                url = "https://www.facebook.com/share.php?u=";
+            } else if (menuitem.equals(targetReddit)){
+                url = "https://www.reddit.com/submit?url=";
+            }else if (menuitem.equals(targetTumblr)){
+                url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
+            }
+            desktop.browse(URI.create(url+targetEncoded));
+        }
     }
 
     private final Tooltip tp = new Tooltip();

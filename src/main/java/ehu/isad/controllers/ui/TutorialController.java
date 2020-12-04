@@ -35,6 +35,15 @@ public class TutorialController implements Initializable {
     private ImageView img;
 
     int i = 1;
+
+    private static TutorialController instance = new TutorialController();
+
+    private TutorialController(){};
+
+    public static TutorialController getInstance() {
+        return instance;
+    }
+
     @FXML
     void onClickImg(MouseEvent event) throws FileNotFoundException {
         if (event.getButton() == MouseButton.PRIMARY) {
@@ -50,8 +59,6 @@ public class TutorialController implements Initializable {
         }
         i++;
     }
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

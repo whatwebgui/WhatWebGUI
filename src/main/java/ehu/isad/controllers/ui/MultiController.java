@@ -6,6 +6,7 @@ import ehu.isad.utils.Url;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -25,7 +26,7 @@ import javafx.scene.control.TextArea;
 public class MultiController implements Initializable {
     FileChooser fileChooser = new FileChooser();
     Url urlUtils = new Url();
-    CMSController cms = new CMSController();
+    CMSController cms = CMSController.getInstance();
     private Desktop desktop = Desktop.getDesktop();
     @FXML
     private Button btnOk;
@@ -35,6 +36,12 @@ public class MultiController implements Initializable {
 
     @FXML
     private TextArea textField;
+
+    private static MultiController instance = new MultiController();
+
+    private MultiController(){};
+
+    public static MultiController getInstance() { return instance; }
 
     @FXML
     void onClick(ActionEvent event) throws IOException {

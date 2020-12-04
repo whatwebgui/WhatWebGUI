@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane4" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.HistoryController">
+<Pane fx:id="pane4" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView fx:id="tableview" layoutY="57.0" prefHeight="423.0" prefWidth="600.0">
         <columns>
@@ -22,19 +22,12 @@
                   <MenuItem fx:id="removeRow" mnemonicParsing="false" onAction="#onRemoveRow" text="Remove this row" />
                 <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
                   <MenuItem fx:id="favUnFav" mnemonicParsing="false" onAction="#onFavUnFavRow" text="Fav/Unfav" />
-                  <Menu mnemonicParsing="false" text="Share scan">
-                    <items>
-                      <MenuItem fx:id="scanTwitter" mnemonicParsing="false" onAction="#scanTwitter" text="Twitter" />
-                        <MenuItem fx:id="scanReddit1" mnemonicParsing="false" onAction="#scanReddit" text="Reddit" />
-                        <MenuItem fx:id="scanTumblr" mnemonicParsing="false" onAction="#scanTumblr" text="Tumblr" />
-                    </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Share target">
                      <items>
-                        <MenuItem fx:id="targetTwitter" mnemonicParsing="false" onAction="#targetTwitter" text="Twitter" />
-                        <MenuItem fx:id="targetFacebook" mnemonicParsing="false" onAction="#targetFacebook" text="Facebook" />
-                        <MenuItem fx:id="targetReddit" mnemonicParsing="false" onAction="#targetReddit" text="Reddit" />
-                        <MenuItem fx:id="targetTumblr" mnemonicParsing="false" onAction="#targetTumblr" text="Tumblr" />
+                        <MenuItem fx:id="targetTwitter" mnemonicParsing="false" onAction="#target" text="Twitter" />
+                        <MenuItem fx:id="targetFacebook" mnemonicParsing="false" onAction="#target" text="Facebook" />
+                        <MenuItem fx:id="targetReddit" mnemonicParsing="false" onAction="#target" text="Reddit" />
+                        <MenuItem fx:id="targetTumblr" mnemonicParsing="false" onAction="#target" text="Tumblr" />
                      </items>
                   </Menu>
               </items>

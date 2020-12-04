@@ -7,6 +7,10 @@
     -fx-font-family: 'Noto Sans';
 }
 
+.table-row-cell:selected .table-cell .hyperlink {
+    -fx-text-fill: -fx-text-background-color ;
+}
+
 .root {
     -fx-body-color: #F5F5F5;
     -fx-outer-border: #cecece;

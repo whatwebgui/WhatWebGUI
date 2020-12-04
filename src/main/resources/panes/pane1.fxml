@@ -7,7 +7,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane1" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controllers.ui.CMSController">
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Menu?>
+<Pane fx:id="pane1" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="textField" layoutX="17.0" layoutY="34.0" onKeyPressed="#onKeyPressed" prefHeight="26.0" prefWidth="340.0" promptText="Add or filter by URL" />
       <ComboBox fx:id="comboBox" layoutX="374.0" layoutY="34.0" prefHeight="26.0" prefWidth="140.0" />
@@ -19,6 +22,30 @@
             <TableColumn fx:id="versionColumn" editable="false" prefWidth="75.0" sortable="false" text="Version" />
             <TableColumn fx:id="lastUpdatedColumn" editable="false" prefWidth="75.0" sortable="false" text="Last Updated" />
          </columns>
+         <contextMenu>
+            <ContextMenu>
+               <items>
+                  <MenuItem fx:id="removeRow" mnemonicParsing="false" onAction="#onRemoveRow" text="Remove this row" />
+                  <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
+                  <MenuItem fx:id="favUnFav" mnemonicParsing="false" onAction="#onFavUnFavRow" text="Fav/Unfav" />
+                  <Menu mnemonicParsing="false" text="Share scan">
+                     <items>
+                        <MenuItem fx:id="scanTwitter" mnemonicParsing="false" onAction="#scan" text="Twitter" />
+                        <MenuItem fx:id="scanReddit" mnemonicParsing="false" onAction="#scan" text="Reddit" />
+                        <MenuItem fx:id="scanTumblr" mnemonicParsing="false" onAction="#scan" text="Tumblr" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Share target">
+                     <items>
+                        <MenuItem fx:id="targetTwitter" mnemonicParsing="false" onAction="#target" text="Twitter" />
+                        <MenuItem fx:id="targetFacebook" mnemonicParsing="false" onAction="#target" text="Facebook" />
+                        <MenuItem fx:id="targetReddit" mnemonicParsing="false" onAction="#target" text="Reddit" />
+                        <MenuItem fx:id="targetTumblr" mnemonicParsing="false" onAction="#target" text="Tumblr" />
+                     </items>
+                  </Menu>
+               </items>
+            </ContextMenu>
+         </contextMenu>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>

@@ -125,7 +125,6 @@ public class ServerCMSDB {
         }
         String target = correctDomain(domain);
         String query = "insert into servercmsDate values((select target_id from targets where target = '" + target + "'),DATETIME())";
-        System.out.println(query);
         dbcontroller.execSQL(query);
     }
 

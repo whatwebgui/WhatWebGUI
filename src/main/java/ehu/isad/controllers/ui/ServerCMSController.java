@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ServerCMSController {
 
@@ -54,6 +56,19 @@ public class ServerCMSController {
         input.close();
         //now, we will insert date information
         serverCMSDB.addDate(target);
+    }
+
+    String[] encoded(ServerCMSModel item, char servercms) {
+        String var=null;
+        if (servercms=='s'){
+            var = URLEncoder.encode(item.getServer(), StandardCharsets.UTF_8);
+        } else if (servercms == 'c'){
+            var = URLEncoder.encode(item.getCms(), StandardCharsets.UTF_8);
+        }
+        String target = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
+        String version = URLEncoder.encode(item.getVersion(), StandardCharsets.UTF_8);
+        String date = URLEncoder.encode(item.getLastUpdated(), StandardCharsets.UTF_8);
+        return new String[]{target, var, version, date};
     }
 
     public void click(String domain, String target) throws IOException {
