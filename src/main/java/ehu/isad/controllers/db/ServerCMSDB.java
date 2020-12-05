@@ -3,6 +3,8 @@ package ehu.isad.controllers.db;
 import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ public class ServerCMSDB {
     private static final ServerCMSDB instance = new ServerCMSDB();
     private static final DBController dbcontroller = DBController.getController();
 
-    private ServerCMSDB() {   }
+    private ServerCMSDB() {}
 
     public static ServerCMSDB getInstance() {
         return instance;
@@ -129,4 +131,25 @@ public class ServerCMSDB {
         return result;
     }
 
+    public void addToFavorites(ServerCMSModel selectedItem) {
+        String query = "update targets set favorite = True where target like '%"+selectedItem.getUrl()+ "%'";
+        DBController.getController().execSQL(query);
+    }
+
+
+    public ObservableList<ServerCMSModel> getFavorites() {
+        String list = openFile("server");
+        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
+        ResultSet rs = DBController.getController().execSQL(query);
+        ObservableList<ServerCMSModel> oList = FXCollections.observableArrayList();
+        try{
+            while(rs.next()) {
+                ServerCMSModel model = new ServerCMSModel("","","","","","");
+                oList.add(model);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return oList;
+    }
 }

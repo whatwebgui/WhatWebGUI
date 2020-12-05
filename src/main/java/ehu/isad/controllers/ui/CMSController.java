@@ -84,7 +84,7 @@ public class CMSController {
         this.openURL(model.getUrl());
     }
     void openURL(String url) throws IOException {
-        ServerController.execOS(url);
+        desktop.browse(URI.create(url));
     }
 
     @FXML
@@ -222,7 +222,7 @@ public class CMSController {
     }
 
     @FXML
-    void initialize() throws SQLException {
+    void initialize(){
         setItems();
         cmsTable.setItems(serverCMSController.getServerCMSList());
         filter();

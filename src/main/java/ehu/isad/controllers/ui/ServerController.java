@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 
+import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
 import javafx.beans.Observable;
@@ -26,7 +27,6 @@ import java.sql.SQLException;
 
 
 public class ServerController {
-
     @FXML
     private Pane pane1;
 
@@ -34,7 +34,7 @@ public class ServerController {
     private TextField textField;
 
     @FXML
-    private ComboBox<?> comboBox;
+    private ComboBox<String> comboBox;
 
     @FXML
     private Button scanBtn;
@@ -94,21 +94,9 @@ public class ServerController {
         desktop.browse(URI.create(url));
     }
 
-    static void execOS(String url) throws IOException {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("cmd.exe", "/C", "start "+url);
-        } else if (os.contains("mac")) {
-            System.out.println("Soy mac");
-            Runtime.getRuntime().exec("open " + url);
-        } else if (os.contains("linux")) {
-            Runtime.getRuntime().exec("sensible-browser " + url);
-        }
-    }
-
     @FXML
     void onFavUnFavRow(ActionEvent event) {
+        ServerCMSDB.getInstance().addToFavorites(serverTable.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -209,7 +197,7 @@ public class ServerController {
                 if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches last name.
             }
-            else return servermodel.getVersion().toLowerCase().contains(lowerCaseFilter);
+            else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
@@ -225,5 +213,11 @@ public class ServerController {
         setItems();
         serverTable.setItems(serverCMSController.getServerCMSList());
         filter();
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("All");
+        list.add("Favorites");
+        comboBox.setValue("All");
+        comboBox.setItems(list);
+
     }
 }

@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import ehu.isad.controllers.db.DBController;
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
@@ -62,7 +63,7 @@ public class ServerCMSController {
             var = URLEncoder.encode(item.getCms(), StandardCharsets.UTF_8);
         }
         String target = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
-        String version = URLEncoder.encode(item.getVersion(), StandardCharsets.UTF_8);
+        String version = URLEncoder.encode(item.getVersions(), StandardCharsets.UTF_8);
         String date = URLEncoder.encode(item.getLastUpdated(), StandardCharsets.UTF_8);
         return new String[]{target, var, version, date};
     }
@@ -92,6 +93,7 @@ public class ServerCMSController {
             e.printStackTrace();
         }
     }
+
 
 
 }
