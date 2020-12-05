@@ -207,13 +207,11 @@ public class CMSController {
                 String lowerCaseFilter = newValue.toLowerCase();
                 if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
+                } else // Does not match.
+                    if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
                 }
-                else if (cmsmodel.getVersion().toLowerCase().contains(lowerCaseFilter))
-                    return true;
-                else
-                    return false; // Does not match.
+                else return cmsmodel.getVersion().toLowerCase().contains(lowerCaseFilter);
             });
         });
         // 3. Wrap the FilteredList in a SortedList.

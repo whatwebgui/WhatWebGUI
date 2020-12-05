@@ -162,13 +162,10 @@ public class HistoryController implements Initializable {
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
+            // Does not match.
             if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
-            } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches last name.
-            }
-            else
-                return false; // Does not match.
+            } else return historymodel.getTab().toLowerCase().contains(lowerCaseFilter); // Filter matches last name.
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<HistoryModel> sortedData = new SortedList<>(filteredData);

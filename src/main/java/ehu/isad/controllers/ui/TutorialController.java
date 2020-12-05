@@ -38,8 +38,6 @@ public class TutorialController implements Initializable {
                 i = 1;
                 ((Stage) img.getScene().getWindow()).close();
             }
-
-
         }
     }
 
