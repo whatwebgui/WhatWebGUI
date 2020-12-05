@@ -77,15 +77,13 @@ public class HistoryController implements Initializable {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("cmd.exe", "/C", "wsl " + "start"+url.toString());
+            processBuilder.command("cmd.exe", "/C", "start "+url.getText());
         } else if (os.contains("mac")) {
             System.out.println("Soy mac");
-            Runtime.getRuntime().exec("open " + url.toString());
+            Runtime.getRuntime().exec("open " + url.getText());
         } else if (os.contains("linux")) {
-            Runtime.getRuntime().exec("xdg-open " + url.toString());
+            Runtime.getRuntime().exec("sensible-browser " + url.getText());
         }
-
-
     }
 
     @FXML

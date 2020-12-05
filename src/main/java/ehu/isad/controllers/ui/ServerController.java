@@ -91,7 +91,21 @@ public class ServerController {
     @FXML
     private MenuItem targetTumblr;
     @FXML
-    void onBrowserRow(ActionEvent event) {
+    void onBrowserRow(ActionEvent event) throws IOException {
+        ServerCMSModel model = serverTable.getSelectionModel().getSelectedItem();
+        this.openURL(model.getUrl());
+    }
+    void openURL(String url) throws IOException {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("cmd.exe", "/C", "start "+url);
+        } else if (os.contains("mac")) {
+            System.out.println("Soy mac");
+            Runtime.getRuntime().exec("open " + url);
+        } else if (os.contains("linux")) {
+            Runtime.getRuntime().exec("sensible-browser " + url);
+        }
     }
 
     @FXML
