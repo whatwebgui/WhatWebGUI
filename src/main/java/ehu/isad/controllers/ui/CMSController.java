@@ -182,7 +182,6 @@ public class CMSController {
     void CMS(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url);
-        cmsTable.setItems(serverCMSController.getCMSList());
         filter();
     }
 

@@ -51,13 +51,14 @@ public class TutorialController implements Initializable {
                 // Image image = new Image("/tutorial/Image"+i+".png");
                 Image image = new Image("/tutorial/Image2.png");
                 img.setImage(image);
+                i++;
             } else {
+                i = 1;
                 ((Stage) img.getScene().getWindow()).close();
             }
 
 
         }
-        i++;
     }
 
     @Override

@@ -27,6 +27,7 @@ public class MultiController implements Initializable {
     FileChooser fileChooser = new FileChooser();
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
+    ServerController server = ServerController.getInstance();
     private final Desktop desktop = Desktop.getDesktop();
     @FXML
     private Button btnOk;
@@ -73,6 +74,7 @@ public class MultiController implements Initializable {
         if(target!=null){
             try {
                 cms.CMS(target);
+                server.Server(target);
                 HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER");
             } catch (IOException ioException) { ioException.printStackTrace(); }
         }
@@ -81,30 +83,6 @@ public class MultiController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-    }
-
-    private void openFile(File file) {
-        try {
-            //desktop.open(file);
-            Runtime.getRuntime().exec("xdg-open " + file);
-        } catch (IOException ex) {
-            /*Logger.getLogger(
-                    MultiController.class.getName()).log(
-                    Level.SEVERE, null, ex
-            );*/
-        }
-    }
-
-    public ArrayList<String> readFile(String text) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(text.getBytes())));
-        ArrayList<String> sb = new ArrayList<>();
-        String line = br.readLine();
-        while (line != null) {
-            sb.add(line.toLowerCase());
-            line = br.readLine();
-        }
-        return sb;
 
     }
 }
