@@ -197,7 +197,7 @@ public class ServerController {
 
     private void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerList(), b -> true);
-        // 2. Set the filter Predicate whenever the filter changes.
+        // 2. Set the filter Predicate whenever the filter changes  
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(servermodel -> {
                 // If filter text is empty, display all persons.

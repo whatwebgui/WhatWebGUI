@@ -27,7 +27,7 @@ public class MultiController implements Initializable {
     FileChooser fileChooser = new FileChooser();
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
-    private Desktop desktop = Desktop.getDesktop();
+    private final Desktop desktop = Desktop.getDesktop();
     @FXML
     private Button btnOk;
 
@@ -37,9 +37,9 @@ public class MultiController implements Initializable {
     @FXML
     private TextArea textField;
 
-    private static MultiController instance = new MultiController();
+    private static final MultiController instance = new MultiController();
 
-    private MultiController(){};
+    private MultiController(){}
 
     public static MultiController getInstance() { return instance; }
 
@@ -86,12 +86,13 @@ public class MultiController implements Initializable {
 
     private void openFile(File file) {
         try {
-            desktop.open(file);
+            //desktop.open(file);
+            Runtime.getRuntime().exec("xdg-open " + file);
         } catch (IOException ex) {
-            Logger.getLogger(
+            /*Logger.getLogger(
                     MultiController.class.getName()).log(
                     Level.SEVERE, null, ex
-            );
+            );*/
         }
     }
 

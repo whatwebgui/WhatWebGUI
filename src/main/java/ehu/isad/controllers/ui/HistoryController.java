@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
+import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.HistoryModel;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
@@ -111,7 +112,6 @@ public class HistoryController implements Initializable {
         col_domain.setCellValueFactory(new PropertyValueFactory<>("domain"));
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        //tableview.setItems(getUserList());
     }
 
     private void hoverAndLinkClick(){

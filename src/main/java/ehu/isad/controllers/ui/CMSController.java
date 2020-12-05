@@ -183,6 +183,7 @@ public class CMSController {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url);
         cmsTable.setItems(serverCMSController.getCMSList());
+        filter();
     }
 
     public void setItems() {
@@ -190,8 +191,6 @@ public class CMSController {
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-        //cmsTable.setItems(serverCMSController.getCMSList());
-        
     }
 
     private void filter(){
@@ -228,7 +227,7 @@ public class CMSController {
     @FXML
     void initialize() throws SQLException {
         setItems();
-        //cmsTable.setItems(serverCMSController.getCMSList());
+        cmsTable.setItems(serverCMSController.getCMSList());
         filter();
     }
 }

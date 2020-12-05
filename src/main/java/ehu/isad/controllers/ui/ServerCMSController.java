@@ -73,6 +73,7 @@ public class ServerCMSController {
 
     public void click(String domain, String target) throws IOException {
         Thread thread = new Thread( () -> {
+            System.out.println("he entrado");
             if(serverCMSDB.domainInDB(target)){//file is already in the table
                 serverCMSDB.updateDate(target);
             }else{//file is not in the table, so we will have to create the sql file and insert it into the database
@@ -90,6 +91,11 @@ public class ServerCMSController {
             HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER");
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
