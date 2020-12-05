@@ -19,14 +19,12 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-
-
+    MainController mainController = MainController.getInstance();
     loadUI(primaryStage);
     stageSetup();
     mouseDragSetup();
     stage.show();
-
-    //mainController.showPopUp("Prueba");
+    mainController.showPopUp();
   }
 
   private void loadUI(Stage primaryStage) throws IOException {

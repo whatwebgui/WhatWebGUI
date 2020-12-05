@@ -35,7 +35,7 @@ public class SettingsController {
         else {
             TutorialDB tutorialDB = TutorialDB.getInstance();
             tutorialDB.unsetTutorial();
-            mainController.showPopUp("prueba");
+            mainController.showPopUp();
         }
     }
 
