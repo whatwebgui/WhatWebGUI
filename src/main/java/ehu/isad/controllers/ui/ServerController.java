@@ -1,17 +1,12 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.controllers.db.HistoryDB;
-import ehu.isad.controllers.db.ServerCMSDB;
-import ehu.isad.model.HistoryModel;
+
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
-import ehu.isad.utils.Utils;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -19,16 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+
 
 public class ServerController {
 
@@ -60,7 +52,7 @@ public class ServerController {
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
-    MainController main = MainController.getInstance();
+    private CMSController cms = CMSController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -96,6 +88,10 @@ public class ServerController {
         this.openURL(model.getUrl());
     }
     void openURL(String url) throws IOException {
+        execOS(url);
+    }
+
+    static void execOS(String url) throws IOException {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
@@ -146,29 +142,14 @@ public class ServerController {
                         "%20with%20%3Ca%20href%3D%22https%3A%2F%2Fwhatwebgui.github.io%2F%22%3E%40WhatWebGUI%3C%2Fa%3E"+
                         "&tags=whatwebgui%2Cwhatweb%2C"+domain+"&canonicalUrl="+encoded[0];
             }
+            assert url != null;
             desktop.browse(URI.create(url));
         }
     }
 
     @FXML
     void target(ActionEvent event) throws IOException {
-        MenuItem menuitem = (MenuItem) event.getSource();
-        ServerCMSModel item = serverTable.getSelectionModel().getSelectedItem();
-        if (item != null){
-            String url = null;
-            String targetEncoded = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
-            //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
-            if (menuitem.equals(targetTwitter)){
-                url = "https://twitter.com/intent/tweet?url=";
-            } else if (menuitem.equals(targetFacebook)){
-                url = "https://www.facebook.com/share.php?u=";
-            } else if (menuitem.equals(targetReddit)){
-                url = "https://www.reddit.com/submit?url=";
-            }else if (menuitem.equals(targetTumblr)){
-                url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
-            }
-            desktop.browse(URI.create(url+targetEncoded));
-        }
+        CMSController.getItem(event, serverTable, targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop);
     }
 
     private String[] encoded(ServerCMSModel item) {
@@ -181,10 +162,8 @@ public class ServerController {
             if(urlUtils.processUrl(textField.getText())!=null){
                 Server(urlUtils.processUrl(textField.getText()));
             }
-        } catch (IOException ioException) {
+        } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
@@ -210,28 +189,24 @@ public class ServerController {
        // serverTable.setItems(serverCMSController.getServerList());
     }
 
-    private void filter(){
+    void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes  
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(servermodel -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (servermodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }
-                else if (servermodel.getVersion().toLowerCase().contains(lowerCaseFilter))
-                    return true;
-                else
-                    return false; // Does not match.
-            });
-        });
+        textField.textProperty().addListener((observable, newValue, oldValue) -> filteredData.setPredicate(servermodel -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (servermodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches first name.
+            } else // Does not match.
+                if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches last name.
+            }
+            else return servermodel.getVersion().toLowerCase().contains(lowerCaseFilter);
+        }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
         // 4. Bind the SortedList comparator to the TableView comparator.

@@ -1,26 +1,16 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
-import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.utils.Url;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.TextArea;
 
 public class MultiController implements Initializable {
@@ -28,7 +18,6 @@ public class MultiController implements Initializable {
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
     ServerController server = ServerController.getInstance();
-    private final Desktop desktop = Desktop.getDesktop();
     @FXML
     private Button btnOk;
 
@@ -49,8 +38,8 @@ public class MultiController implements Initializable {
         Button btn = (Button) event.getSource();
         if (btn.equals(btnOk)) {
             String[] parts = textField.getText().split("\n");
-            for(int i = 0; i < parts.length; i++){
-                processURL(parts[i]);
+            for (String part : parts) {
+                processURL(part);
             }
         }else{
             File file = fileChooser.showOpenDialog(null);
@@ -68,8 +57,8 @@ public class MultiController implements Initializable {
         String target = null;
         try {
             target = urlUtils.processUrl(url);
-        } catch (IOException ioException) { ioException.printStackTrace();
-        } catch (SQLException throwables) { throwables.printStackTrace(); }
+        } catch (IOException | SQLException ioException) { ioException.printStackTrace();
+        }
 
         if(target!=null){
             try {

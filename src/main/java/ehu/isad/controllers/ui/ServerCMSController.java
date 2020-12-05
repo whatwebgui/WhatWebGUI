@@ -71,7 +71,7 @@ public class ServerCMSController {
         return new String[]{target, var, version, date};
     }
 
-    public void click(String domain, String target) throws IOException {
+    public void click(String domain, String target) {
         Thread thread = new Thread( () -> {
             System.out.println("he entrado");
             if(serverCMSDB.domainInDB(target)){//file is already in the table

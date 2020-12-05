@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -33,7 +32,6 @@ public class MainController implements Initializable {
     private Parent pane4;
     HistoryController historyController;
     private Parent pane5;
-    //StatisticsController statisticsController;
     private Parent pane6;
     SettingsController settingsController;
     private  Parent pane7;

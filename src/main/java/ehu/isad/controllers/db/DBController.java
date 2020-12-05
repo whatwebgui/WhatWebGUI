@@ -45,7 +45,8 @@ public class DBController {
     }
 
     public ResultSet execSQL(String query) {
-        conClose();conOpen();
+        conClose();
+        conOpen();
         ResultSet rs = null;
         try {
             Statement s = conn.createStatement();

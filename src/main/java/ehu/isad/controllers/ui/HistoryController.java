@@ -1,27 +1,19 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
-import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.HistoryModel;
-import ehu.isad.model.ServerCMSModel;
-import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -103,16 +95,7 @@ public class HistoryController implements Initializable {
             String url = null;
             String targetEncoded = URLEncoder.encode(item.getDomain().getText(), StandardCharsets.UTF_8);
             //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
-            if (menuitem.equals(targetTwitter)){
-                url = "https://twitter.com/intent/tweet?url=";
-            } else if (menuitem.equals(targetFacebook)){
-                url = "https://www.facebook.com/share.php?u=";
-            } else if (menuitem.equals(targetReddit)){
-                url = "https://www.reddit.com/submit?url=";
-            }else if (menuitem.equals(targetTumblr)){
-                url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
-            }
-            desktop.browse(URI.create(url+targetEncoded));
+            CMSController.itemEquals(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
         }
     }
 
@@ -172,23 +155,21 @@ public class HistoryController implements Initializable {
     private void filter(){
         FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(historymodel -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }
-                else
-                    return false; // Does not match.
-            });
-        });
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(historymodel -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches first name.
+            } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches last name.
+            }
+            else
+                return false; // Does not match.
+        }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<HistoryModel> sortedData = new SortedList<>(filteredData);
         // 4. Bind the SortedList comparator to the TableView comparator.

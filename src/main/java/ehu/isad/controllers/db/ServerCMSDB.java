@@ -1,15 +1,12 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.model.ServerCMSModel;
-import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import javax.xml.transform.Result;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 public class ServerCMSDB {
 
@@ -30,11 +27,7 @@ public class ServerCMSDB {
         String query = "select target_id from targets where target = '" + domain + "'";
         ResultSet rs = dbcontroller.execSQL(query);
         try {
-            if(rs.next()){
-                return true;
-            }else{
-                return false;
-            }
+            return rs.next();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -94,14 +87,14 @@ public class ServerCMSDB {
     }
 
     private String openFile(String tab) {
-        StringBuffer sb=new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         FileReader fr;
         try {
             if (tab.equals("cms")) {
-                fr = new FileReader(new File(ServerCMSDB.class.getResource("/txt/cmslist.txt").getFile()));
+                fr = new FileReader(ServerCMSDB.class.getResource("/txt/cmslist.txt").getFile());
                 sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
             } else {
-                fr=new FileReader(new File(ServerCMSDB.class.getResource("/txt/serverlist.txt").getFile()));
+                fr=new FileReader(ServerCMSDB.class.getResource("/txt/serverlist.txt").getFile());
                 sb.append("('Apache', 'nginx', ");
             }
             BufferedReader br=new BufferedReader(fr);

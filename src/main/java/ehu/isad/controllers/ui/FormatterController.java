@@ -10,14 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-
 import java.awt.*;
 import java.io.*;
 import java.sql.SQLException;
@@ -52,14 +50,13 @@ public class FormatterController {
     private Button btn_show;
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
-    MainController mainController = MainController.getInstance();
     Url urlUtils = new Url();
     private final String path = Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
 
     private static FormatterController instance = new FormatterController();
 
-    private FormatterController(){};
+    private FormatterController(){}
 
     public static FormatterController getInstance() { return instance; }
 
@@ -106,7 +103,7 @@ public class FormatterController {
         }
     }
 
-    private void setText(Button btn,String url) throws IOException {
+    private void setText(Button btn,String url) {
         String newLine = System.getProperty("line.separator");
         Thread thread = new Thread(() -> {
             String result = String.join(newLine, getOutput(btn,url));

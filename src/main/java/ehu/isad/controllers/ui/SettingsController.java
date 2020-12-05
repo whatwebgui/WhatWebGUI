@@ -1,13 +1,10 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.Main;
 import ehu.isad.controllers.db.TutorialDB;
 import ehu.isad.controllers.db.WhatWebDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-
 import java.io.IOException;
 import java.sql.SQLException;
 

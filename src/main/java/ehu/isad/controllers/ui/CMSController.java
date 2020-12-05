@@ -1,17 +1,10 @@
 package ehu.isad.controllers.ui;
-
-import ehu.isad.model.HistoryModel;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
-import ehu.isad.utils.Utils;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -19,15 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class CMSController {
 
@@ -64,7 +53,7 @@ public class CMSController {
 
     private static CMSController instance = new CMSController();
 
-    private CMSController(){};
+    private CMSController(){}
 
     public static CMSController getInstance() { return instance; }
 
@@ -94,16 +83,7 @@ public class CMSController {
         this.openURL(model.getUrl());
     }
     void openURL(String url) throws IOException {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("cmd.exe", "/C", "start "+url);
-        } else if (os.contains("mac")) {
-            System.out.println("Soy mac");
-            Runtime.getRuntime().exec("open " + url);
-        } else if (os.contains("linux")) {
-            Runtime.getRuntime().exec("sensible-browser " + url);
-        }
+        ServerController.execOS(url);
     }
 
     @FXML
@@ -150,23 +130,31 @@ public class CMSController {
 
     @FXML
     void target(ActionEvent event) throws IOException {
+        getItem(event, cmsTable, targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop);
+    }
+
+    static void getItem(ActionEvent event, TableView<ServerCMSModel> cmsTable, MenuItem targetTwitter, MenuItem targetFacebook, MenuItem targetReddit, MenuItem targetTumblr, Desktop desktop) throws IOException {
         MenuItem menuitem = (MenuItem) event.getSource();
         ServerCMSModel item = cmsTable.getSelectionModel().getSelectedItem();
         if (item != null){
             String url = null;
             String targetEncoded = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
             //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
-            if (menuitem.equals(targetTwitter)){
-                url = "https://twitter.com/intent/tweet?url=";
-            } else if (menuitem.equals(targetFacebook)){
-                url = "https://www.facebook.com/share.php?u=";
-            } else if (menuitem.equals(targetReddit)){
-                url = "https://www.reddit.com/submit?url=";
-            }else if (menuitem.equals(targetTumblr)){
-                url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
-            }
-            desktop.browse(URI.create(url+targetEncoded));
+            itemEquals(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
         }
+    }
+
+    static void itemEquals(MenuItem targetTwitter, MenuItem targetFacebook, MenuItem targetReddit, MenuItem targetTumblr, Desktop desktop, MenuItem menuitem, String url, String targetEncoded) throws IOException {
+        if (menuitem.equals(targetTwitter)){
+            url = "https://twitter.com/intent/tweet?url=";
+        } else if (menuitem.equals(targetFacebook)){
+            url = "https://www.facebook.com/share.php?u=";
+        } else if (menuitem.equals(targetReddit)){
+            url = "https://www.reddit.com/submit?url=";
+        }else if (menuitem.equals(targetTumblr)){
+            url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
+        }
+        desktop.browse(URI.create(url+targetEncoded));
     }
 
     private String[] encoded(ServerCMSModel item) {
@@ -179,10 +167,8 @@ public class CMSController {
             if(urlUtils.processUrl(textField.getText())!=null){
                 CMS(urlUtils.processUrl(textField.getText()));
             }
-        } catch (IOException ioException) {
+        } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
