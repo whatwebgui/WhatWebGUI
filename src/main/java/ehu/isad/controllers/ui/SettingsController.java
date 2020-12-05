@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 
 public class SettingsController {
@@ -16,6 +17,8 @@ public class SettingsController {
     Button btn_cache;
     @FXML
     private Button btn_tutorial;
+    @FXML
+    private Button btn_code;
 
     private static SettingsController instance = new SettingsController();
 
@@ -28,11 +31,12 @@ public class SettingsController {
         Button btn = (Button) event.getSource();
         if (btn.equals(btn_clear)) WhatWebDB.getInstance().clearDB();
         else if (btn.equals(btn_cache)) WhatWebDB.getInstance().deleteCache();
-
-        else {
+        else if (btn.equals(btn_tutorial)){
             TutorialDB tutorialDB = TutorialDB.getInstance();
             tutorialDB.unsetTutorial();
             mainController.showPopUp();
+        } else if (btn.equals(btn_code)){
+            java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/whatwebgui/whatwebgui"));
         }
     }
 
