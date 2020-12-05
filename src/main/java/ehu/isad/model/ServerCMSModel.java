@@ -11,6 +11,7 @@ public class ServerCMSModel {
     public ServerCMSModel(String url, String cms, String server, String version, String lastUpdated){
         this.url = url;
         this.cms = cms;
+        this.versionc = versionc;
         this.server = server;
         this.version = version;
         this.lastUpdated = lastUpdated;
@@ -23,6 +24,8 @@ public class ServerCMSModel {
     public String getCms() {
         return cms;
     }
+
+    public String getVersionc() { return versionc; }
 
     public String getServer() {
         return server;

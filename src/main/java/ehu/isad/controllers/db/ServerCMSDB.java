@@ -34,51 +34,29 @@ public class ServerCMSDB {
         return true;
     }
 
-    public ObservableList<ServerCMSModel> getCMSDB(){
-        String list = openFile("cms");
-        ObservableList<ServerCMSModel> results = FXCollections.observableArrayList();
-        //String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in ('WordPress','Joomla','phpMyAdmin','Drupal') UNION SELECT t.target, CASE WHEN p.name = 'WordPress' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Wordpress' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name not in ('WordPress','Joomla','phpMyAdmin','Drupal') GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
-        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
-        ResultSet rs = dbcontroller.execSQL(query);
-        String url;
-        String plugin;
-        String version;
-        String lastUpdated;
-        try {
-            while (rs.next()) {
-                url = rs.getString("target");
-                plugin = rs.getString("name");
-                version = rs.getString("version");
-                lastUpdated = rs.getString("date");
-                if (plugin == null) {
-                    results.add(new ServerCMSModel(url, "unknown", null, "0", lastUpdated));
-                } else {
-                    results.add(new ServerCMSModel(url, plugin, null, version, lastUpdated));
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return  results;
-    }
-
-    public ObservableList<ServerCMSModel> getServerDB(){
+    public ObservableList<ServerCMSModel> getFromDB(){
         ObservableList<ServerCMSModel> results = FXCollections.observableArrayList();
         //String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name='Apache' UNION SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name!='Apache' GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
-        String list = openFile("server");
-        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
+        String listc = openFile("cms");
+        String lists = openFile("server");
+        String list = openFile("all");
+        String query = "SELECT DISTINCT q.target,q.cms,q.versionc,q.server,q.versions,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + listc + " THEN p.name ELSE 'unknown' END AS cms, CASE WHEN p.name in " + listc + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS versionc, CASE WHEN p.name in " + lists + " THEN p.name ELSE 'unknown' END AS server, CASE WHEN p.name in " + lists + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS versions, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS cms,'unknown' AS versionc, 'unknown' AS server,'unknown' AS versions, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
         ResultSet rs = dbcontroller.execSQL(query);
         String url;
-        String plugin;
-        String version;
+        String cms;
+        String versionc;
+        String server;
+        String versions;
         String lastUpdated;
         try {
             while (rs.next()) {
                 url = rs.getString("target");
-                plugin = rs.getString("name");
-                version = rs.getString("version");
+                cms = rs.getString("cms");
+                versionc = rs.getString("versionc");
+                server = rs.getString("server");
+                versions = rs.getString("versions");
                 lastUpdated = rs.getString("date");
-                results.add(new ServerCMSModel(url, null, plugin, version, lastUpdated));
+                results.add(new ServerCMSModel(url,cms,versionc,server,versions,lastUpdated));
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -93,9 +71,12 @@ public class ServerCMSDB {
             if (tab.equals("cms")) {
                 fr = new FileReader(ServerCMSDB.class.getResource("/txt/cmslist.txt").getFile());
                 sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
-            } else {
+            } else if (tab.equals("server")) {
                 fr=new FileReader(ServerCMSDB.class.getResource("/txt/serverlist.txt").getFile());
                 sb.append("('Apache', 'nginx', ");
+            } else {
+                fr=new FileReader(ServerCMSDB.class.getResource("/txt/list.txt").getFile());
+                sb.append("(");
             }
             BufferedReader br=new BufferedReader(fr);
             String line;

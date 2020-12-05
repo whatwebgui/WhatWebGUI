@@ -190,7 +190,7 @@ public class CMSController {
     public void setItems() {
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
-        versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
+        versionColumn.setCellValueFactory(new PropertyValueFactory<>("versionc"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
     }
 

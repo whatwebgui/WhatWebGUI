@@ -88,7 +88,7 @@ public class ServerController {
         this.openURL(model.getUrl());
     }
     void openURL(String url) throws IOException {
-        execOS(url);
+        desktop.browse(URI.create(url));
     }
 
     static void execOS(String url) throws IOException {
@@ -185,7 +185,7 @@ public class ServerController {
     public void setItems() {
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         serverColumn.setCellValueFactory(new PropertyValueFactory<>("server"));
-        versionColumn.setCellValueFactory(new PropertyValueFactory<>("version"));
+        versionColumn.setCellValueFactory(new PropertyValueFactory<>("versions"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
        // serverTable.setItems(serverCMSController.getServerList());
     }
