@@ -184,7 +184,6 @@ public class HistoryController implements Initializable {
         setItems();
         hoverAndLinkClick();
         tableview.setItems(getUserList());
-        filter();
         col_domain.setReorderable(false);
         col_date.setReorderable(false);
         col_tab.setReorderable(false);

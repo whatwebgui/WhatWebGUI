@@ -48,6 +48,7 @@ public class CMSController {
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
+    private ServerController server = ServerController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -182,6 +183,7 @@ public class CMSController {
     void CMS(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url);
+        server.filter();
         filter();
     }
 
@@ -192,7 +194,7 @@ public class CMSController {
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
     }
 
-    private void filter(){
+    public void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getCMSList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> {

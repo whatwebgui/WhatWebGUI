@@ -178,6 +178,7 @@ public class ServerController {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url);
         serverTable.setItems(serverCMSController.getServerList());
+        cms.filter();
         filter();
     }
 
