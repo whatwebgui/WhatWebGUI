@@ -25,12 +25,8 @@ public class ServerCMSController {
         return instance;
     }
 
-    ObservableList<ServerCMSModel> getCMSList(){
-        return serverCMSDB.getCMSDB();
-    }
-
-    ObservableList<ServerCMSModel> getServerList() {
-        return serverCMSDB.getServerDB();
+    ObservableList<ServerCMSModel> getServerCMSList() {
+        return serverCMSDB.getFromDB();
     }
 
     void createSQLFile(String domain, String target) throws IOException {
@@ -73,7 +69,6 @@ public class ServerCMSController {
 
     public void click(String domain, String target) {
         Thread thread = new Thread( () -> {
-            System.out.println("he entrado");
             if(serverCMSDB.domainInDB(target)){//file is already in the table
                 serverCMSDB.updateDate(target);
             }else{//file is not in the table, so we will have to create the sql file and insert it into the database

@@ -3,6 +3,9 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -177,7 +180,7 @@ public class ServerController {
     void Server(String url) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url);
-        serverTable.setItems(serverCMSController.getServerList());
+        serverTable.setItems(serverCMSController.getServerCMSList());
         cms.filter();
         filter();
     }
@@ -191,7 +194,7 @@ public class ServerController {
     }
 
     void filter(){
-        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerList(), b -> true);
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerCMSList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes  
         textField.textProperty().addListener((observable, newValue, oldValue) -> filteredData.setPredicate(servermodel -> {
             // If filter text is empty, display all persons.
@@ -220,7 +223,7 @@ public class ServerController {
     @FXML
     void initialize() {
         setItems();
-        serverTable.setItems(serverCMSController.getServerList());
+        serverTable.setItems(serverCMSController.getServerCMSList());
         filter();
     }
 }

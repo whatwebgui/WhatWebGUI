@@ -5,15 +5,16 @@ public class ServerCMSModel {
     private String url;
     private String cms;
     private String server;
-    private String version;
+    private String versionc;
+    private String versions;
     private String lastUpdated;
 
-    public ServerCMSModel(String url, String cms, String server, String version, String lastUpdated){
+    public ServerCMSModel(String url, String cms, String versionc, String server, String versions, String lastUpdated){
         this.url = url;
         this.cms = cms;
         this.versionc = versionc;
         this.server = server;
-        this.version = version;
+        this.versions = versions;
         this.lastUpdated = lastUpdated;
     }
 
@@ -31,11 +32,8 @@ public class ServerCMSModel {
         return server;
     }
 
-    public String getVersion() {
-        return version;
-    }
+    public String getVersions() { return versions; }
 
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
+    public String getLastUpdated() { return lastUpdated; }
+
 }
