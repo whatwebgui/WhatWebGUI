@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -67,7 +68,23 @@ public class HistoryController implements Initializable {
     @FXML
     private MenuItem targetTumblr;
     @FXML
-    void onBrowserRow(ActionEvent event) {
+    void onBrowserRow(ActionEvent event) throws IOException {
+        System.out.println("hola");
+        HistoryModel history = tableview.getSelectionModel().getSelectedItem();
+        this.openURL(history.getDomain());
+    }
+    void openURL(Hyperlink url) throws IOException {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("cmd.exe", "/C", "wsl " + "start"+url.toString());
+        } else if (os.contains("mac")) {
+            System.out.println("Soy mac");
+            Runtime.getRuntime().exec("open " + url.toString());
+        } else if (os.contains("linux")) {
+            Runtime.getRuntime().exec("xdg-open " + url.toString());
+        }
+
 
     }
 
