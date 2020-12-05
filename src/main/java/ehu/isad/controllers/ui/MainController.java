@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -123,10 +122,11 @@ public class MainController implements Initializable {
         //TODO
     }
 
-    public void showPopUp(String url) throws IOException, SQLException {
-            TutorialDB tutorialDB = TutorialDB.getInstance();
-            if(!tutorialDB.tutorialDone()) {
-                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("panes/tutorial.fxml")));
+    public void showPopUp() throws IOException, SQLException {
+            FXMLLoader loaderTutorial = new FXMLLoader(getClass().getResource("/panes/tutorial.fxml"));
+            loaderTutorial.setController(TutorialController.getInstance());
+            if(!TutorialDB.getInstance().tutorialDone()) {
+                Parent root = (Parent) loaderTutorial.load();
                 Stage stage = new Stage();
                 stage.setResizable(false);
                 stage.initStyle(StageStyle.UNDECORATED);
