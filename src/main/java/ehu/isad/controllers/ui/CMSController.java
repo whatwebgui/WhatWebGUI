@@ -186,7 +186,7 @@ public class CMSController {
     void onClick(ActionEvent event) {
         try {
             if(urlUtils.processUrl(textField.getText())!=null){
-                CMS(urlUtils.processUrl(textField.getText()),false);
+                processUrl(urlUtils.processUrl(textField.getText()),false);
             }
         } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
@@ -200,7 +200,19 @@ public class CMSController {
         }
     }
 
+    void processUrl(String url,boolean multi){
+        Thread thread = new Thread( () -> {
+            try {
+                CMS(url,multi);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+
     void CMS(String url, boolean multiadd) throws IOException {
+        textField.clear();
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
         server.filter();

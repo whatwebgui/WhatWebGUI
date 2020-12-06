@@ -35,23 +35,39 @@ public class MultiController implements Initializable {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-        Button btn = (Button) event.getSource();
-        if (btn.equals(btnOk)) {
-            String[] parts = textField.getText().split("\n");
-            for (String part : parts) {
-                processURL(part);
-            }
-        }else{
-            File file = fileChooser.showOpenDialog(null);
+        Thread thread = new Thread( () -> {
+            Button btn = (Button) event.getSource();
+            if (btn.equals(btnOk)) {
+                String[] parts = textField.getText().split("\n");
+                for (String part : parts) {
+                    processURL(part);
+                }
+            }else{
+                File file = fileChooser.showOpenDialog(null);
 
-            BufferedReader input;
-            input = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = input.readLine()) != null) {
-                processURL(line);
+                BufferedReader input=null;
+                try {
+                    input = new BufferedReader(new FileReader(file));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String line=null;
+                while (true) {
+                    try {
+                        if (!((line = input.readLine()) != null)) break;
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    processURL(line);
+                }
+                try {
+                    input.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
-            input.close();
-        }
+        });
+        thread.start();
     }
 
     private void processURL(String url){

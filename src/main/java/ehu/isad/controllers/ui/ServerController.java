@@ -164,7 +164,7 @@ public class ServerController {
     void onClick(ActionEvent event) {
         try {
             if(urlUtils.processUrl(textField.getText())!=null){
-                Server(urlUtils.processUrl(textField.getText()),false);
+                processUrl(urlUtils.processUrl(textField.getText()),false);
             }
         } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
@@ -178,7 +178,19 @@ public class ServerController {
         }
     }
 
+    void processUrl(String url,boolean multi){
+        Thread thread = new Thread( () -> {
+            try {
+                Server(url,multi);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+
     void Server(String url, boolean multiadd) throws IOException {
+        textField.setText("");
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
         serverTable.setItems(serverCMSController.getServerCMSList());

@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="454.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="btnOk" layoutX="267.0" layoutY="404.0" mnemonicParsing="false" onAction="#onClick" text="Button" />
+      <Button fx:id="btnOk" layoutX="267.0" layoutY="404.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
       <Button fx:id="btnFiles" layoutX="419.0" layoutY="23.0" mnemonicParsing="false" onAction="#onClick" text="Upload file" />
       <TextArea fx:id="textField" layoutX="88.0" layoutY="76.0" prefHeight="311.0" prefWidth="424.0" promptText="Scan result(s)" />
    </children>
