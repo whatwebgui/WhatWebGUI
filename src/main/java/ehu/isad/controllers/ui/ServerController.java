@@ -150,7 +150,7 @@ public class ServerController {
     void onClick(ActionEvent event) {
         try {
             if(urlUtils.processUrl(textField.getText())!=null){
-                Server(urlUtils.processUrl(textField.getText()));
+                Server(urlUtils.processUrl(textField.getText()),false);
             }
         } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
@@ -164,9 +164,9 @@ public class ServerController {
         }
     }
 
-    void Server(String url) throws IOException {
+    void Server(String url, boolean multiadd) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
-        serverCMSController.click(domain, url);
+        serverCMSController.click(domain, url,multiadd);
         serverTable.setItems(serverCMSController.getServerCMSList());
         cms.filter();
         filter();

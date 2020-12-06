@@ -169,7 +169,7 @@ public class CMSController {
     void onClick(ActionEvent event) {
         try {
             if(urlUtils.processUrl(textField.getText())!=null){
-                CMS(urlUtils.processUrl(textField.getText()));
+                CMS(urlUtils.processUrl(textField.getText()),false);
             }
         } catch (IOException | SQLException ioException) {
             ioException.printStackTrace();
@@ -183,9 +183,9 @@ public class CMSController {
         }
     }
 
-    void CMS(String url) throws IOException {
+    void CMS(String url, boolean multiadd) throws IOException {
         String domain = url.replace("/", "").split(":")[1];
-        serverCMSController.click(domain, url);
+        serverCMSController.click(domain, url,multiadd);
         server.filter();
         filter();
     }

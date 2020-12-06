@@ -62,9 +62,9 @@ public class MultiController implements Initializable {
 
         if(target!=null){
             try {
-                cms.CMS(target);
-                server.Server(target);
-                HistoryDB.getInstance().addToHistoryDB(target,"CMS/SERVER");
+                cms.CMS(target,true);
+                server.Server(target,true);
+                HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
             } catch (IOException ioException) { ioException.printStackTrace(); }
         }
     }
