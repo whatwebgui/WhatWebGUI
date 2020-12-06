@@ -18,10 +18,10 @@
       <TableView fx:id="serverTable" layoutY="99.0" prefHeight="368.0" prefWidth="600.0">
          <columns>
             <TableColumn fx:id="starColumn" editable="false" resizable="false"  prefWidth="22.0" sortable="false" />
-            <TableColumn fx:id="urlColumn" editable="false" resizable="false"  prefWidth="225.0" sortable="false" text="URL" />
-            <TableColumn fx:id="serverColumn" editable="false" resizable="false"  prefWidth="105.0" sortable="false" text="CMS" />
+            <TableColumn fx:id="urlColumn" editable="false" resizable="false"  prefWidth="215.0" sortable="false" text="URL" />
+            <TableColumn fx:id="serverColumn" editable="false" resizable="false"  prefWidth="105.0" sortable="false" text="Server" />
             <TableColumn fx:id="versionColumn" editable="false" resizable="false"  prefWidth="75.0" sortable="false" text="Version" />
-            <TableColumn fx:id="lastUpdatedColumn" editable="false" resizable="false"  prefWidth="172.0" sortable="false" text="Last Updated" />
+            <TableColumn fx:id="lastUpdatedColumn" editable="false" resizable="false"  prefWidth="170.0" sortable="false" text="Last Updated" />
          </columns>
          <contextMenu>
             <ContextMenu>

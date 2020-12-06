@@ -43,7 +43,7 @@ public class SettingsController {
             if(System.getProperty("os.name").toLowerCase().contains("linux")){
                 Runtime.getRuntime().exec("sensible-browser https://github.com/whatwebgui/whatwebgui");
             }else{
-                java.awt.Desktop.getDesktop().browse(URI.create(""));
+                java.awt.Desktop.getDesktop().browse(URI.create("https://github.com/whatwebgui/whatwebgui"));
             }
         }
     }

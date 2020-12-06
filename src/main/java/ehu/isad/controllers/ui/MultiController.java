@@ -5,6 +5,8 @@ import ehu.isad.utils.Url;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import java.io.*;
@@ -35,39 +37,53 @@ public class MultiController implements Initializable {
 
     @FXML
     void onClick(ActionEvent event) throws IOException {
-        Thread thread = new Thread( () -> {
+
+
             Button btn = (Button) event.getSource();
             if (btn.equals(btnOk)) {
-                String[] parts = textField.getText().split("\n");
-                for (String part : parts) {
-                    processURL(part);
-                }
+                btnFiles.getScene().setCursor(Cursor.WAIT);
+                Thread thread = new Thread( () -> {
+                    String[] parts = textField.getText().split("\n");
+                    for (String part : parts) {
+                        processURL(part);
+                    }
+                    btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                });
+                thread.start();
             }else{
                 File file = fileChooser.showOpenDialog(null);
-
-                BufferedReader input=null;
-                try {
-                    input = new BufferedReader(new FileReader(file));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                String line=null;
-                while (true) {
+                btnFiles.getScene().setCursor(Cursor.WAIT);
+                Thread thread = new Thread( () -> {
+                    btnFiles.getScene().setCursor(Cursor.WAIT);
+                    BufferedReader input=null;
                     try {
-                        if (!((line = input.readLine()) != null)) break;
+                        input = new BufferedReader(new FileReader(file));
+                    } catch (Exception e) {
+                        btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                        e.printStackTrace();
+                    }
+                    String line=null;
+                    while (true) {
+                        try {
+                            if (!((line = input.readLine()) != null)) break;
+                        } catch (IOException ioException) {
+                            btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                            ioException.printStackTrace();
+                        }
+                        processURL(line);
+                    }
+                    try {
+                        input.close();
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
+                    } finally {
+                        btnFiles.getScene().setCursor(Cursor.DEFAULT);
                     }
-                    processURL(line);
-                }
-                try {
-                    input.close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                });
+                thread.start();
             }
-        });
-        thread.start();
+
+
     }
 
     private void processURL(String url){
