@@ -293,6 +293,18 @@ public class CMSController {
         cmsTable.setItems(sortedData);
     }
 
+    private void style(){
+        starColumn.setReorderable(false);
+        starColumn.setStyle("-fx-alignment: CENTER;");
+        urlColumn.setReorderable(false);
+        cmsColumn.setReorderable(false);
+        cmsColumn.setStyle("-fx-alignment: CENTER;");
+        versionColumn.setReorderable(false);
+        versionColumn.setStyle("-fx-alignment: CENTER;");
+        lastUpdatedColumn.setReorderable(false);
+        lastUpdatedColumn.setStyle("-fx-alignment: CENTER;");
+    }
+
     @FXML
     void initialize(){
         setItems();
@@ -311,10 +323,6 @@ public class CMSController {
                 filter();
             }
         });
-        starColumn.setReorderable(false);
-        urlColumn.setReorderable(false);
-        cmsColumn.setReorderable(false);
-        versionColumn.setReorderable(false);
-        lastUpdatedColumn.setReorderable(false);
+        style();
     }
 }

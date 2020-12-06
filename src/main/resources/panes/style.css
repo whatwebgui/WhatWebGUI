@@ -11,6 +11,11 @@
     -fx-text-fill: -fx-text-background-color ;
 }
 
+.table-center {
+    -fx-alignment: CENTER;
+}
+
+
 .root {
     -fx-body-color: #F5F5F5;
     -fx-outer-border: #cecece;

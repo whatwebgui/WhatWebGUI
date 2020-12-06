@@ -189,14 +189,21 @@ public class HistoryController implements Initializable {
         tableview.setItems(sortedData);
     }
 
+    private void style(){
+        col_domain.setReorderable(false);
+        col_domain.setStyle("-fx-alignment: CENTER;");
+        col_date.setReorderable(false);
+        col_date.setStyle("-fx-alignment: CENTER;");
+        col_tab.setReorderable(false);
+        col_tab.setStyle("-fx-alignment: CENTER;");
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setItems();
         hoverAndLinkClick();
         tableview.setItems(getUserList());
         filter();
-        col_domain.setReorderable(false);
-        col_date.setReorderable(false);
-        col_tab.setReorderable(false);
+        style();
     }
 }

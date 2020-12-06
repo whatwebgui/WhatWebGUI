@@ -273,6 +273,18 @@ public class ServerController {
         serverTable.setItems(sortedData);
     }
 
+    private void style(){
+        starColumn.setReorderable(false);
+        starColumn.setStyle("-fx-alignment: CENTER;");
+        urlColumn.setReorderable(false);
+        serverColumn.setReorderable(false);
+        serverColumn.setStyle("-fx-alignment: CENTER;");
+        versionColumn.setReorderable(false);
+        versionColumn.setStyle("-fx-alignment: CENTER;");
+        lastUpdatedColumn.setReorderable(false);
+        lastUpdatedColumn.setStyle("-fx-alignment: CENTER;");
+    }
+
     @FXML
     void initialize() {
         setItems();
@@ -291,10 +303,6 @@ public class ServerController {
                 filter();
             }
         });
-        starColumn.setReorderable(false);
-        urlColumn.setReorderable(false);
-        serverColumn.setReorderable(false);
-        versionColumn.setReorderable(false);
-        lastUpdatedColumn.setReorderable(false);
+        style();
     }
 }
