@@ -1,4 +1,5 @@
 package ehu.isad.controllers.ui;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
@@ -39,6 +40,9 @@ public class CMSController {
 
     @FXML
     private TableView<ServerCMSModel> cmsTable;
+
+    @FXML
+    private TableColumn<ServerCMSModel, FontAwesomeIconView> starColumn;
 
     @FXML
     private TableColumn<ServerCMSModel, String> urlColumn;
@@ -86,7 +90,7 @@ public class CMSController {
     @FXML
     void onBrowserRow(ActionEvent event) throws IOException {
         ServerCMSModel model = cmsTable.getSelectionModel().getSelectedItem();
-        this.openURL(model.getUrl());
+        this.openURL(model.getUrl().getText());
     }
     void openURL(String url) throws IOException {
         if(System.getProperty("os.name").toLowerCase().contains("linux")){
@@ -100,13 +104,21 @@ public class CMSController {
     void onFavUnFavRow(ActionEvent event) {
         ServerCMSModel item = cmsTable.getSelectionModel().getSelectedItem();
         if(item != null) {
-            if (ServerCMSDB.getInstance().isFav(item.getUrl())) {
+            if (ServerCMSDB.getInstance().isFav(item.getUrl().getText())) {
                 ServerCMSDB.getInstance().removeFromFavorites(item);
+                item.setStar(0);
                 if(comboBox.getValue().equals("Favorites")){
                     filterFavorites();
+                    server.filterFavorites();
+                } else {
+                    filter();
+                    server.filter();
                 }
             } else {
+                item.setStar(1);
                 ServerCMSDB.getInstance().addToFavorites(item);
+                filter();
+                server.filter();
             }
         }
     }
@@ -123,7 +135,7 @@ public class CMSController {
         if (item != null){
             String url = null;
             String[] encoded = encoded(item);
-            String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
+            String domain = URLEncoder.encode(item.getUrl().getText().replace("/","").split(":")[1], StandardCharsets.UTF_8);
             if (menuitem.equals(scanTwitter)){
                 url = "https://twitter.com/intent/tweet?text=Target%3A%20"+encoded[0]+
                         "%0ACMS%3A%20"+encoded[1]+
@@ -159,7 +171,7 @@ public class CMSController {
         ServerCMSModel item = cmsTable.getSelectionModel().getSelectedItem();
         if (item != null){
             String url = null;
-            String targetEncoded = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
+            String targetEncoded = URLEncoder.encode(item.getUrl().getText(), StandardCharsets.UTF_8);
             //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
             itemEquals(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
         }
@@ -220,6 +232,7 @@ public class CMSController {
     }
 
     public void setItems() {
+        starColumn.setCellValueFactory(new PropertyValueFactory<>("star"));
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("versionc"));
@@ -236,7 +249,7 @@ public class CMSController {
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
+            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
             } else // Does not match.
                 if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
@@ -263,7 +276,7 @@ public class CMSController {
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
+            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
             } else // Does not match.
                 if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
@@ -298,5 +311,10 @@ public class CMSController {
                 filter();
             }
         });
+        starColumn.setReorderable(false);
+        urlColumn.setReorderable(false);
+        cmsColumn.setReorderable(false);
+        versionColumn.setReorderable(false);
+        lastUpdatedColumn.setReorderable(false);
     }
 }

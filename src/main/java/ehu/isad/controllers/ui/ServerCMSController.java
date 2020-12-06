@@ -65,7 +65,7 @@ public class ServerCMSController {
         } else if (servercms == 'c'){
             var = URLEncoder.encode(item.getCms(), StandardCharsets.UTF_8);
         }
-        String target = URLEncoder.encode(item.getUrl(), StandardCharsets.UTF_8);
+        String target = URLEncoder.encode(item.getUrl().getText(), StandardCharsets.UTF_8);
         String version = URLEncoder.encode(item.getVersions(), StandardCharsets.UTF_8);
         String date = URLEncoder.encode(item.getLastUpdated(), StandardCharsets.UTF_8);
         return new String[]{target, var, version, date};
