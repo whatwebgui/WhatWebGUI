@@ -1,26 +1,32 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
+import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.HistoryModel;
+import ehu.isad.model.ServerCMSModel;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -86,8 +92,7 @@ public class HistoryController implements Initializable {
 
     @FXML
     void onRemoveRow(ActionEvent event) {
-        //tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
-
+        tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -98,7 +103,16 @@ public class HistoryController implements Initializable {
             String url = null;
             String targetEncoded = URLEncoder.encode(item.getDomain().getText(), StandardCharsets.UTF_8);
             //String domain = URLEncoder.encode(item.getUrl().replace("/","").split(":")[1], StandardCharsets.UTF_8);
-            CMSController.itemEquals(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
+            if (menuitem.equals(targetTwitter)){
+                url = "https://twitter.com/intent/tweet?url=";
+            } else if (menuitem.equals(targetFacebook)){
+                url = "https://www.facebook.com/share.php?u=";
+            } else if (menuitem.equals(targetReddit)){
+                url = "https://www.reddit.com/submit?url=";
+            }else if (menuitem.equals(targetTumblr)){
+                url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
+            }
+            desktop.browse(URI.create(url+targetEncoded));
         }
     }
 
@@ -107,7 +121,7 @@ public class HistoryController implements Initializable {
 
     private ObservableList<HistoryModel> getUserList() {
         HistoryDB historyDB = HistoryDB.getInstance();
-        return  FXCollections.observableArrayList(historyDB.getFromHistoryDB());
+        return FXCollections.observableArrayList(historyDB.getFromHistoryDB());
     }
 
     public void setItems() {
@@ -128,7 +142,7 @@ public class HistoryController implements Initializable {
                 }
             });
             row.setOnMouseMoved(event -> {
-                if (!row.isEmpty() ) {
+                if (! row.isEmpty() ) {
                     Hyperlink hl = row.getItem().getDomain();
                     hl.setOnAction(e -> {
                         try {
@@ -158,18 +172,23 @@ public class HistoryController implements Initializable {
     private void filter(){
         FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(historymodel -> {
-            // If filter text is empty, display all persons.
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            // Compare first name and last name of every person with filter text.
-            String lowerCaseFilter = newValue.toLowerCase();
-            // Does not match.
-            if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches first name.
-            } else return historymodel.getTab().toLowerCase().contains(lowerCaseFilter); // Filter matches last name.
-        }));
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(historymodel -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (historymodel.getDomain().getText().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                else
+                    return false; // Does not match.
+            });
+        });
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<HistoryModel> sortedData = new SortedList<>(filteredData);
         // 4. Bind the SortedList comparator to the TableView comparator.
@@ -184,6 +203,7 @@ public class HistoryController implements Initializable {
         setItems();
         hoverAndLinkClick();
         tableview.setItems(getUserList());
+        filter();
         col_domain.setReorderable(false);
         col_date.setReorderable(false);
         col_tab.setReorderable(false);

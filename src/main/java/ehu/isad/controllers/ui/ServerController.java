@@ -168,7 +168,7 @@ public class ServerController {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
         serverTable.setItems(serverCMSController.getServerCMSList());
-        cms.filter();
+        CMSController.getInstance().filter();
         filter();
     }
 

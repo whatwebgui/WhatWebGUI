@@ -39,7 +39,7 @@ public class ServerCMSDB {
     }
 
     public ObservableList<ServerCMSModel> getFromDB(){
-        ObservableList<ServerCMSModel> results = FXCollections.emptyObservableList();
+        ObservableList<ServerCMSModel> results = FXCollections.observableArrayList();
         //String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name='Apache' UNION SELECT t.target, CASE WHEN p.name = 'Apache' THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name = 'Apache' THEN s.version WHEN s.version = '0' THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name!='Apache' GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
         String listc = openFile("cms");
         String lists = openFile("server");
@@ -113,8 +113,9 @@ public class ServerCMSDB {
         } catch (Exception e) {
             domain = targ.replace("/", "");
         }
-        String target = correctDomain(domain)+"/";
+        String target = correctDomain(domain);
         String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + target + "')";
+        System.out.println(query);
         dbcontroller.execSQL(query);
 
     }
@@ -159,14 +160,15 @@ public class ServerCMSDB {
         ObservableList<ServerCMSModel> list = FXCollections.observableArrayList();
         Iterator<ServerCMSModel> itr = this.getFromDB().iterator();
         Random rm = new Random();
-        int num = rm.nextInt(6);
         ServerCMSModel sc = null;
         while(itr.hasNext()){
+            int num = rm.nextInt(6);
             sc = itr.next();
             if(num % 2 == 0) {
                 list.add(sc);
             }
         }
+        System.out.println(list.size());
         return list;
     }
 }
