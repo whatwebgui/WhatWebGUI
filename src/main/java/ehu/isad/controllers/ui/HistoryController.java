@@ -19,6 +19,8 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -84,7 +86,8 @@ public class HistoryController implements Initializable {
 
     @FXML
     void onRemoveRow(ActionEvent event) {
-        tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
+        //tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
+
     }
 
     @FXML
@@ -104,7 +107,7 @@ public class HistoryController implements Initializable {
 
     private ObservableList<HistoryModel> getUserList() {
         HistoryDB historyDB = HistoryDB.getInstance();
-        return FXCollections.observableArrayList(historyDB.getFromHistoryDB());
+        return  FXCollections.observableArrayList(historyDB.getFromHistoryDB());
     }
 
     public void setItems() {

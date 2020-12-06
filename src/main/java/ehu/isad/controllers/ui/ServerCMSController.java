@@ -29,6 +29,9 @@ public class ServerCMSController {
     ObservableList<ServerCMSModel> getServerCMSList() {
         return serverCMSDB.getFromDB();
     }
+    ObservableList<ServerCMSModel> getFav() {
+        return serverCMSDB.favoritesList();
+    }
 
     void createSQLFile(String domain, String target) throws IOException {
         Process p;

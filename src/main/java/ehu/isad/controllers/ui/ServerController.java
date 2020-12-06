@@ -217,6 +217,13 @@ public class ServerController {
         list.add("Favorites");
         comboBox.setValue("All");
         comboBox.setItems(list);
+        comboBox.setOnAction(e -> {
+            String value = comboBox.getValue();
+            if(value.equals("Favorites")){
 
+            }else{
+                filter();
+            }
+        });
     }
 }

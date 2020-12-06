@@ -30,7 +30,7 @@ public class CMSController {
     private TextField textField;
 
     @FXML
-    private ComboBox<?> comboBox;
+    private ComboBox<String> comboBox;
 
     @FXML
     private Button scanBtn;
@@ -224,10 +224,50 @@ public class CMSController {
         cmsTable.setItems(sortedData);
     }
 
+    public void filter2(){
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches first name.
+            } else // Does not match.
+                if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
+        }));
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(cmsTable.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        cmsTable.setItems(sortedData);
+    }
+
     @FXML
     void initialize(){
         setItems();
         cmsTable.setItems(serverCMSController.getServerCMSList());
         filter();
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("All");
+        list.add("Favorites");
+        comboBox.setValue("All");
+        comboBox.setItems(list);
+        comboBox.setOnAction(e -> {
+            String value = comboBox.getValue();
+            if(value.equals("Favorites")){
+                filter2();
+            }else{
+                filter();
+            }
+        });
     }
 }
