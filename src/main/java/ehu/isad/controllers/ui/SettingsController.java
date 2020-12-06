@@ -29,7 +29,11 @@ public class SettingsController {
     @FXML
     void onClick(ActionEvent event) throws IOException, SQLException {
         Button btn = (Button) event.getSource();
-        if (btn.equals(btn_clear)) WhatWebDB.getInstance().clearDB();
+        if (btn.equals(btn_clear)){
+            WhatWebDB.getInstance().clearDB();
+            CMSController.getInstance().filter();
+            ServerController.getInstance().filter();
+        }
         else if (btn.equals(btn_cache)) WhatWebDB.getInstance().deleteCache();
         else if (btn.equals(btn_tutorial)){
             TutorialDB tutorialDB = TutorialDB.getInstance();

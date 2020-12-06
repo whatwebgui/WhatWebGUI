@@ -43,6 +43,7 @@ public class MultiController implements Initializable {
             }
         }else{
             File file = fileChooser.showOpenDialog(null);
+
             BufferedReader input;
             input = new BufferedReader(new FileReader(file));
             String line;
