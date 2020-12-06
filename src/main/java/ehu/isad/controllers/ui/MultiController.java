@@ -40,26 +40,27 @@ public class MultiController implements Initializable {
 
 
             Button btn = (Button) event.getSource();
+            Scene scene = btnFiles.getScene();
             if (btn.equals(btnOk)) {
-                btnFiles.getScene().setCursor(Cursor.WAIT);
+                scene.setCursor(Cursor.WAIT);
                 Thread thread = new Thread( () -> {
                     String[] parts = textField.getText().split("\n");
                     for (String part : parts) {
                         processURL(part);
                     }
-                    btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                    scene.setCursor(Cursor.DEFAULT);
                 });
                 thread.start();
             }else{
                 File file = fileChooser.showOpenDialog(null);
-                btnFiles.getScene().setCursor(Cursor.WAIT);
+                scene.setCursor(Cursor.WAIT);
                 Thread thread = new Thread( () -> {
-                    btnFiles.getScene().setCursor(Cursor.WAIT);
+                    scene.setCursor(Cursor.WAIT);
                     BufferedReader input=null;
                     try {
                         input = new BufferedReader(new FileReader(file));
                     } catch (Exception e) {
-                        btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                        scene.setCursor(Cursor.DEFAULT);
                         e.printStackTrace();
                     }
                     String line=null;
@@ -67,7 +68,7 @@ public class MultiController implements Initializable {
                         try {
                             if (!((line = input.readLine()) != null)) break;
                         } catch (IOException ioException) {
-                            btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                            scene.setCursor(Cursor.DEFAULT);
                             ioException.printStackTrace();
                         }
                         processURL(line);
@@ -77,11 +78,12 @@ public class MultiController implements Initializable {
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } finally {
-                        btnFiles.getScene().setCursor(Cursor.DEFAULT);
+                        scene.setCursor(Cursor.DEFAULT);
                     }
                 });
                 thread.start();
             }
+
 
 
     }
