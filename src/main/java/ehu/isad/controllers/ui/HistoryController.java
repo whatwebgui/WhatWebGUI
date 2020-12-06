@@ -125,7 +125,7 @@ public class HistoryController implements Initializable {
                 }
             });
             row.setOnMouseMoved(event -> {
-                if (! row.isEmpty() ) {
+                if (!row.isEmpty() ) {
                     Hyperlink hl = row.getItem().getDomain();
                     hl.setOnAction(e -> {
                         try {

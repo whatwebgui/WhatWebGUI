@@ -1,6 +1,9 @@
 package ehu.isad.controllers.ui;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;

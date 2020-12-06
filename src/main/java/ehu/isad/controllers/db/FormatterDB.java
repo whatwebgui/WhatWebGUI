@@ -13,6 +13,7 @@ public class FormatterDB {
         return controller;
     }
     private FormatterDB() {}
+
     private final DBController dbcontroller = DBController.getController();
 
     public boolean formatExists(String domain, Extension choice) throws SQLException {
