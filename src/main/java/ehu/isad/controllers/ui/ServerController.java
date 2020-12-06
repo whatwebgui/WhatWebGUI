@@ -90,7 +90,11 @@ public class ServerController {
         this.openURL(model.getUrl());
     }
     void openURL(String url) throws IOException {
-        desktop.browse(URI.create(url));
+        if(System.getProperty("os.name").toLowerCase().contains("linux")){
+            Runtime.getRuntime().exec("sensible-browser " + url);
+        }else{
+            desktop.browse(URI.create(url));
+        }
     }
 
     @FXML

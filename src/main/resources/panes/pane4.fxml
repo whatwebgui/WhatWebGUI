@@ -20,8 +20,8 @@
             <ContextMenu>
               <items>
                   <MenuItem fx:id="removeRow" mnemonicParsing="false" onAction="#onRemoveRow" text="Remove this row" />
-                    <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
-                    <Menu mnemonicParsing="false" text="Share target">
+                <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
+                  <Menu mnemonicParsing="false" text="Share target">
                      <items>
                         <MenuItem fx:id="targetTwitter" mnemonicParsing="false" onAction="#target" text="Twitter" />
                         <MenuItem fx:id="targetFacebook" mnemonicParsing="false" onAction="#target" text="Facebook" />
