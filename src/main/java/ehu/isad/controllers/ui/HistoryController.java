@@ -69,25 +69,16 @@ public class HistoryController implements Initializable {
     private MenuItem targetTumblr;
     @FXML
     void onBrowserRow(ActionEvent event) throws IOException {
-        System.out.println("hola");
         HistoryModel history = tableview.getSelectionModel().getSelectedItem();
         this.openURL(history.getDomain());
     }
-    void openURL(Hyperlink url) throws IOException {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("cmd.exe", "/C", "start "+url.getText());
-        } else if (os.contains("mac")) {
-            System.out.println("Soy mac");
-            Runtime.getRuntime().exec("open " + url.getText());
-        } else if (os.contains("linux")) {
-            Runtime.getRuntime().exec("sensible-browser " + url.getText());
-        }
-    }
 
-    @FXML
-    void onFavUnFavRow(ActionEvent event) {
+    void openURL(Hyperlink url) throws IOException {
+        if(System.getProperty("os.name").toLowerCase().contains("linux")){
+            Runtime.getRuntime().exec("sensible-browser " + url.getText());
+        }else{
+            desktop.browse(URI.create(url.getText()));
+        }
     }
 
     @FXML
