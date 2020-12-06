@@ -8,6 +8,7 @@ public class ServerCMSModel {
     private String versionc;
     private String versions;
     private String lastUpdated;
+    private boolean fav;
 
     public ServerCMSModel(String url, String cms, String versionc, String server, String versions, String lastUpdated){
         this.url = url;

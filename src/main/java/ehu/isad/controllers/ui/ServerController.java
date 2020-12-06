@@ -95,7 +95,17 @@ public class ServerController {
 
     @FXML
     void onFavUnFavRow(ActionEvent event) {
-        ServerCMSDB.getInstance().addToFavorites(serverTable.getSelectionModel().getSelectedItem());
+        ServerCMSModel item = serverTable.getSelectionModel().getSelectedItem();
+        if(item != null) {
+            if (ServerCMSDB.getInstance().isFav(item.getUrl())) {
+                ServerCMSDB.getInstance().removeFromFavorites(item);
+                if(comboBox.getValue().equals("Favorites")){
+                    filterFavorites();
+                }
+            } else {
+                ServerCMSDB.getInstance().addToFavorites(item);
+            }
+        }
     }
 
     @FXML
@@ -207,6 +217,33 @@ public class ServerController {
         serverTable.setItems(sortedData);
     }
 
+    public void filterFavorites(){
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (cmsmodel.getUrl().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches first name.
+            } else // Does not match.
+                if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
+        }));
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(serverTable.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        serverTable.setItems(sortedData);
+    }
+
     @FXML
     void initialize() {
         setItems();
@@ -220,7 +257,7 @@ public class ServerController {
         comboBox.setOnAction(e -> {
             String value = comboBox.getValue();
             if(value.equals("Favorites")){
-
+                filterFavorites();
             }else{
                 filter();
             }

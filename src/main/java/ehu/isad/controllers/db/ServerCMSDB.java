@@ -139,8 +139,29 @@ public class ServerCMSDB {
         DBController.getController().execSQL(query);
     }
 
+    public void removeFromFavorites(ServerCMSModel selectedItem) {
+        String query = "update targets set favorite = False where target like '%"+selectedItem.getUrl()+ "%'";
+        DBController.getController().execSQL(query);
+    }
 
-    public ObservableList<ServerCMSModel> getFavorites() {
+    public boolean isFav (String target){
+        String query = "select favorite from targets where target ='" + target + "'";
+        ResultSet rs = DBController.getController().execSQL(query);
+        try {
+            while (rs.next()) {
+                if(rs.getString("favorite").equals("1")){
+                    return true;
+                }else {
+                    return false;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*public ObservableList<ServerCMSModel> getFavorites() {
         String list = openFile("server");
         String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
         ResultSet rs = DBController.getController().execSQL(query);
@@ -154,17 +175,15 @@ public class ServerCMSDB {
             throwables.printStackTrace();
         }
         return oList;
-    }
+    }*/
 
     public ObservableList<ServerCMSModel> favoritesList(){
         ObservableList<ServerCMSModel> list = FXCollections.observableArrayList();
         Iterator<ServerCMSModel> itr = this.getFromDB().iterator();
-        Random rm = new Random();
         ServerCMSModel sc = null;
         while(itr.hasNext()){
-            int num = rm.nextInt(6);
             sc = itr.next();
-            if(num % 2 == 0) {
+            if(isFav(sc.getUrl())) {
                 list.add(sc);
             }
         }

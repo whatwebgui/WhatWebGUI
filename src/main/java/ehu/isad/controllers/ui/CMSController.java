@@ -1,7 +1,9 @@
 package ehu.isad.controllers.ui;
+import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -92,6 +94,17 @@ public class CMSController {
 
     @FXML
     void onFavUnFavRow(ActionEvent event) {
+        ServerCMSModel item = cmsTable.getSelectionModel().getSelectedItem();
+        if(item != null) {
+            if (ServerCMSDB.getInstance().isFav(item.getUrl())) {
+                ServerCMSDB.getInstance().removeFromFavorites(item);
+                if(comboBox.getValue().equals("Favorites")){
+                    filterFavorites();
+                }
+            } else {
+                ServerCMSDB.getInstance().addToFavorites(item);
+            }
+        }
     }
 
     @FXML
@@ -224,7 +237,7 @@ public class CMSController {
         cmsTable.setItems(sortedData);
     }
 
-    public void filter2(){
+    public void filterFavorites(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
@@ -264,7 +277,7 @@ public class CMSController {
         comboBox.setOnAction(e -> {
             String value = comboBox.getValue();
             if(value.equals("Favorites")){
-                filter2();
+                filterFavorites();
             }else{
                 filter();
             }
