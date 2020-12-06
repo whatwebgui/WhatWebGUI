@@ -32,7 +32,7 @@ public class WhatWebDB {
         File directory = new File(p.getProperty("pathToFolder")+"cache/");
         if(directory.exists()){
             try {
-                deleteDirectory(directory);
+                deleteDirectory(new File(p.getProperty("pathToFolder")));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -50,10 +50,10 @@ public class WhatWebDB {
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.directory(path);
-            processBuilder.command("cmd.exe", "/C", "wsl rm -rf " + path);
+            processBuilder.command("cmd.exe", "/C", "rmdir cache /s /q");
             p = processBuilder.start();
         } else {
-            p = Runtime.getRuntime().exec("rm -rf " + path);
+            p = Runtime.getRuntime().exec("rm -rf cache");
         }
         while(p.isAlive()){}
     }
