@@ -1,7 +1,10 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.utils.Utils;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -28,11 +31,11 @@ public class WhatWebDB {
     }
 
     public void deleteCache(){
-        Properties p = Utils.getProperties();
-        File directory = new File(p.getProperty("pathToFolder")+"cache/");
+        File directory = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/cache");
+        System.out.println(directory.getAbsolutePath());
         if(directory.exists()){
             try {
-                deleteDirectory(new File(p.getProperty("pathToFolder")));
+                deleteDirectory(new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -58,4 +61,18 @@ public class WhatWebDB {
         while(p.isAlive()){}
     }
 
+    public void createDB() {
+        File directory = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/");
+        directory.mkdir();
+        FileReader fr;
+        try {
+            fr = new FileReader(ServerCMSDB.class.getResource("/txt/db.txt").getFile());
+            BufferedReader br=new BufferedReader(fr);
+            String line;
+            while((line=br.readLine())!=null) {
+                dbcontroller.execSQL(line);
+            }
+            fr.close();
+        } catch(IOException e){ e.printStackTrace();}
+    }
 }

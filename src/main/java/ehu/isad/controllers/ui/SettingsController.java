@@ -1,10 +1,12 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.controllers.db.TutorialDB;
 import ehu.isad.controllers.db.WhatWebDB;
+import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
@@ -36,8 +38,8 @@ public class SettingsController {
         }
         else if (btn.equals(btn_cache)) WhatWebDB.getInstance().deleteCache();
         else if (btn.equals(btn_tutorial)){
-            TutorialDB tutorialDB = TutorialDB.getInstance();
-            tutorialDB.unsetTutorial();
+            File done = new File(System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+".done");
+            done.delete();
             mainController.showPopUp();
         } else if (btn.equals(btn_code)){
             if(System.getProperty("os.name").toLowerCase().contains("linux")){

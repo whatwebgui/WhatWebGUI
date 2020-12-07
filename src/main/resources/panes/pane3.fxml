@@ -11,11 +11,11 @@
 
 <Pane fx:id="pane3" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0" onKeyPressed="#onKeyPressed" >
          <children>
             <Label layoutX="31.0" layoutY="36.0" text="URL:" />
             <Label layoutX="31.0" layoutY="128.0" text="Log:" />
-            <TextField fx:id="textField" layoutX="72.0" layoutY="30.0" onKeyPressed="#onKeyPressed" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
+            <TextField fx:id="textField" layoutX="72.0" layoutY="30.0" prefHeight="26.0" prefWidth="456.0" promptText="URL" />
             <TextArea fx:id="textArea" layoutX="72.0" layoutY="124.0" prefHeight="305.0" prefWidth="456.0" promptText="Log" />
             <Button fx:id="btn_scan" layoutX="72.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClick" text="Scan" />
             <ComboBox fx:id="combo" layoutX="72.0" layoutY="77.0" prefHeight="25.0" prefWidth="454.0" promptText="Choose the output format:" />

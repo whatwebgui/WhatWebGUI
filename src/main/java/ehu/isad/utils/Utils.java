@@ -1,5 +1,7 @@
 package ehu.isad.utils;
 
+import ehu.isad.controllers.db.WhatWebDB;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,11 +23,22 @@ public class Utils {
 
         return properties;
     }
+
+    public static void createDB(){
+        Properties p = Utils.getProperties();
+        String home = System.getProperty("user.home");
+        File database = new File(home+"/"+p.getProperty("pathToDB"));
+        if(!database.exists()) WhatWebDB.getInstance().createDB();
+    }
+
     public static void createDirectories(){
         Properties p = Utils.getProperties();
-        File directoryCache = new File(p.getProperty("pathToFolder")+"/cache");
-        if(!directoryCache.exists()) directoryCache.mkdir();
-        File directoryScreenshots = new File(p.getProperty("pathToFolder")+"/screenshots");
-        if(!directoryScreenshots.exists()) directoryScreenshots.mkdir();
+        String home = System.getProperty("user.home");
+        File directory = new File(home+"/"+p.getProperty("pathToFolder")+"");
+        if(!directory.exists()) directory.mkdir();
+        File directoryCache = new File(home+"/"+p.getProperty("pathToFolder")+"/cache");
+        directoryCache.mkdir();
+//        File directoryScreenshots = new File(p.getProperty("pathToFolder")+"/screenshots");
+//        if(!directoryScreenshots.exists()) directoryScreenshots.mkdir();
     }
 }

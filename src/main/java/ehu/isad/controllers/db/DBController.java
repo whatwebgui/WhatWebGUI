@@ -8,7 +8,7 @@ public class DBController {
 
     Connection conn=null;
     private static final DBController controller = new DBController();
-    private final String path = Utils.getProperties().getProperty("pathToDB");
+    private final String path = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToDB");
 
 
     private DBController() {

@@ -18,7 +18,7 @@ public class ServerCMSController {
 
     private static final ServerCMSController instance = new ServerCMSController();
     private static final ServerCMSDB serverCMSDB = ServerCMSDB.getInstance();
-    private final String path= Utils.getProperties().getProperty("pathToFolder");
+    private final String path= System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder");
 
     private ServerCMSController() { }
 

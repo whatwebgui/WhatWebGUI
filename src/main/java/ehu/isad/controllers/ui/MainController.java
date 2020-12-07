@@ -1,7 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import ehu.isad.controllers.db.TutorialDB;
+import ehu.isad.Main;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,14 +11,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -76,6 +77,7 @@ public class MainController implements Initializable {
 
     @FXML
     void handleClick(ActionEvent actionEvent) {
+
         pane.getChildren().clear();
         if (actionEvent.getSource() == btn1) {
             cmsController.setItems();
@@ -120,36 +122,40 @@ public class MainController implements Initializable {
         //TODO
     }
 
-    public void showPopUp() throws IOException, SQLException {
+    public void showPopUp() throws IOException {
+        File done = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+".done");
+        if(!done.exists()){
+            done.createNewFile();
             FXMLLoader loaderTutorial = new FXMLLoader(getClass().getResource("/panes/tutorial.fxml"));
             loaderTutorial.setController(TutorialController.getInstance());
-            if(!TutorialDB.getInstance().tutorialDone()) {
-                Parent root = (Parent) loaderTutorial.load();
-                Stage stage = new Stage();
-                stage.setResizable(false);
-                stage.initStyle(StageStyle.UNDECORATED);
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
+            Parent root = loaderTutorial.load();
+            Stage stage = new Stage();
+            stage.setTitle("WhatWebGUI tutorial");
+            stage.getIcons().add(new Image(MainController.class.getResourceAsStream("/img/iconsmall.png")));
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
     void getPanels() throws IOException {
-        FXMLLoader loaderpane1 = new FXMLLoader(getClass().getResource("/panes/pane1.fxml"));
+        FXMLLoader loaderpane1 = new FXMLLoader(MainController.class.getResource("/panes/pane1.fxml"));
         cmsController = CMSController.getInstance();
         loaderpane1.setController(cmsController);
         pane1 = loaderpane1.load(); //cms
 
-        FXMLLoader loaderpane2 = new FXMLLoader(getClass().getResource("/panes/pane2.fxml"));
+        FXMLLoader loaderpane2 = new FXMLLoader(MainController.class.getResource("/panes/pane2.fxml"));
         serverController = ServerController.getInstance();
         loaderpane2.setController(serverController);
         pane2 = loaderpane2.load(); //server
 
-        FXMLLoader loaderpane3 = new FXMLLoader(getClass().getResource("/panes/pane3.fxml"));
+        FXMLLoader loaderpane3 = new FXMLLoader(MainController.class.getResource("/panes/pane3.fxml"));
         formatterController = FormatterController.getInstance();
         loaderpane3.setController(formatterController);
         pane3 = loaderpane3.load(); //formatter
 
-        FXMLLoader loaderpane4 = new FXMLLoader(getClass().getResource("/panes/pane4.fxml"));
+        FXMLLoader loaderpane4 = new FXMLLoader(MainController.class.getResource("/panes/pane4.fxml"));
         historyController = HistoryController.getInstance();
         loaderpane4.setController(historyController);
         pane4 = loaderpane4.load(); //history
@@ -158,12 +164,12 @@ public class MainController implements Initializable {
         pane5 = loaderpane5.load(); //stats
         statisticsController = loaderpane4.getController();*/
 
-        FXMLLoader loaderpane6 = new FXMLLoader(getClass().getResource("/panes/pane6.fxml"));
+        FXMLLoader loaderpane6 = new FXMLLoader(MainController.class.getResource("/panes/pane6.fxml"));
         settingsController = SettingsController.getInstance();
         loaderpane6.setController(settingsController);
         pane6 = loaderpane6.load(); //settings
 
-        FXMLLoader loaderpane7 = new FXMLLoader(getClass().getResource("/panes/pane7.fxml"));
+        FXMLLoader loaderpane7 = new FXMLLoader(MainController.class.getResource("/panes/pane7.fxml"));
         multiController = MultiController.getInstance();
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
@@ -176,6 +182,7 @@ public class MainController implements Initializable {
         File directory = new File(p.getProperty("pathToFolder"));
         if(!directory.exists()) directory.mkdir();
         Utils.createDirectories();
+        Utils.createDB();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
 

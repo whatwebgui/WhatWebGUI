@@ -51,7 +51,7 @@ public class FormatterController {
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     Url urlUtils = new Url();
-    private final String path = Utils.getProperties().getProperty("pathToFolder");
+    private final String path = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder");;
     Process currentProcess = null;
 
     private static FormatterController instance = new FormatterController();
@@ -80,11 +80,11 @@ public class FormatterController {
         } else if (btn_show.equals(btn)) {
             String os = System.getProperty("os.name").toLowerCase();
             if (os.contains("win")) {
-                Desktop.getDesktop().open(new File(path));
+                Desktop.getDesktop().open(new File(path+ "/cache"));
             } else if (os.contains("mac")) {
                 Runtime.getRuntime().exec("open " + path + "/cache");
             } else if (os.contains("linux")) {
-                Runtime.getRuntime().exec("xdg-open " + path);
+                Runtime.getRuntime().exec("xdg-open " + path+ "/cache");
             }
         }
 
