@@ -107,7 +107,7 @@ public class HistoryController implements Initializable {
         }
     }
 
-    private final Tooltip tp = new Tooltip();
+//    private final Tooltip tp = new Tooltip();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
     private ObservableList<HistoryModel> getUserList() {
@@ -125,13 +125,13 @@ public class HistoryController implements Initializable {
     private void hoverAndLinkClick(){
         tableview.setRowFactory( tr -> {
             final TableRow<HistoryModel> row = new TableRow<>();
-            row.hoverProperty().addListener((observable) -> {
-                final HistoryModel hm = row.getItem();
-                if (row.isHover() && hm != null) {
-                    getScreenshot(hm);
-                    row.setTooltip(tp);
-                }
-            });
+//            row.hoverProperty().addListener((observable) -> {
+//                final HistoryModel hm = row.getItem();
+//                if (row.isHover() && hm != null) {
+//                    getScreenshot(hm);
+//                    row.setTooltip(tp);
+//                }
+//            });
             row.setOnMouseMoved(event -> {
                 if (! row.isEmpty() ) {
                     Hyperlink hl = row.getItem().getDomain();
@@ -149,16 +149,16 @@ public class HistoryController implements Initializable {
         });
     }
 
-    private void getScreenshot(HistoryModel hm){
-       /* String screen = hm.getPath().split("/")[0];
-        String pathToScreenshots = Utils.getProperties().getProperty("pathToFolder")+"screenshots/";
-
-        Image image = new Image("file:///"+pathToScreenshots+screen+".jpeg", 250, 250, true, false);
-        if (image.getHeight()>10) image = new Image("file:///"+pathToScreenshots+"imgna.jpg", 250, 250, true, false);
-        image = new Image("https://image.shutterstock.com/image-illustration/not-available-red-rubber-stamp-260nw-586791809.jpg", 250, 250, true, false);
-        ImageView imageView = new ImageView(image);
-        tp.setGraphic(imageView);*/
-    }
+//    private void getScreenshot(HistoryModel hm){
+//       /* String screen = hm.getPath().split("/")[0];
+//        String pathToScreenshots = Utils.getProperties().getProperty("pathToFolder")+"screenshots/";
+//
+//        Image image = new Image("file:///"+pathToScreenshots+screen+".jpeg", 250, 250, true, false);
+//        if (image.getHeight()>10) image = new Image("file:///"+pathToScreenshots+"imgna.jpg", 250, 250, true, false);
+//        image = new Image("https://image.shutterstock.com/image-illustration/not-available-red-rubber-stamp-260nw-586791809.jpg", 250, 250, true, false);
+//        ImageView imageView = new ImageView(image);
+//        tp.setGraphic(imageView);*/
+//    }
 
     private void filter(){
         FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);

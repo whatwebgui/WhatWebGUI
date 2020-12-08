@@ -2,7 +2,7 @@ package ehu.isad.model;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import ehu.isad.controllers.db.ServerCMSDB;
+import java.util.Date;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.paint.Paint;
 
@@ -13,10 +13,10 @@ public class ServerCMSModel {
     private String server;
     private String versionc;
     private String versions;
-    private String lastUpdated;
+    private Date lastUpdated;
     private FontAwesomeIconView star;
 
-    public ServerCMSModel(String url, String cms, String versionc, String server, String versions, String lastUpdated, int fav){
+    public ServerCMSModel(String url, String cms, String versionc, String server, String versions, Date lastUpdated, int fav){
         this.url = new Hyperlink(url);
         this.cms = cms;
         this.versionc = versionc;
@@ -58,6 +58,6 @@ public class ServerCMSModel {
 
     public String getVersions() { return versions; }
 
-    public String getLastUpdated() { return lastUpdated; }
+    public Date getLastUpdated() { return lastUpdated; }
 
 }

@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -51,7 +53,7 @@ public class ServerCMSDB {
         String versionc;
         String server;
         String versions;
-        String lastUpdated;
+        Date lastUpdated;
         int fav;
         try {
             while (rs.next()) {
@@ -60,7 +62,7 @@ public class ServerCMSDB {
                 versionc = rs.getString("versionc");
                 server = rs.getString("server");
                 versions = rs.getString("versions");
-                lastUpdated = rs.getString("date");
+                lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date"));
                 fav = rs.getInt("favorite");
                 results.add(new ServerCMSModel(url,cms,versionc,server,versions,lastUpdated,fav));
             }

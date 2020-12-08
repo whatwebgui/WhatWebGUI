@@ -13,6 +13,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class ServerCMSController {
 
@@ -67,7 +69,7 @@ public class ServerCMSController {
         }
         String target = URLEncoder.encode(item.getUrl().getText(), StandardCharsets.UTF_8);
         String version = URLEncoder.encode(item.getVersions(), StandardCharsets.UTF_8);
-        String date = URLEncoder.encode(item.getLastUpdated(), StandardCharsets.UTF_8);
+        String date = URLEncoder.encode(new SimpleDateFormat("E dd MMM yyyy HH:mm:ss z",new Locale("en", "US")).format(item.getLastUpdated()), StandardCharsets.UTF_8);
         return new String[]{target, var, version, date};
     }
 
