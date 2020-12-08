@@ -9,6 +9,7 @@
 
 .table-row-cell:selected .table-cell .hyperlink {
     -fx-text-fill: -fx-text-background-color ;
+    -fx-text-alignment: center;
 }
 
 .table-center {
@@ -416,6 +417,7 @@ VBox > .split-menu-button.last > .arrow-button {
 
 .text-field {
     -fx-pref-height: 30;
+   -fx-text-alignment: center;
 }
 
 .combo-box, .choice-box {
@@ -433,14 +435,17 @@ VBox > .split-menu-button.last > .arrow-button {
 
 .combo-box:editable > .arrow-button {
     -fx-background-color: white;
+    -fx-text-alignment: center;
 }
 
 .combo-box:editable > .arrow-button:hover {
     -fx-background-color: #e6e6e6;
+    -fx-text-alignment: center;
 }
 
 .combo-box:editable > .arrow-button:pressed {
     -fx-effect: innershadow(gaussian, #adadad, 10, 0, 0, 3);
+    -fx-text-alignment: center;
 }
 
 .combo-box > .text-input, .date-picker > .text-input {
@@ -454,6 +459,7 @@ VBox > .split-menu-button.last > .arrow-button {
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-effect: innershadow(gaussian, transparent, 0, 0, 0, 0);
+    -fx-text-alignment: center;
 }
 
 .text-field:focused, .text-area:focused {
@@ -838,6 +844,14 @@ VBox > .split-menu-button.last > .arrow-button {
 /*table view columns*/
 .filler, .column-header, .show-hide-columns-button {
     -fx-background-color: #dddddd, white, white;
+    -fx-text-alignment: center;
+}
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+table.table-cell{
+    -fx-text-alignment: center;
 }
 
 .show-hide-columns-button {

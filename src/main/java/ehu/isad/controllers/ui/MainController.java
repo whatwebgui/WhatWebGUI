@@ -1,7 +1,6 @@
 package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import ehu.isad.Main;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,10 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -97,7 +94,8 @@ public class MainController implements Initializable {
             historyController.setItems();
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
-        }/*
+        }
+        /*
         if (actionEvent.getSource() == btn5) {
             pane.getChildren().add(pane5);
             lbl_title.setText("Statistics");

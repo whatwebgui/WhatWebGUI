@@ -3,15 +3,12 @@ package ehu.isad.controllers.db;
 import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Random;
 
 
 public class ServerCMSDB {
@@ -152,13 +149,7 @@ public class ServerCMSDB {
         String query = "select favorite from targets where target ='" + target + "'";
         ResultSet rs = DBController.getController().execSQL(query);
         try {
-            while (rs.next()) {
-                if(rs.getString("favorite").equals("1")){
-                    return true;
-                }else {
-                    return false;
-                }
-            }
+                return rs.getString("favorite").equals("1");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -184,7 +175,7 @@ public class ServerCMSDB {
     public ObservableList<ServerCMSModel> favoritesList(){
         ObservableList<ServerCMSModel> list = FXCollections.observableArrayList();
         Iterator<ServerCMSModel> itr = this.getFromDB().iterator();
-        ServerCMSModel sc = null;
+        ServerCMSModel sc;
         while(itr.hasNext()){
             sc = itr.next();
             if(isFav(sc.getUrl().getText())) {

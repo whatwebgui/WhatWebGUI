@@ -58,7 +58,6 @@ public class ServerController {
     private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
-    private CMSController cms = CMSController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -274,15 +273,7 @@ public class ServerController {
     }
 
     private void style(){
-        starColumn.setReorderable(false);
-        starColumn.setStyle("-fx-alignment: CENTER;");
-        urlColumn.setReorderable(false);
-        serverColumn.setReorderable(false);
-        serverColumn.setStyle("-fx-alignment: CENTER;");
-        versionColumn.setReorderable(false);
-        versionColumn.setStyle("-fx-alignment: CENTER;");
-        lastUpdatedColumn.setReorderable(false);
-        lastUpdatedColumn.setStyle("-fx-alignment: CENTER;");
+        CMSController.Style(starColumn, urlColumn, serverColumn, versionColumn, lastUpdatedColumn);
     }
 
     @FXML

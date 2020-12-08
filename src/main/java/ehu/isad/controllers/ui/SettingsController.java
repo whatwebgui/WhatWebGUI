@@ -5,11 +5,10 @@ import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
+
 
 public class SettingsController {
     @FXML
@@ -29,7 +28,7 @@ public class SettingsController {
     public static SettingsController getInstance() { return instance; }
     
     @FXML
-    void onClick(ActionEvent event) throws IOException, SQLException {
+    void onClick(ActionEvent event) throws IOException{
         Button btn = (Button) event.getSource();
         if (btn.equals(btn_clear)){
             WhatWebDB.getInstance().clearDB();

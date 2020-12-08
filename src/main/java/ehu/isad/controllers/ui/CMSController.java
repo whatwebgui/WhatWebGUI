@@ -3,8 +3,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -178,6 +176,10 @@ public class CMSController {
     }
 
     static void itemEquals(MenuItem targetTwitter, MenuItem targetFacebook, MenuItem targetReddit, MenuItem targetTumblr, Desktop desktop, MenuItem menuitem, String url, String targetEncoded) throws IOException {
+        socialChoose(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
+    }
+
+    static void socialChoose(MenuItem targetTwitter, MenuItem targetFacebook, MenuItem targetReddit, MenuItem targetTumblr, Desktop desktop, MenuItem menuitem, String url, String targetEncoded) throws IOException {
         if (menuitem.equals(targetTwitter)){
             url = "https://twitter.com/intent/tweet?url=";
         } else if (menuitem.equals(targetFacebook)){
@@ -294,6 +296,10 @@ public class CMSController {
     }
 
     private void style(){
+        Style(starColumn, urlColumn, cmsColumn, versionColumn, lastUpdatedColumn);
+    }
+
+    static void Style(TableColumn<ServerCMSModel, FontAwesomeIconView> starColumn, TableColumn<ServerCMSModel, String> urlColumn, TableColumn<ServerCMSModel, String> cmsColumn, TableColumn<ServerCMSModel, String> versionColumn, TableColumn<ServerCMSModel, String> lastUpdatedColumn) {
         starColumn.setReorderable(false);
         starColumn.setStyle("-fx-alignment: CENTER;");
         urlColumn.setReorderable(false);

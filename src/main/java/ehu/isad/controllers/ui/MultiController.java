@@ -36,7 +36,7 @@ public class MultiController implements Initializable {
     public static MultiController getInstance() { return instance; }
 
     @FXML
-    void onClick(ActionEvent event) throws IOException {
+    void onClick(ActionEvent event){
 
 
             Button btn = (Button) event.getSource();
@@ -66,7 +66,8 @@ public class MultiController implements Initializable {
                     String line=null;
                     while (true) {
                         try {
-                            if (!((line = input.readLine()) != null)) break;
+                            assert input != null;
+                            if ((line = input.readLine()) == null) break;
                         } catch (IOException ioException) {
                             scene.setCursor(Cursor.DEFAULT);
                             ioException.printStackTrace();

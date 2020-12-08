@@ -35,11 +35,10 @@ public class ServerCMSModel {
     public void setStar(int fav){
         if (fav==1){
             this.star.setFill(Paint.valueOf("#ffff00"));
-            this.star.setStroke(Paint.valueOf("#aaaaaa"));
         } else {
             this.star.setFill(Paint.valueOf("#eaeaea"));
-            this.star.setStroke(Paint.valueOf("#aaaaaa"));
         }
+        this.star.setStroke(Paint.valueOf("#aaaaaa"));
     }
 
     public Hyperlink getUrl() {

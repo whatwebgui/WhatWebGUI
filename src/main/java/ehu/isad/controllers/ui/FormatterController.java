@@ -51,7 +51,7 @@ public class FormatterController {
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     Url urlUtils = new Url();
-    private final String path = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder");;
+    private final String path = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder");
     Process currentProcess = null;
 
     private static FormatterController instance = new FormatterController();

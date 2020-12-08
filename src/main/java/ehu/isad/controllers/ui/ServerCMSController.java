@@ -1,12 +1,10 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.controllers.db.DBController;
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -89,7 +87,7 @@ public class ServerCMSController {
                     file.delete();
                 }
             }
-            if (multiadd==false) HistoryDB.getInstance().addToHistoryDB(target,"CMS/Server");
+            if (!multiadd) HistoryDB.getInstance().addToHistoryDB(target,"CMS/Server");
         });
         thread.start();
         try {
