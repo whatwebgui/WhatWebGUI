@@ -197,20 +197,28 @@ public class CMSController {
     }
 
     @FXML
-    void onClick(ActionEvent event) {
-        try {
-            if(urlUtils.processUrl(textField.getText())!=null){
-                processUrl(urlUtils.processUrl(textField.getText()),false);
-            }
-        } catch (IOException | SQLException ioException) {
-            ioException.printStackTrace();
-        }
+    void onClick(ActionEvent event) throws IOException, SQLException {
+        scan();
     }
 
     @FXML
     void onKeyPressed(KeyEvent event) throws IOException, SQLException {
         if (event.getCode().toString().equals("ENTER")) {
-            urlUtils.processUrl(textField.getText());
+            scan();
+        }
+    }
+
+    private void scan() throws IOException, SQLException {
+        if(!textField.getText().equals("")){
+            if(urlUtils.processUrl(textField.getText())!=null){
+                processUrl(urlUtils.processUrl(textField.getText()),false);
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on CMS");
+            alert.setHeaderText("Error on reading the provided URL");
+            alert.setContentText("Textfield is empty");
+            alert.showAndWait();
         }
     }
 
