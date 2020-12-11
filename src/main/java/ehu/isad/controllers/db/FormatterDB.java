@@ -25,8 +25,9 @@ public class FormatterDB {
         String q3 = " = TRUE;";
         try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + type + q3)) {
             String filename = Utils.getProperties().getProperty("pathToFolder")+"cache/" + domain+"/"+domain + extension;
-            System.out.println(filename);
+            System.out.println("Filename " + filename);
             File file = new File(filename);
+            System.out.println("File " + file.getAbsolutePath());
             boolean exists = file.exists();
             //If is empty.
             if (file.length() < 10) if (file.delete()) System.out.println("file not deleted"); // is the file empty?

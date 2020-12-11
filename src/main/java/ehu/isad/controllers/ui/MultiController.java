@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import java.io.*;
@@ -37,13 +38,12 @@ public class MultiController implements Initializable {
 
     @FXML
     void onClick(ActionEvent event){
-
-
-            Button btn = (Button) event.getSource();
+        Button btn = (Button) event.getSource();
+        if(!textField.getText().equals("") || btn.equals(btnFiles)) {
             Scene scene = btnFiles.getScene();
             if (btn.equals(btnOk)) {
                 scene.setCursor(Cursor.WAIT);
-                Thread thread = new Thread( () -> {
+                Thread thread = new Thread(() -> {
                     String[] parts = textField.getText().split("\n");
                     for (String part : parts) {
                         processURL(part);
@@ -51,19 +51,18 @@ public class MultiController implements Initializable {
                     scene.setCursor(Cursor.DEFAULT);
                 });
                 thread.start();
-            }else{
+            } else {
                 File file = fileChooser.showOpenDialog(null);
-                scene.setCursor(Cursor.WAIT);
-                Thread thread = new Thread( () -> {
+                Thread thread = new Thread(() -> {
                     scene.setCursor(Cursor.WAIT);
-                    BufferedReader input=null;
+                    BufferedReader input = null;
                     try {
                         input = new BufferedReader(new FileReader(file));
                     } catch (Exception e) {
                         scene.setCursor(Cursor.DEFAULT);
                         e.printStackTrace();
                     }
-                    String line=null;
+                    String line = null;
                     while (true) {
                         try {
                             assert input != null;
@@ -84,9 +83,13 @@ public class MultiController implements Initializable {
                 });
                 thread.start();
             }
-
-
-
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on MultiAdd");
+            alert.setHeaderText("Error on reading the provided URL");
+            alert.setContentText("TextArea is empty");
+            alert.showAndWait();
+        }
     }
 
     private void processURL(String url){

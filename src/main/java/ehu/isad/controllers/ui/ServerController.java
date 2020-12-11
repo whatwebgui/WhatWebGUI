@@ -158,7 +158,11 @@ public class ServerController {
                         "&tags=whatwebgui%2Cwhatweb%2C"+domain+"&canonicalUrl="+encoded[0];
             }
             assert url != null;
-            desktop.browse(URI.create(url));
+            if(System.getProperty("os.name").toLowerCase().contains("linux")){
+                Runtime.getRuntime().exec("sensible-browser " + url);
+            }else{
+                java.awt.Desktop.getDesktop().browse(URI.create(url));
+            }
         }
     }
 
@@ -292,6 +296,7 @@ public class ServerController {
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("All");
         list.add("Favorites");
+        comboBox.setValue("All");
         comboBox.setValue("All");
         comboBox.setItems(list);
         comboBox.setOnAction(e -> {

@@ -155,7 +155,11 @@ public class CMSController {
                         "%20with%20%3Ca%20href%3D%22https%3A%2F%2Fwhatwebgui.github.io%2F%22%3E%40WhatWebGUI%3C%2Fa%3E"+
                         "&tags=whatwebgui%2Cwhatweb%2C"+domain+"&canonicalUrl="+encoded[0];
             }
-            desktop.browse(URI.create(url));
+            if(System.getProperty("os.name").toLowerCase().contains("linux")){
+                Runtime.getRuntime().exec("sensible-browser " + url);
+            }else{
+                java.awt.Desktop.getDesktop().browse(URI.create(url));
+            }
         }
     }
 
@@ -189,7 +193,11 @@ public class CMSController {
         }else if (menuitem.equals(targetTumblr)){
             url = "https://www.tumblr.com/widgets/share/tool?posttype=link&canonicalUrl=";
         }
-        desktop.browse(URI.create(url+targetEncoded));
+        if(System.getProperty("os.name").toLowerCase().contains("linux")){
+            Runtime.getRuntime().exec("sensible-browser " + url+targetEncoded);
+        }else{
+            java.awt.Desktop.getDesktop().browse(URI.create(url+targetEncoded));
+        }
     }
 
     private String[] encoded(ServerCMSModel item) {

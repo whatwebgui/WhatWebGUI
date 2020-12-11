@@ -215,8 +215,7 @@ public class FormatterController {
         }
     }
 
-    @FXML
-    void initialize() {
+    private void loadComboBox(){
         String[] displayName = {"Verbose output", "Brief shell output", "JSON format file", "XML format file", "MySQL INSERT format file", "Ruby object inspection format", "MagicTree XML format file"};
         String[] extension = {".txt", ".out", ".json", ".xml", ".sql", ".rb", ".magictree.xml"};
         String[] type = {"verbose", "shell", "json", "xml", "sql", "ruby", "magictree"};
@@ -225,6 +224,11 @@ public class FormatterController {
             list.add(new Extension(displayName[i], extension[i], type[i]));
         }
         combo.setItems(list);
+    }
+
+    @FXML
+    void initialize() {
+        loadComboBox();
         textArea.setEditable(false);
         pgr.setVisible(false);
     }
