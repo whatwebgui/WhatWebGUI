@@ -61,15 +61,17 @@ jlink {
 
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            jpackageHome = "C:\\Users\\ANDER\\.sdkman\\candidates\\java\\15.0.1.fx-zulu"
+            jpackageHome = "C:\\Users\\ANDER\\.sdkman\\candidates\\java\\15.0.1.fx-zulu";
             installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
             icon = "C:\\Users\\ANDER\\favicon.ico";
         } else if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
-            jpackageHome = ""
-            icon = "";
+            jpackageHome = "/Users/kerman/.sdkman/candidates/java/15.0.1.fx-zulu";
+            installerOptions += ['--mac-package-identifier WhatWebGUI', '--mac-package-name WhatWebGUI']
+            icon = "/iconsmall.png";
         } else if (org.gradle.internal.os.OperatingSystem.current().linux) {
-            jpackageHome = ""
-            icon = "";
+            jpackageHome = "/home/adeiarias/.sdkman/candidates/java/15.0.1.fx-zulu";
+            installerOptions += ['--linux-package-identifier WhatWebGUI', '--linux-deb-maintainer whatwebgui@gmail.com','--linux-shortcut']
+            icon = "/iconsmall.png";
         }
     }
 }
