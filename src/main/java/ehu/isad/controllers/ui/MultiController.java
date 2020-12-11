@@ -53,35 +53,37 @@ public class MultiController implements Initializable {
                 thread.start();
             } else {
                 File file = fileChooser.showOpenDialog(null);
-                Thread thread = new Thread(() -> {
-                    scene.setCursor(Cursor.WAIT);
-                    BufferedReader input = null;
-                    try {
-                        input = new BufferedReader(new FileReader(file));
-                    } catch (Exception e) {
-                        scene.setCursor(Cursor.DEFAULT);
-                        e.printStackTrace();
-                    }
-                    String line = null;
-                    while (true) {
+                if(file != null) {
+                    Thread thread = new Thread(() -> {
+                        scene.setCursor(Cursor.WAIT);
+                        BufferedReader input = null;
                         try {
-                            assert input != null;
-                            if ((line = input.readLine()) == null) break;
-                        } catch (IOException ioException) {
+                            input = new BufferedReader(new FileReader(file));
+                        } catch (Exception e) {
                             scene.setCursor(Cursor.DEFAULT);
-                            ioException.printStackTrace();
+                            e.printStackTrace();
                         }
-                        processURL(line);
-                    }
-                    try {
-                        input.close();
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    } finally {
-                        scene.setCursor(Cursor.DEFAULT);
-                    }
-                });
-                thread.start();
+                        String line = null;
+                        while (true) {
+                            try {
+                                assert input != null;
+                                if ((line = input.readLine()) == null) break;
+                            } catch (IOException ioException) {
+                                scene.setCursor(Cursor.DEFAULT);
+                                ioException.printStackTrace();
+                            }
+                            processURL(line);
+                        }
+                        try {
+                            input.close();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        } finally {
+                            scene.setCursor(Cursor.DEFAULT);
+                        }
+                    });
+                    thread.start();
+                }
             }
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);

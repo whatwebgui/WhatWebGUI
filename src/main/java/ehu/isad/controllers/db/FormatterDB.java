@@ -24,7 +24,7 @@ public class FormatterDB {
         String q2 = "' AND ";
         String q3 = " = TRUE;";
         try (ResultSet rs = dbcontroller.execSQL(q1 + domain + q2 + type + q3)) {
-            String filename = Utils.getProperties().getProperty("pathToFolder")+"cache/" + domain+"/"+domain + extension;
+            String filename = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"cache/" + domain+"/"+domain + extension;
             System.out.println("Filename " + filename);
             File file = new File(filename);
             System.out.println("File " + file.getAbsolutePath());
