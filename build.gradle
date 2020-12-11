@@ -1,3 +1,5 @@
+import javax.swing.SpringLayout
+
 // Works with Gradle 5.7 and Java 12
 
 // To run this do:
@@ -70,8 +72,9 @@ jlink {
             icon = "/iconsmall.png";
         } else if (org.gradle.internal.os.OperatingSystem.current().linux) {
             jpackageHome = "/home/adeiarias/.sdkman/candidates/java/15.0.1.fx-zulu";
-            installerOptions += ['--linux-package-identifier WhatWebGUI', '--linux-deb-maintainer whatwebgui@gmail.com','--linux-shortcut']
-            icon = "/iconsmall.png";
+            installerOptions += ['--linux-shortcut']
+            icon = "/home/adeiarias/IdeaProjects/WhatWebGUI/src/main/resources/img/iconsmall.png";
+            installerType = "deb";
         }
     }
 }

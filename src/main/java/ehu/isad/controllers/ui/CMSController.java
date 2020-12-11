@@ -66,8 +66,6 @@ public class CMSController {
     public static CMSController getInstance() { return instance; }
 
     @FXML
-    private MenuItem removeRow;
-    @FXML
     private MenuItem openBrowser;
     @FXML
     private MenuItem favUnFav;
@@ -119,11 +117,6 @@ public class CMSController {
                 server.filter();
             }
         }
-    }
-
-    @FXML
-    void onRemoveRow(ActionEvent event) {
-        cmsTable.getItems().remove(cmsTable.getSelectionModel().getSelectedItem());
     }
 
     @FXML

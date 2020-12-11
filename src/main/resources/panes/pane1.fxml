@@ -26,7 +26,6 @@
          <contextMenu>
             <ContextMenu>
                <items>
-                  <MenuItem fx:id="removeRow" mnemonicParsing="false" onAction="#onRemoveRow" text="Remove this row" />
                   <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
                   <MenuItem fx:id="favUnFav" mnemonicParsing="false" onAction="#onFavUnFavRow" text="Fav/Unfav" />
                   <Menu mnemonicParsing="false" text="Share scan">

@@ -46,8 +46,6 @@ public class HistoryController implements Initializable {
     public static HistoryController getInstance() { return instance; }
 
     @FXML
-    private MenuItem removeRow;
-    @FXML
     private MenuItem openBrowser;
     @FXML
     private MenuItem favUnFav;
@@ -71,11 +69,6 @@ public class HistoryController implements Initializable {
         }else{
             desktop.browse(URI.create(url.getText()));
         }
-    }
-
-    @FXML
-    void onRemoveRow(ActionEvent event) {
-        tableview.getItems().remove(tableview.getSelectionModel().getSelectedItem());
     }
 
     @FXML

@@ -19,7 +19,6 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                  <MenuItem fx:id="removeRow" mnemonicParsing="false" onAction="#onRemoveRow" text="Remove this row" />
                 <MenuItem fx:id="openBrowser" mnemonicParsing="false" onAction="#onBrowserRow" text="Open in browser" />
                   <Menu mnemonicParsing="false" text="Share target">
                      <items>
