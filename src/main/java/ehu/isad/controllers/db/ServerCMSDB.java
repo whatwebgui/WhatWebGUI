@@ -1,6 +1,7 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.model.ServerCMSModel;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.io.*;
@@ -70,17 +71,18 @@ public class ServerCMSDB {
     }
 
     private String openFile(String tab) {
+        String folderPath = System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+"/txt/";
         StringBuffer sb = new StringBuffer();
         FileReader fr;
         try {
             if (tab.equals("cms")) {
-                fr = new FileReader(ServerCMSDB.class.getResource("/txt/cmslist.txt").getFile());
+                fr = new FileReader(new File(folderPath+"cmslist.txt"));
                 sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
             } else if (tab.equals("server")) {
-                fr=new FileReader(ServerCMSDB.class.getResource("/txt/serverlist.txt").getFile());
+                fr=new FileReader(new File(folderPath+"serverlist.txt"));
                 sb.append("('Apache', 'nginx', ");
             } else {
-                fr=new FileReader(ServerCMSDB.class.getResource("/txt/list.txt").getFile());
+                fr=new FileReader(new File(folderPath+"list.txt"));
                 sb.append("(");
             }
             BufferedReader br=new BufferedReader(fr);

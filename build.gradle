@@ -9,8 +9,8 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
-    id 'org.beryx.jlink' version '2.21.1'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.22.3'
 }
 
 sourceCompatibility = 11
@@ -42,10 +42,8 @@ javafx {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3.2'
+    //compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    // https://mvnrepository.com/artifact/com.lynden/GMapsFX
-    compile group: 'com.lynden', name: 'GMapsFX', version: '2.10.0'
 }
 
 repositories {
@@ -66,6 +64,7 @@ jlink {
         jpackageHome = "C:\\Users\\ANDER\\.sdkman\\candidates\\java\\15.0.1.fx-zulu"
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
             installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
+            installerType="msi"
         }
     }
 }

@@ -20,8 +20,18 @@ public class DBController {
     }
 
     private void conOpen() {
-
         try {
+            Class.forName("org.sqlite.JDBC").newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        try {
+            //conn = DriverManager.getConnection("jdbc:sqlite:"+path);
+            DriverManager.registerDriver(new org.sqlite.JDBC());
             conn = DriverManager.getConnection("jdbc:sqlite:"+path);
             System.out.println("Connection to SQLite has been established.");
         } catch (SQLException ex) {
