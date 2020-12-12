@@ -5,10 +5,16 @@ import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -95,6 +101,35 @@ public class ServerCMSController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    void openURL(Hyperlink url) throws IOException {
+        if(System.getProperty("os.name").toLowerCase().contains("linux")){
+            Runtime.getRuntime().exec("sensible-browser " + url.getText());
+        }else{
+            Desktop desktop = java.awt.Desktop.getDesktop();
+            desktop.browse(URI.create(url.getText()));
+        }
+    }
+
+    void linkClick(TableView<ServerCMSModel> table){
+        table.setRowFactory( tr -> {
+            final TableRow<ServerCMSModel> row = new TableRow<>();
+            row.setOnMouseMoved(event -> {
+                if (! row.isEmpty() ) {
+                    Hyperlink hl = row.getItem().getUrl();
+                    hl.setOnAction(e -> {
+                        try {
+                            openURL(hl);
+                            hl.setVisited(false);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                }
+            });
+            return row ;
+        });
     }
 
 

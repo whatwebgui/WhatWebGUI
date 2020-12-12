@@ -113,7 +113,7 @@ public class HistoryController implements Initializable {
                     Hyperlink hl = row.getItem().getDomain();
                     hl.setOnAction(e -> {
                         try {
-                            desktop.browse(URI.create(hl.getText()));
+                            openURL(hl);
                             hl.setVisited(false);
                         } catch (IOException ioException) {
                             ioException.printStackTrace();

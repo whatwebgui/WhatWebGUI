@@ -341,6 +341,7 @@ public class CMSController {
                 filter();
             }
         });
+        serverCMSController.linkClick(cmsTable);
         style();
     }
 }

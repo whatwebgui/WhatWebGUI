@@ -3,6 +3,7 @@ package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.controllers.db.ServerCMSDB;
+import ehu.isad.model.HistoryModel;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
 import javafx.collections.FXCollections;
@@ -277,6 +278,8 @@ public class ServerController {
         serverTable.setItems(sortedData);
     }
 
+
+
     private void style(){
         CMSController.Style(starColumn, urlColumn, serverColumn, versionColumn, lastUpdatedColumn);
     }
@@ -300,6 +303,7 @@ public class ServerController {
                 filter();
             }
         });
+        serverCMSController.linkClick(serverTable);
         style();
     }
 }
