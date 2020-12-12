@@ -21,11 +21,13 @@
 }
 .button
 {
+    -fx-font-style: italic;
     -fx-font-family: 'Noto Sans';
     -fx-background-color : #103373;
     -fx-text-fill : #FBFBFC;
 }
 .button:hover{
+    -fx-font-style: normal;
     -fx-background-color : #1F72CD;
 }
 .button:pressed

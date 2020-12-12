@@ -139,7 +139,7 @@
         </GridPane>
         <Pane layoutX="250.0" layoutY="34.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to top right, #103373, #1F72CD);">
             <children>
-                <Label fx:id="lbl_title" alignment="CENTER" layoutY="11.0" prefHeight="45.0" prefWidth="600.0" style="-fx-font-size: 32;-fx-font-family: 'Noto Sans';" stylesheets="@header.css" text="&gt; click a button &lt;" textAlignment="CENTER" textFill="#FBFBFC">
+                <Label fx:id="lbl_title" alignment="CENTER" layoutY="11.0" prefHeight="45.0" prefWidth="600.0" style="-fx-font: italic 32  'Noto Sans';" stylesheets="@header.css" text="WhatWebGUI" textAlignment="CENTER" textFill="#FBFBFC">
                     <font>
                         <Font size="30.0" />
                     </font>
