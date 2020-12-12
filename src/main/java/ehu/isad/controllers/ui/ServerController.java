@@ -24,6 +24,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.sql.SQLException;
 
 
@@ -56,7 +57,7 @@ public class ServerController {
     private TableColumn<ServerCMSModel, String> versionColumn;
 
     @FXML
-    private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
+    private TableColumn<ServerCMSModel, Date> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     Url urlUtils = new Url();
@@ -238,9 +239,11 @@ public class ServerController {
                 return true; // Filter matches first name.
             } else // Does not match.
                 if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches last name.
-            }
-            else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
+                    return true; // Filter matches last name.
+                }else if(servermodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
@@ -254,20 +257,22 @@ public class ServerController {
     public void filterFavorites(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(servermodel -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
                 return true;
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
+            if (servermodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
             } else // Does not match.
-                if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
+                if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
+                }else if(servermodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
                 }
-                else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
+                else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);

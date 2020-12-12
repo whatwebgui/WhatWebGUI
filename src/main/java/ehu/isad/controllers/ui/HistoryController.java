@@ -151,6 +151,8 @@ public class HistoryController implements Initializable {
                     return true; // Filter matches first name.
                 } else if (historymodel.getTab().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
+                } else if (historymodel.getDate().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
                 }
                 else
                     return false; // Does not match.

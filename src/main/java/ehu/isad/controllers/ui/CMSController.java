@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class CMSController {
 
@@ -54,7 +55,7 @@ public class CMSController {
     private TableColumn<ServerCMSModel, String> versionColumn;
 
     @FXML
-    private TableColumn<ServerCMSModel, String> lastUpdatedColumn;
+    private TableColumn<ServerCMSModel, Date> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private ServerController server = ServerController.getInstance();
@@ -267,9 +268,10 @@ public class CMSController {
                 return true; // Filter matches first name.
             } else // Does not match.
                 if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches last name.
-            }
-            else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
+                    return true; // Filter matches last name.
+                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+            }   else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
@@ -295,8 +297,9 @@ public class CMSController {
             } else // Does not match.
                 if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
-                }
-                else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
+                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }   else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
@@ -311,7 +314,7 @@ public class CMSController {
         Style(starColumn, urlColumn, cmsColumn, versionColumn, lastUpdatedColumn);
     }
 
-    static void Style(TableColumn<ServerCMSModel, FontAwesomeIconView> starColumn, TableColumn<ServerCMSModel, String> urlColumn, TableColumn<ServerCMSModel, String> cmsColumn, TableColumn<ServerCMSModel, String> versionColumn, TableColumn<ServerCMSModel, String> lastUpdatedColumn) {
+    static void Style(TableColumn<ServerCMSModel, FontAwesomeIconView> starColumn, TableColumn<ServerCMSModel, String> urlColumn, TableColumn<ServerCMSModel, String> cmsColumn, TableColumn<ServerCMSModel, String> versionColumn, TableColumn<ServerCMSModel, Date> lastUpdatedColumn) {
         starColumn.setReorderable(false);
         starColumn.setStyle("-fx-alignment: CENTER;");
         urlColumn.setReorderable(false);

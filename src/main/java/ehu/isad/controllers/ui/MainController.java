@@ -252,7 +252,7 @@ public class MainController implements Initializable {
         File directory = new File(p.getProperty("pathToFolder"));
         if(!directory.exists()) directory.mkdir();
         Utils.createDirectories();
-        Utils.curl();
+        Utils.getTextFromURL();
         Utils.createDB();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
