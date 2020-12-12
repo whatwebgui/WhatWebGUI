@@ -14,8 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -35,6 +35,7 @@ public class MainController implements Initializable {
     private  Parent pane7;
     MultiController multiController;
 
+    int output=1;
 
     @FXML
     private Pane pane;
@@ -77,20 +78,24 @@ public class MainController implements Initializable {
 
         pane.getChildren().clear();
         if (actionEvent.getSource() == btn1) {
+            output = 1;
             cmsController.setItems();
             pane.getChildren().add(pane1);
             lbl_title.setText("CMS");
         }
         if (actionEvent.getSource() == btn2) {
+            output = 2;
             serverController.setItems();
             pane.getChildren().add(pane2);
             lbl_title.setText("Server");
         }
         if (actionEvent.getSource() == btn3) {
+            output = 3;
             pane.getChildren().add(pane3);
             lbl_title.setText("Formatter");
         }
         if (actionEvent.getSource() == btn4) {
+            output = 4;
             historyController.setItems();
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
@@ -101,10 +106,12 @@ public class MainController implements Initializable {
             lbl_title.setText("Statistics");
         }*/
         if (actionEvent.getSource() == btn6) {
+            output = 6;
             pane.getChildren().add(pane6);
             lbl_title.setText("Settings");
         }
         if (actionEvent.getSource() == btn7) {
+            output = 7;
             pane.getChildren().add(pane7);
             lbl_title.setText("Multi-add");
         }
@@ -112,6 +119,16 @@ public class MainController implements Initializable {
 
     @FXML
     void close() {
+        File tab = new File(System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+".tab");
+        if (tab.exists()){tab.delete();}
+        try {
+            FileOutputStream fos = new FileOutputStream(tab);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            bw.write(String.valueOf(output));
+            bw.newLine();
+            bw.close();
+        } catch (Exception e) {e.printStackTrace();}
+
         ((Stage)btn_x.getScene().getWindow()).close();
     }
 
@@ -137,6 +154,61 @@ public class MainController implements Initializable {
             stage.show();
         }
     }
+
+    private void openTab() {
+        File tab = new File(System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+".tab");
+        if (tab.exists()){
+            FileReader fr;
+            try {
+                fr = new FileReader(tab);
+                BufferedReader br=new BufferedReader(fr);
+                String line;
+                boolean gone=false;
+                int lineint;
+                while((line=br.readLine())!=null && gone==false) {
+                    try{
+                    lineint = Integer.parseInt(line);}
+                    catch (Exception e){lineint=1;}
+                    switch(lineint){
+                        case 2:
+                            pane.getChildren().add(pane2);
+                            lbl_title.setText("Server");
+                            break;
+                        case 3:
+                            pane.getChildren().add(pane3);
+                            lbl_title.setText("Formatter");
+                            break;
+                        case 4:
+                            pane.getChildren().add(pane4);
+                            lbl_title.setText("History");
+                            break;
+//                        case 5:
+//                            pane.getChildren().add(pane5);
+//                            lbl_title.setText("Statistics");
+//                            break;
+                        case 6:
+                            pane.getChildren().add(pane6);
+                            lbl_title.setText("Settings");
+                            break;
+                        case 7:
+                            pane.getChildren().add(pane7);
+                            lbl_title.setText("Multi-add");
+                            break;
+                        default:
+                            pane.getChildren().add(pane1);
+                            lbl_title.setText("CMS");
+                            break;
+                    }
+                }
+                fr.close();
+            } catch(IOException e){ pane.getChildren().add(pane1);}
+        } else {
+            pane.getChildren().add(pane1);
+        }
+
+
+    }
+
     void getPanels() throws IOException {
         FXMLLoader loaderpane1 = new FXMLLoader(MainController.class.getResource("/panes/pane1.fxml"));
         cmsController = CMSController.getInstance();
@@ -180,9 +252,11 @@ public class MainController implements Initializable {
         File directory = new File(p.getProperty("pathToFolder"));
         if(!directory.exists()) directory.mkdir();
         Utils.createDirectories();
+        Utils.curl();
         Utils.createDB();
         try { getPanels(); } catch (IOException e) { e.printStackTrace();}
         pane.getChildren().clear();
+        openTab();
 
     }
 }
