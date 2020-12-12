@@ -66,7 +66,8 @@ public class WhatWebDB {
         directory.mkdir();
         FileReader fr;
         try {
-            fr = new FileReader(ServerCMSDB.class.getResource("/txt/db.txt").getFile());
+            String folderPath = System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+"/txt/";
+            fr = new FileReader(new File(folderPath+"db.txt"));
             BufferedReader br=new BufferedReader(fr);
             String line;
             while((line=br.readLine())!=null) {
