@@ -65,14 +65,22 @@ public class FormatterController {
     void onClick(ActionEvent event) throws IOException {
         Button btn = (Button) event.getSource();
         if (btn_scan.equals(btn) || btn_forcescan.equals(btn)) {
-            textArea.clear();
-            try {
-                if(urlUtils.processUrl(textField.getText())!=null){
-                    pgr.setVisible(true);
-                    setText(btn,urlUtils.processUrl(textField.getText()));
+            if(!textField.getText().equals("")) {
+                textArea.clear();
+                try {
+                    if (urlUtils.processUrl(textField.getText()) != null) {
+                        pgr.setVisible(true);
+                        setText(btn, urlUtils.processUrl(textField.getText()));
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error in FORMATTER");
+                alert.setHeaderText("Error on reading the provided URL");
+                alert.setContentText("Textfield is empty");
+                alert.showAndWait();
             }
         } else if (btn_clear.equals(btn)) {
             textArea.clear();

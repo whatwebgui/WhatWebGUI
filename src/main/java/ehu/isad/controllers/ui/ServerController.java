@@ -187,7 +187,7 @@ public class ServerController {
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error on SERVER");
+            alert.setTitle("Error in SERVER");
             alert.setHeaderText("Error on reading the provided URL");
             alert.setContentText("Textfield is empty");
             alert.showAndWait();

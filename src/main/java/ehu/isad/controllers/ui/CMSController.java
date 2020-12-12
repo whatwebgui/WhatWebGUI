@@ -9,6 +9,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -216,7 +218,7 @@ public class CMSController {
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error on CMS");
+            alert.setTitle("Error in CMS");
             alert.setHeaderText("Error on reading the provided URL");
             alert.setContentText("Textfield is empty");
             alert.showAndWait();
@@ -224,7 +226,8 @@ public class CMSController {
     }
 
     void processUrl(String url,boolean multi){
-        Thread thread = new Thread( () -> {
+        Scene scene = scanBtn.getScene();
+            Thread thread = new Thread( () -> {
             try {
                 CMS(url,multi);
             } catch (IOException ioException) {
