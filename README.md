@@ -1,5 +1,5 @@
 # WhatWebGUI
-WhatWebGUI is a cross-platform compatible application for Windows 10, Mac OSX and Linux which implements the popular web scanning tool WhatWeb, the next generation web scanner, and provides it with a fresh-looking UI with some interesting features.
+WhatWebGUI is a cross-platform compatible Java-based application for Windows 10, Mac OSX and Linux which implements the front end of the popular web scanning tool WhatWeb, the next generation web scanner, and provides it with a fresh-looking UI with some interesting features.
 
 ## Functionalities
 
@@ -27,11 +27,11 @@ It's pretty easy to install WhatWebGUI with a \*nix system. Just download the ve
 ```
 sudo apt-get update && sudo apt-get upgrade && sudo apt install whatweb
 ```
-> NOTE2: We've got some issues at the moment so there's an additional step to take: After opening the program for the first time, you must copy the folder txt [this file]() contains to the hidden folder created in your home directory named .whatwebgui  
+> NOTE2: In Linux, Java 15 must be installed. In Mac, Java 11 is enough. 
 
 ### Windows 10
 The installation is tougher in Windows.  First of all, the WSL (Windows Subsystem for Linux) needs to be installed, as WhatWeb is not available for the OS developed by Microsoft. To install it, there's [an official tutorial](https://docs.microsoft.com/en-us/windows/wsl/install-win10). However, we decided to prepare some scripts so the installation would require just two clicks for you. The steps are the following:
-1. Download [the zip containing all of the scripts]().
+1. Download [the zip containing all of the scripts](https://github.com/whatwebgui/ww/raw/main/WSL.zip).
 2. Extract it (no matter where).
 3. Run **installwsl.bat**
 4. Restart the computer.
@@ -42,7 +42,7 @@ The installation is tougher in Windows.  First of all, the WSL (Windows Subsyste
 sudo apt-get update && sudo apt-get upgrade && sudo apt install whatweb
 ```
 Install the application, open it and now you're ready to scan any website!
-> NOTE: We've got some issues at the moment so there's an additional step to take: After opening the program for the first time, you must copy the folder txt [this file]() contains to the hidden folder created in your home directory named .whatwebgui  
+> NOTE: Java 11 must be installed. 
 
 ### Windows 8 and older
 As these Windows versions are too old, we haven't prepare the application to run on these. In fact, the previously mentioned WSL isn't available for these versions, so there are some extra steps that have to be made in order to being able to run it. However, it is in our future plans to make it available, though we can't assure it will be carried out. 
@@ -53,4 +53,4 @@ The usage is very intuitive. There's a search bar where you have to type the web
 To make things easier, a tutorial is displayed the first time the program is executed. However, this tutorial can be visited again from the Settings tab.
 
 ## Documentation
-The documentation for the project is available [in the following link](www.google.com). It is in Basque, so you may prefer talking to us instead ;)
+The documentation for the project is available [in the following link](). It is in Basque, so you may prefer talking to us instead ;)
