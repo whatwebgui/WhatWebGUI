@@ -47,7 +47,7 @@ public class Utils {
     }
 
     public static void getTextFromURL() {
-        File txtdir = new File(pathToFolder+"/txt");
+        File txtdir = new File(pathToFolder+"txt");
         String fileurl = "https://raw.githubusercontent.com/whatwebgui/ww/main/txt/";
         if(!txtdir.exists()) {
             txtdir.mkdir();
