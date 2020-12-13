@@ -100,18 +100,34 @@ public class MultiController implements Initializable {
     }
 
     private void processURL(String url){
-        String target = null;
-        try {
-            target = urlUtils.processUrl(url);
-        } catch (IOException | SQLException ioException) { ioException.printStackTrace();
-        }
-
-        if(target!=null){
+        Thread thread = new Thread(() -> {
+            String target = null;
             try {
-                cms.CMS(target,true);
-                server.Server(target,true);
-                HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
-            } catch (IOException ioException) { ioException.printStackTrace(); }
+                target = urlUtils.processMulti(url);
+            } catch (SQLException ioException) { ioException.printStackTrace();
+            }
+
+            if(target!=null){
+                try {
+                    cms.CMS(target,true);
+                    server.Server(target,true);
+                    HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
+                } catch (IOException ioException) { ioException.printStackTrace(); }
+            }else{
+                Platform.runLater( () -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error on URL");
+                    alert.setHeaderText("Error on reading the provided URL");
+                    alert.setContentText("The URL "+ url + "  doesn't seem to exist");
+                    alert.showAndWait();
+                });
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
