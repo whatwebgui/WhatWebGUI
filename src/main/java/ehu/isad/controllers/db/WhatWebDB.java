@@ -56,7 +56,7 @@ public class WhatWebDB {
             processBuilder.command("cmd.exe", "/C", "rmdir cache /s /q");
             p = processBuilder.start();
         } else {
-            p = Runtime.getRuntime().exec("rm -rf cache");
+            p = Runtime.getRuntime().exec("rm -rf " + path + "/cache");
         }
         while(p.isAlive()){}
     }
