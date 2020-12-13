@@ -51,39 +51,25 @@ public class Utils {
         String fileurl = "https://raw.githubusercontent.com/whatwebgui/ww/main/txt/";
         if(!txtdir.exists()) {
             txtdir.mkdir();
-            if(System.getProperty("os.name").toLowerCase().equals("win")){
-                InputStream in;
-                try {
-                    in= new URL(fileurl+"cmslist.txt").openStream();
-                    Files.copy(in, Paths.get(pathToFolder+"/txt/cmslist.txt"), StandardCopyOption.REPLACE_EXISTING);
-
-                    in = new URL(fileurl+"serverlist.txt").openStream();
-                    Files.copy(in, Paths.get(pathToFolder+"/txt/serverlist.txt"), StandardCopyOption.REPLACE_EXISTING);
-
-                    in = new URL(fileurl+"list.txt").openStream();
-                    Files.copy(in, Paths.get(pathToFolder+"/txt/list.txt"), StandardCopyOption.REPLACE_EXISTING);
-
-                    in = new URL(fileurl+"db.txt").openStream();
-                    Files.copy(in, Paths.get(pathToFolder+"/txt/db.txt"), StandardCopyOption.REPLACE_EXISTING);
-
-                    in = new URL(fileurl+"extensions.txt").openStream();
-                    Files.copy(in, Paths.get(pathToFolder+"/txt/extensions.txt"), StandardCopyOption.REPLACE_EXISTING);
-
-                } catch (Exception e){
-
-                }
-            }else{
-                String[] txt = {"cmslist.txt","serverlist.txt","list.txt","db.txt","extensions.txt"};
-                Process p = null;
+            Process pr = null;
+            String[] txt = {"cmslist.txt","serverlist.txt","list.txt","db.txt","extensions.txt"};
+            if(System.getProperty("os.name").toLowerCase().contains("win")){
                 for(int i = 0; i < txt.length; i++){
                     try {
-                        p = Runtime.getRuntime().exec("wget -O " + pathToFolder + "/txt/" + txt[i] + " " + fileurl + txt[i]);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    while(p.isAlive()){}
+                        ProcessBuilder processBuilder = new ProcessBuilder();
+                        processBuilder.directory(txtdir);
+                        processBuilder.command("cmd.exe", "/C", "curl "+fileurl+txt[i]+" -O "+txt[i]);
+                        pr = processBuilder.start();
+                    } catch (IOException ioException) { ioException.printStackTrace();  }
+                }
+            }else{
+                for(int i = 0; i < txt.length; i++){
+                    try {
+                        pr = Runtime.getRuntime().exec("wget -O " + pathToFolder + "/txt/" + txt[i] + " " + fileurl + txt[i]);
+                    } catch (IOException ioException) { ioException.printStackTrace();  }
                 }
             }
+            while(pr.isAlive()){}
         }
 
     }
