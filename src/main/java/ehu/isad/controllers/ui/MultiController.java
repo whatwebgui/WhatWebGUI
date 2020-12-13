@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.utils.Url;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,11 +50,15 @@ public class MultiController implements Initializable {
                         processURL(part);
                     }
                     scene.setCursor(Cursor.DEFAULT);
+                    Platform.runLater( () -> {
+                        textField.setText("");
+                    } );
+
                 });
                 thread.start();
             } else {
                 File file = fileChooser.showOpenDialog(null);
-                if(file != null) {
+                if(file != null && isValid(file)) {
                     Thread thread = new Thread(() -> {
                         scene.setCursor(Cursor.WAIT);
                         BufferedReader input = null;
@@ -110,9 +115,30 @@ public class MultiController implements Initializable {
         }
     }
 
+    private boolean isValid(File file) {
+        Process p = null;
+        String line = null;
+        try {
+            p = Runtime.getRuntime().exec("file " + file.getAbsolutePath());
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        while (true) {
+            try {
+                if ((line = input.readLine()) != null) {
+                    if (line.contains("ASCII")) return true;
+                } else return false;
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textField.clear();
     }
 }
+
+

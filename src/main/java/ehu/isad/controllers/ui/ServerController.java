@@ -224,25 +224,24 @@ public class ServerController {
        // serverTable.setItems(serverCMSController.getServerList());
     }
 
-    void filter(){
+    public void filter(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerCMSList(), b -> true);
-        // 2. Set the filter Predicate whenever the filter changes  
-        textField.textProperty().addListener((observable, newValue, oldValue) -> filteredData.setPredicate(servermodel -> {
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
                 return true;
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
-            if (servermodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
+            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
             } else // Does not match.
-                if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
+                if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
-                }else if(servermodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)) {
+                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
                     return true;
-                }
-                else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
+                }   else return cmsmodel.getVersions().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
@@ -256,22 +255,21 @@ public class ServerController {
     public void filterFavorites(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
         // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(servermodel -> {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
             // If filter text is empty, display all persons.
             if (newValue == null || newValue.isEmpty()) {
                 return true;
             }
             // Compare first name and last name of every person with filter text.
             String lowerCaseFilter = newValue.toLowerCase();
-            if (servermodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
+            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
                 return true; // Filter matches first name.
             } else // Does not match.
-                if (servermodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
+                if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
-                }else if(servermodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)) {
+                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
                     return true;
-                }
-                else return servermodel.getVersions().toLowerCase().contains(lowerCaseFilter);
+                }   else return cmsmodel.getVersions().toLowerCase().contains(lowerCaseFilter);
         }));
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
