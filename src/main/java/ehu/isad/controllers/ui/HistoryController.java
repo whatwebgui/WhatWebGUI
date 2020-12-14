@@ -57,6 +57,7 @@ public class HistoryController implements Initializable {
     private MenuItem targetReddit;
     @FXML
     private MenuItem targetTumblr;
+
     @FXML
     void onBrowserRow(ActionEvent event) throws IOException {
         HistoryModel history = tableview.getSelectionModel().getSelectedItem();
@@ -82,8 +83,6 @@ public class HistoryController implements Initializable {
             CMSController.socialChoose(targetTwitter, targetFacebook, targetReddit, targetTumblr, desktop, menuitem, url, targetEncoded);
         }
     }
-
-//    private final Tooltip tp = new Tooltip();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
     private ObservableList<HistoryModel> getUserList() {
@@ -95,19 +94,11 @@ public class HistoryController implements Initializable {
         col_domain.setCellValueFactory(new PropertyValueFactory<>("domain"));
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        filter();
     }
 
     private void hoverAndLinkClick(){
         tableview.setRowFactory( tr -> {
             final TableRow<HistoryModel> row = new TableRow<>();
-//            row.hoverProperty().addListener((observable) -> {
-//                final HistoryModel hm = row.getItem();
-//                if (row.isHover() && hm != null) {
-//                    getScreenshot(hm);
-//                    row.setTooltip(tp);
-//                }
-//            });
             row.setOnMouseMoved(event -> {
                 if (! row.isEmpty() ) {
                     Hyperlink hl = row.getItem().getDomain();
@@ -124,17 +115,6 @@ public class HistoryController implements Initializable {
             return row ;
         });
     }
-
-//    private void getScreenshot(HistoryModel hm){
-//       /* String screen = hm.getPath().split("/")[0];
-//        String pathToScreenshots = Utils.getProperties().getProperty("pathToFolder")+"screenshots/";
-//
-//        Image image = new Image("file:///"+pathToScreenshots+screen+".jpeg", 250, 250, true, false);
-//        if (image.getHeight()>10) image = new Image("file:///"+pathToScreenshots+"imgna.jpg", 250, 250, true, false);
-//        image = new Image("https://image.shutterstock.com/image-illustration/not-available-red-rubber-stamp-260nw-586791809.jpg", 250, 250, true, false);
-//        ImageView imageView = new ImageView(image);
-//        tp.setGraphic(imageView);*/
-//    }
 
     private void filter(){
         FilteredList<HistoryModel> filteredData = new FilteredList<>(getUserList(), b -> true);
@@ -180,7 +160,6 @@ public class HistoryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setItems();
         hoverAndLinkClick();
-        tableview.setItems(getUserList());
         filter();
         style();
     }

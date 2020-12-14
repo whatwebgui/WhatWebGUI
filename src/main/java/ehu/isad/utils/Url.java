@@ -17,18 +17,18 @@ public class Url {
             target = "http://"+target;
         }
         if(!netIsAvailable(target)){
-            /*Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error on URL");
             alert.setHeaderText("Error on reading the provided URL");
             alert.setContentText("The URL "+ url + "  doesn't seem to exist");
-            alert.showAndWait();*/
+            alert.showAndWait();
             return null;
         }else{
             return target;
         }
     }
 
-    public String processMulti(String url) throws SQLException {
+    public String processUrlInMulti(String url) throws SQLException {
         String target = url;
         if(target.charAt(target.length()-1)!='/') target = target+"/";
         if(!target.contains(":")){

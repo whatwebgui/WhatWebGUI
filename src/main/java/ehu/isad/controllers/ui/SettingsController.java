@@ -32,8 +32,8 @@ public class SettingsController {
         Button btn = (Button) event.getSource();
         if (btn.equals(btn_clear)){
             WhatWebDB.getInstance().clearDB();
-            CMSController.getInstance().filter();
-            ServerController.getInstance().filter();
+            CMSController.getInstance().filterAll();
+            ServerController.getInstance().filterAll();
         }
         else if (btn.equals(btn_cache)) WhatWebDB.getInstance().deleteCache();
         else if (btn.equals(btn_tutorial)){

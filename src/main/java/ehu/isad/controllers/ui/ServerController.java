@@ -60,12 +60,13 @@ public class ServerController {
     private TableColumn<ServerCMSModel, Date> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
+    private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
     private static ServerController instance = new ServerController();
 
-    private ServerController(){ }
+    private ServerController(){}
 
     public static ServerController getInstance() { return instance; }
 
@@ -87,6 +88,7 @@ public class ServerController {
     private MenuItem targetReddit;
     @FXML
     private MenuItem targetTumblr;
+
     @FXML
     void onBrowserRow(ActionEvent event) throws IOException {
         ServerCMSModel model = serverTable.getSelectionModel().getSelectedItem();
@@ -104,21 +106,21 @@ public class ServerController {
     void onFavUnFavRow(ActionEvent event) {
         ServerCMSModel item = serverTable.getSelectionModel().getSelectedItem();
         if(item != null) {
-            if (ServerCMSDB.getInstance().isFav(item.getUrl().getText())) {
-                ServerCMSDB.getInstance().removeFromFavorites(item);
+            if (servercmsdb.isFav(item.getUrl().getText())) {
+                servercmsdb.removeFromFavorites(item);
                 item.setStar(0);
                 if(comboBox.getValue().equals("Favorites")){
                     filterFavorites();
                     CMSController.getInstance().filterFavorites();
                 } else {
-                    filter();
-                    CMSController.getInstance().filter();
+                    filterAll();
+                    CMSController.getInstance().filterAll();
                 }
             } else {
                 item.setStar(1);
                 ServerCMSDB.getInstance().addToFavorites(item);
-                filter();
-                CMSController.getInstance().filter();
+                filterAll();
+                CMSController.getInstance().filterAll();
             }
         }
     }
@@ -184,8 +186,9 @@ public class ServerController {
 
     private void scan() throws IOException, SQLException {
         if(!textField.getText().equals("")){
-            if(urlUtils.processUrl(textField.getText())!=null){
-                processUrl(urlUtils.processUrl(textField.getText()),false);
+            String url = urlUtils.processUrl(textField.getText());
+            if(url!=null){
+                processUrl(url,false);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -211,8 +214,49 @@ public class ServerController {
         textField.setText("");
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
-        CMSController.getInstance().filter();
-        filter();
+        CMSController.getInstance().filterAll();
+        filterAll();
+    }
+
+    public void filterAll(){
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerCMSList(), b -> true);
+        filter(filteredData);
+    }
+
+    public void filterFavorites(){
+        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
+        filter(filteredData);
+    }
+
+    private void filter(FilteredList<ServerCMSModel> filteredData) {
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
+            // If filter text is empty, display all persons.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            // Compare first name and last name of every person with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
+                return true; // Filter matches first name.
+            } else // Does not match.
+                if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }   else return cmsmodel.getVersions().toLowerCase().contains(lowerCaseFilter);
+        }));
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(serverTable.comparatorProperty());
+        // 5. Add sorted (and filtered) data to the table.
+        serverTable.setItems(sortedData);
+    }
+
+    private void style(){
+        CMSController.Style(starColumn, urlColumn, serverColumn, versionColumn, lastUpdatedColumn);
     }
 
     public void setItems() {
@@ -221,76 +265,11 @@ public class ServerController {
         serverColumn.setCellValueFactory(new PropertyValueFactory<>("server"));
         versionColumn.setCellValueFactory(new PropertyValueFactory<>("versions"));
         lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-       // serverTable.setItems(serverCMSController.getServerList());
-    }
-
-    public void filter(){
-        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerCMSList(), b -> true);
-        // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
-            // If filter text is empty, display all persons.
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            // Compare first name and last name of every person with filter text.
-            String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches first name.
-            } else // Does not match.
-                if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }   else return cmsmodel.getVersions().toLowerCase().contains(lowerCaseFilter);
-        }));
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        // 	  Otherwise, sorting the TableView would have no effect.
-        sortedData.comparatorProperty().bind(serverTable.comparatorProperty());
-        // 5. Add sorted (and filtered) data to the table.
-        serverTable.setItems(sortedData);
-    }
-
-    public void filterFavorites(){
-        FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
-        // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
-            // If filter text is empty, display all persons.
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            // Compare first name and last name of every person with filter text.
-            String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches first name.
-            } else // Does not match.
-                if (cmsmodel.getServer().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }   else return cmsmodel.getVersions().toLowerCase().contains(lowerCaseFilter);
-        }));
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        // 	  Otherwise, sorting the TableView would have no effect.
-        sortedData.comparatorProperty().bind(serverTable.comparatorProperty());
-        // 5. Add sorted (and filtered) data to the table.
-        serverTable.setItems(sortedData);
-    }
-
-
-
-    private void style(){
-        CMSController.Style(starColumn, urlColumn, serverColumn, versionColumn, lastUpdatedColumn);
     }
 
     @FXML
     void initialize() {
         setItems();
-        serverTable.setItems(serverCMSController.getServerCMSList());
-        filter();
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("All");
         list.add("Favorites");
@@ -302,7 +281,7 @@ public class ServerController {
             if(value.equals("Favorites")){
                 filterFavorites();
             }else{
-                filter();
+                filterAll();
             }
         });
         serverCMSController.linkClick(serverTable);

@@ -1,6 +1,7 @@
 package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import ehu.isad.Main;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
@@ -67,9 +69,13 @@ public class MainController implements Initializable {
     @FXML
     private FontAwesomeIconView btn_x;
 
+    @FXML
+    private Button minimize;
+
     private static MainController instance = new MainController();
 
-    private MainController(){ }
+    private MainController(){
+    }
 
     public static MainController getInstance() { return instance; }
 
@@ -116,6 +122,7 @@ public class MainController implements Initializable {
             lbl_title.setText("Multi-add");
         }
     }
+
 
     @FXML
     void close() {

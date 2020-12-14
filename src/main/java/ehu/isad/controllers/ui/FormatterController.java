@@ -45,9 +45,9 @@ public class FormatterController {
     private ProgressIndicator pgr;
     @FXML
     private Button btn_clear;
-
     @FXML
     private Button btn_show;
+
     private String target = null;
     FormatterDB formatterDB = FormatterDB.getController();
     Url urlUtils = new Url();
@@ -68,9 +68,10 @@ public class FormatterController {
             if(!textField.getText().equals("")) {
                 textArea.clear();
                 try {
-                    if (urlUtils.processUrl(textField.getText()) != null) {
+                    String url = urlUtils.processUrl(textField.getText());
+                    if (url != null) {
                         pgr.setVisible(true);
-                        setText(btn, urlUtils.processUrl(textField.getText()));
+                        setText(btn, url);
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -102,8 +103,9 @@ public class FormatterController {
     void onKeyPressed(KeyEvent event) throws IOException {
         if (event.getCode().toString().equals("ENTER")) {
             try {
-                if(urlUtils.processUrl(textField.getText())!=null){
-                    setText(btn_scan,urlUtils.processUrl(textField.getText()));
+                String url = urlUtils.processUrl(textField.getText());
+                if(url!=null){
+                    setText(btn_scan,url);
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -129,7 +131,7 @@ public class FormatterController {
         String domain;
         target = url;
         if (comboChoice == null) {
-            comboChoice = combo.getItems().get(1);
+            comboChoice = combo.getItems().get(1);//in case there is no selected item, the first one will be selected
         }
         domain = url.replace("/", "").split(":")[1];
         List<String> emaitza = null;

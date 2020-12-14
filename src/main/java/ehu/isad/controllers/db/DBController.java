@@ -10,7 +10,6 @@ public class DBController {
     private static final DBController controller = new DBController();
     private final String path = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToDB");
 
-
     private DBController() {
         this.conOpen();
     }

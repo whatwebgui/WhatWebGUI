@@ -42,8 +42,6 @@ public class Utils {
         if(!directory.exists()) directory.mkdir();
         File directoryCache = new File(pathToFolder+"/cache");
         directoryCache.mkdir();
-//        File directoryScreenshots = new File(p.getProperty("pathToFolder")+"/screenshots");
-//        if(!directoryScreenshots.exists()) directoryScreenshots.mkdir();
     }
 
     public static void getTextFromURL() {

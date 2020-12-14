@@ -46,11 +46,7 @@ public class ServerCMSDB {
         String list = openFile("all");
         String query = "SELECT DISTINCT q.target,q.cms,q.versionc,q.server,q.versions,q.date,q.favorite FROM ( SELECT t.target, CASE WHEN p.name in " + listc + " THEN p.name ELSE 'unknown' END AS cms, CASE WHEN p.name in " + listc + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS versionc, CASE WHEN p.name in " + lists + " THEN p.name ELSE 'unknown' END AS server, CASE WHEN p.name in " + lists + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS versions, s.date, t.favorite FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS cms,'unknown' AS versionc, 'unknown' AS server,'unknown' AS versions, s.date, t.favorite FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
         ResultSet rs = dbcontroller.execSQL(query);
-        String url;
-        String cms;
-        String versionc;
-        String server;
-        String versions;
+        String url,cms,versionc,server,versions;
         Date lastUpdated;
         int fav;
         try {
@@ -97,15 +93,13 @@ public class ServerCMSDB {
     }
 
     public void addDate(String targ){
-        System.out.println(targ);
         String domain;
         try {
             domain = targ.replace("/", "").split(":")[1];
         } catch (Exception e) {
             domain = targ.replace("/", "");
         }
-        String target = correctDomain(domain);
-        String query = "insert into servercmsDate values((select target_id from targets where target = '" + target + "'),DATETIME())";
+        String query = "insert into servercmsDate values((select target_id from targets where target = '" + correctDomain(domain) + "'),DATETIME())";
         dbcontroller.execSQL(query);
     }
 
@@ -116,15 +110,13 @@ public class ServerCMSDB {
         } catch (Exception e) {
             domain = targ.replace("/", "");
         }
-        String target = correctDomain(domain);
-        String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + target + "')";
-        System.out.println(query);
+        String query = "update servercmsDate set date = DATETIME() where id = (select target_id from targets where target = '" + correctDomain(domain) + "')";
         dbcontroller.execSQL(query);
 
     }
 
     public String correctDomain(String domain){
-        String result = domain;
+        String result = null;
         String query = "SELECT target from targets where target like '%" + domain + "%' and status = 200";
         ResultSet rs = dbcontroller.execSQL(query);
         try {
@@ -158,33 +150,16 @@ public class ServerCMSDB {
         return false;
     }
 
-    /*public ObservableList<ServerCMSModel> getFavorites() {
-        String list = openFile("server");
-        String query = "SELECT DISTINCT q.target,q.name,q.version,q.date FROM ( SELECT t.target, CASE WHEN p.name in " + list + " THEN p.name ELSE 'unknown' END AS name, CASE WHEN p.name in " + list + " AND s.version not in ('0','') THEN s.version WHEN s.version in ('0','') THEN 'unknown' ELSE 'unknown' END AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 and p.name in " + list + "UNION SELECT t.target, 'unknown' AS name,'unknown' AS version, s.date FROM ((targets t natural join scans s) natural join plugins p) join servercmsDate s ON t.target_id=s.id WHERE t.status=200 GROUP BY t.target ORDER BY s.date DESC ) q GROUP BY q.target ORDER by q.date DESC";
-        ResultSet rs = DBController.getController().execSQL(query);
-        ObservableList<ServerCMSModel> oList = FXCollections.observableArrayList();
-        try{
-            while(rs.next()) {
-                ServerCMSModel model = new ServerCMSModel("","","","","","");
-                oList.add(model);
-            }
-        }catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return oList;
-    }*/
-
     public ObservableList<ServerCMSModel> favoritesList(){
         ObservableList<ServerCMSModel> list = FXCollections.observableArrayList();
         Iterator<ServerCMSModel> itr = this.getFromDB().iterator();
-        ServerCMSModel sc;
+        ServerCMSModel model;
         while(itr.hasNext()){
-            sc = itr.next();
-            if(isFav(sc.getUrl().getText())) {
-                list.add(sc);
+            model = itr.next();
+            if(isFav(model.getUrl().getText())) {
+                list.add(model);
             }
         }
-        System.out.println(list.size());
         return list;
     }
 }

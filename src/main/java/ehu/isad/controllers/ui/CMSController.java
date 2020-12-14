@@ -58,6 +58,7 @@ public class CMSController {
     private TableColumn<ServerCMSModel, Date> lastUpdatedColumn;
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
+    private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
     private ServerController server = ServerController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
@@ -86,6 +87,7 @@ public class CMSController {
     private MenuItem targetReddit;
     @FXML
     private MenuItem targetTumblr;
+
     @FXML
     void onBrowserRow(ActionEvent event) throws IOException {
         ServerCMSModel model = cmsTable.getSelectionModel().getSelectedItem();
@@ -103,21 +105,21 @@ public class CMSController {
     void onFavUnFavRow(ActionEvent event) {
         ServerCMSModel item = cmsTable.getSelectionModel().getSelectedItem();
         if(item != null) {
-            if (ServerCMSDB.getInstance().isFav(item.getUrl().getText())) {
-                ServerCMSDB.getInstance().removeFromFavorites(item);
+            if (servercmsdb.isFav(item.getUrl().getText())) {
+                servercmsdb.removeFromFavorites(item);
                 item.setStar(0);
-                if(comboBox.getValue().equals("Favorites")){
+                if(comboBox.getValue().equals("Favorites")){//both filters methods will be called to update the tables(cms and server tables)
                     filterFavorites();
                     server.filterFavorites();
                 } else {
-                    filter();
-                    server.filter();
+                    filterAll();
+                    server.filterAll();
                 }
             } else {
                 item.setStar(1);
-                ServerCMSDB.getInstance().addToFavorites(item);
-                filter();
-                server.filter();
+                servercmsdb.addToFavorites(item);
+                filterAll();
+                server.filterAll();
             }
         }
     }
@@ -213,9 +215,10 @@ public class CMSController {
     }
 
     private void scan() throws IOException, SQLException {
-        if(!textField.getText().equals("")){
-            if(urlUtils.processUrl(textField.getText())!=null){
-                processUrl(urlUtils.processUrl(textField.getText()),false);
+        if(!textField.getText().equals("")){//there is no url in the textfield
+            String url = urlUtils.processUrl(textField.getText());
+            if(url!=null){
+                processUrl(url,false);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -242,48 +245,22 @@ public class CMSController {
         textField.clear();
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
-        server.filter();
-        filter();
+        //again both filters will be called
+        server.filterAll();
+        filterAll();
     }
 
-    public void setItems() {
-        starColumn.setCellValueFactory(new PropertyValueFactory<>("star"));
-        urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
-        cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
-        versionColumn.setCellValueFactory(new PropertyValueFactory<>("versionc"));
-        lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
-    }
-
-    public void filter(){
+    public void filterAll(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getServerCMSList(), b -> true);
-        // 2. Set the filter Predicate whenever the filter changes.
-        textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
-            // If filter text is empty, display all persons.
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            // Compare first name and last name of every person with filter text.
-            String lowerCaseFilter = newValue.toLowerCase();
-            if (cmsmodel.getUrl().getText().toLowerCase().contains(lowerCaseFilter)) {
-                return true; // Filter matches first name.
-            } else // Does not match.
-                if (cmsmodel.getCms().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                } else if(cmsmodel.getLastUpdated().toString().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-            }   else return cmsmodel.getVersionc().toLowerCase().contains(lowerCaseFilter);
-        }));
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<ServerCMSModel> sortedData = new SortedList<>(filteredData);
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        // 	  Otherwise, sorting the TableView would have no effect.
-        sortedData.comparatorProperty().bind(cmsTable.comparatorProperty());
-        // 5. Add sorted (and filtered) data to the table.
-        cmsTable.setItems(sortedData);
+        filter(filteredData);
     }
 
     public void filterFavorites(){
         FilteredList<ServerCMSModel> filteredData = new FilteredList<>(serverCMSController.getFav(), b -> true);
+        filter(filteredData);
+    }
+
+    private void filter(FilteredList<ServerCMSModel>filteredData){
         // 2. Set the filter Predicate whenever the filter changes.
         textField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cmsmodel -> {
             // If filter text is empty, display all persons.
@@ -326,11 +303,17 @@ public class CMSController {
         lastUpdatedColumn.setStyle("-fx-alignment: CENTER;");
     }
 
+    public void setItems() {
+        starColumn.setCellValueFactory(new PropertyValueFactory<>("star"));
+        urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
+        cmsColumn.setCellValueFactory(new PropertyValueFactory<>("cms"));
+        versionColumn.setCellValueFactory(new PropertyValueFactory<>("versionc"));
+        lastUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("lastUpdated"));
+    }
+
     @FXML
     void initialize(){
         setItems();
-        cmsTable.setItems(serverCMSController.getServerCMSList());
-        filter();
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("All");
         list.add("Favorites");
@@ -341,7 +324,7 @@ public class CMSController {
             if(value.equals("Favorites")){
                 filterFavorites();
             }else{
-                filter();
+                filterAll();
             }
         });
         serverCMSController.linkClick(cmsTable);

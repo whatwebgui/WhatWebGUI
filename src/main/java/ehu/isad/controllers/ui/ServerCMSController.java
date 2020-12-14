@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,16 +27,10 @@ public class ServerCMSController {
 
     private ServerCMSController() { }
 
-    public static ServerCMSController getInstance() {
-        return instance;
-    }
+    public static ServerCMSController getInstance() { return instance; }
 
-    ObservableList<ServerCMSModel> getServerCMSList() {
-        return serverCMSDB.getFromDB();
-    }
-    ObservableList<ServerCMSModel> getFav() {
-        return serverCMSDB.favoritesList();
-    }
+    ObservableList<ServerCMSModel> getServerCMSList() { return serverCMSDB.getFromDB(); }
+    ObservableList<ServerCMSModel> getFav() { return serverCMSDB.favoritesList(); }
 
     void createSQLFile(String domain, String target) throws IOException {
         Process p;
@@ -97,7 +90,7 @@ public class ServerCMSController {
         });
         thread.start();
         try {
-            thread.join();
+            thread.join();//we will use this join to deal with the multithreading
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -131,7 +124,4 @@ public class ServerCMSController {
             return row ;
         });
     }
-
-
-
 }

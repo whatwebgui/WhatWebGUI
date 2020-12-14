@@ -13,8 +13,7 @@ public class WhatWebDB {
         private static final WhatWebDB instance = new WhatWebDB();
         private static final DBController dbcontroller = DBController.getController();
 
-    private WhatWebDB() {
-    }
+    private WhatWebDB() {}
 
     public static WhatWebDB getInstance() {
         return instance;
@@ -32,7 +31,6 @@ public class WhatWebDB {
 
     public void deleteCache(){
         File directory = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/cache");
-        System.out.println(directory.getAbsolutePath());
         if(directory.exists()){
             try {
                 deleteDirectory(new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")));
