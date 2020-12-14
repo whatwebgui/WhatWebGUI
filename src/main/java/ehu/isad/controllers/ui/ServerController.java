@@ -270,6 +270,7 @@ public class ServerController {
     @FXML
     void initialize() {
         setItems();
+        filterAll();
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("All");
         list.add("Favorites");
