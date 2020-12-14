@@ -53,4 +53,4 @@ The usage is very intuitive. There's a search bar where you have to type the web
 To make things easier, a tutorial is displayed the first time the program is executed. However, this tutorial can be visited again from the Settings tab.
 
 ## Documentation
-The documentation for the project is available [in the following link](). It is in Basque, so you may prefer talking to us instead ;)
+The documentation for the project is available [in the following link](https://raw.githubusercontent.com/whatwebgui/ww/main/WhatWebGUI_DOCUMENTATION.pdf). It is in Basque, so you may prefer talking to us instead ;)
