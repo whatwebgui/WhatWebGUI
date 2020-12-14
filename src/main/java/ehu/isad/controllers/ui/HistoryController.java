@@ -94,6 +94,7 @@ public class HistoryController implements Initializable {
         col_domain.setCellValueFactory(new PropertyValueFactory<>("domain"));
         col_tab.setCellValueFactory(new PropertyValueFactory<>("tab"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        filter();
     }
 
     private void hoverAndLinkClick(){
