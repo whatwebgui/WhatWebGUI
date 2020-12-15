@@ -72,7 +72,7 @@ public class MultiController implements Initializable {
                                 e.printStackTrace();
                             }
                             String line = null;
-                            while (true && cont <= 4) {
+                            while (cont <= 4) {
                                 try {
                                     assert input != null;
                                     if ((line = input.readLine()) == null) break;
@@ -157,22 +157,30 @@ public class MultiController implements Initializable {
 
     private boolean isValid(File file) {
         Process p = null;
-        String line = null;
-        try {
-            p = Runtime.getRuntime().exec("file " + file.getAbsolutePath());
+        String line;
+        try{
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("cmd.exe", "/C", "wsl file " + file.getAbsolutePath());
+                p = processBuilder.start();
+            }else{
+                p = Runtime.getRuntime().exec("file " + file.getAbsolutePath());
+            }
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        while (true) {
-            try {
-                if ((line = input.readLine()) != null) {
-                    if (line.contains("ASCII")) return true;
-                } else return false;
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+        if(p!=null){
+            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            while (true) {
+                try {
+                    if ((line = input.readLine()) != null) {
+                        if (line.contains("ASCII")) return true;
+                    } else return false;
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
-        }
+        }else return false;
     }
 
     @Override
