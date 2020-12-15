@@ -30,9 +30,13 @@ public class Url {
 
     public String processUrlInMulti(String url) throws SQLException {
         String target = url;
-        if(target.charAt(target.length()-1)!='/') target = target+"/";
-        if(!target.contains(":")){
-            target = "http://"+target;
+        try{
+            if(target.charAt(target.length()-1)!='/') target = target+"/";
+            if(!target.contains(":")){
+                target = "http://"+target;
+            }
+        }catch(IndexOutOfBoundsException e){
+            //nothing
         }
         if(!netIsAvailable(target)){
             return null;
@@ -49,7 +53,8 @@ public class Url {
             conn.getInputStream().close();
             return true;
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            return false;
         } catch (IOException e) {
             return false;
         }

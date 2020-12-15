@@ -22,6 +22,7 @@ public class MultiController implements Initializable {
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
     ServerController server = ServerController.getInstance();
+    private int cont;
     @FXML
     private Button btnOk;
 
@@ -58,9 +59,10 @@ public class MultiController implements Initializable {
                 thread.start();
             } else {
                 File file = fileChooser.showOpenDialog(null);
-                if(isValid(file)){
-                    if(file != null) {//if one file has been selected
+                if(file != null) {//if one file has been selected
+                    if(isValid(file)){
                         Thread thread = new Thread(() -> {
+                            cont = 0;
                             scene.setCursor(Cursor.WAIT);
                             BufferedReader input = null;
                             try {
@@ -70,7 +72,7 @@ public class MultiController implements Initializable {
                                 e.printStackTrace();
                             }
                             String line = null;
-                            while (true) {
+                            while (true && cont <= 4) {
                                 try {
                                     assert input != null;
                                     if ((line = input.readLine()) == null) break;
@@ -79,6 +81,15 @@ public class MultiController implements Initializable {
                                     ioException.printStackTrace();
                                 }
                                 processURL(line);
+                            }
+                            if(cont > 4){
+                                Platform.runLater( () -> {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setTitle("Error on Multi-Add");
+                                    alert.setHeaderText("Error on reading the provided file");
+                                    alert.setContentText("The chosen file has too many incorrect URLs, please choose another one");
+                                    alert.showAndWait();
+                                });
                             }
                             try {
                                 input.close();
@@ -89,9 +100,9 @@ public class MultiController implements Initializable {
                             }
                         });
                         thread.start();
+                    }else{
+                        showError();
                     }
-                }else{
-                    showError();
                 }
             }
         }else{
@@ -126,6 +137,7 @@ public class MultiController implements Initializable {
                     HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
                 } catch (IOException ioException) { ioException.printStackTrace(); }
             }else{
+                cont++;
                 Platform.runLater( () -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error on URL");
