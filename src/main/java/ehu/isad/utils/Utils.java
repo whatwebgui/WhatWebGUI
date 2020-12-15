@@ -45,7 +45,7 @@ public class Utils {
     }
 
     public static void getTextFromURL() {
-        File txtdir = new File(pathToFolder+"txt");
+        /*File txtdir = new File(pathToFolder+"txt");
         String fileurl = "https://raw.githubusercontent.com/whatwebgui/ww/main/txt/";
         if(!txtdir.exists()) {
             txtdir.mkdir();
@@ -68,7 +68,32 @@ public class Utils {
                 }
             }
             while(pr.isAlive()){}
+        }*/
+        File txtdir = new File(pathToFolder+"txt");
+        if(!txtdir.exists()) {
+            txtdir.mkdir();
+            String[] txt = {"cmslist.txt", "serverlist.txt", "list.txt", "db.txt", "extensions.txt"};
+            File[] listCms_Server = new File[4];
+            File db = new File("/txt/database/db.txt");
+            copyToHiddenFolder(db.getAbsolutePath());
+            for (int i = 0; i < 4; i++) {
+                listCms_Server[i] = new File("/txt/cms_server/" + txt[i]);
+                copyToHiddenFolder(listCms_Server[i].getAbsolutePath());
+            }
         }
+    }
 
+    private static void copyToHiddenFolder(String path){
+        if(System.getProperty("os.name").toLowerCase().contains("win")){//Windows
+
+        }else{//Linux and Mac OS
+            try {
+                System.out.println(path);
+                System.out.println(home+pathToFolder+"/txt/");
+                Runtime.getRuntime().exec("cp " + path + " " + home+pathToFolder+"/txt/");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
     }
 }
