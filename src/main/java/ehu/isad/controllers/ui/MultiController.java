@@ -169,7 +169,7 @@ public class MultiController implements Initializable {
                 if(p!=null){
                     BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
                     ret = true;
-                    while (ret) ret = ((line = input.readLine()) != null) && line.contains("ASCII");
+                    while (ret) ret = ((line = input.readLine()) != null) && line.contains("text");
                 }
             }
         } catch (IOException ioException) {
