@@ -1,5 +1,6 @@
 package ehu.isad.controllers.db;
 
+import ehu.isad.utils.Txt;
 import ehu.isad.utils.Utils;
 
 import java.io.BufferedReader;
@@ -62,16 +63,8 @@ public class WhatWebDB {
     public void createDB() {
         File directory = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/");
         directory.mkdir();
-        FileReader fr;
-        try {
-            String folderPath = System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+"/txt/";
-            fr = new FileReader(new File(folderPath+"db.txt"));
-            BufferedReader br=new BufferedReader(fr);
-            String line;
-            while((line=br.readLine())!=null) {
-                dbcontroller.execSQL(line);
-            }
-            fr.close();
-        } catch(IOException e){ e.printStackTrace();}
+        String[] create = Txt.getTxt("db");
+        for (String query : create)
+            dbcontroller.execSQL(query);
     }
 }

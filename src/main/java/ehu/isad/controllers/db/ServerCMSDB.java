@@ -1,6 +1,7 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.model.ServerCMSModel;
+import ehu.isad.utils.Txt;
 import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,28 +68,20 @@ public class ServerCMSDB {
     }
 
     private String openFile(String tab) {
-        String folderPath = System.getProperty("user.home")+"/"+ Utils.getProperties().getProperty("pathToFolder")+"/txt/";
         StringBuffer sb = new StringBuffer();
-        FileReader fr;
-        try {
-            if (tab.equals("cms")) {
-                fr = new FileReader(new File(folderPath+"cmslist.txt"));
-                sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
-            } else if (tab.equals("server")) {
-                fr=new FileReader(new File(folderPath+"serverlist.txt"));
-                sb.append("('Apache', 'nginx', ");
-            } else {
-                fr=new FileReader(new File(folderPath+"list.txt"));
-                sb.append("(");
-            }
-            BufferedReader br=new BufferedReader(fr);
-            String line;
-            while((line=br.readLine())!=null) {
-                sb.append("'").append(line).append("', ");
-            }
-            sb.append("'EndOfPluginList')");
-            fr.close();
-        } catch(IOException e){ e.printStackTrace();}
+        String[] file = null;
+        if (tab.equals("cms")) {
+            file = Txt.getTxt("cmslist");
+            sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
+        } else if (tab.equals("server")) {
+            file = Txt.getTxt("serverlist");
+            sb.append("('Apache', 'nginx', ");
+        } else {
+            file = Txt.getTxt("list");
+            sb.append("(");
+        }
+        for (String line:file) sb.append("'").append(line).append("', ");
+        sb.append("'EndOfPluginList')");
         return sb.toString();
     }
 

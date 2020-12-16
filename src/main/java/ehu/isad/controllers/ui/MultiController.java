@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextArea;
@@ -158,29 +159,23 @@ public class MultiController implements Initializable {
     private boolean isValid(File file) {
         Process p = null;
         String line;
+        boolean ret = false;
         try{
             if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("cmd.exe", "/C", "wsl file " + file.getAbsolutePath());
-                p = processBuilder.start();
-            }else{
+                String type = Files.probeContentType(file.toPath());
+                ret = type.startsWith("text");
+            } else {
                 p = Runtime.getRuntime().exec("file " + file.getAbsolutePath());
+                if(p!=null){
+                    BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    ret = true;
+                    while (ret) ret = ((line = input.readLine()) != null) && line.contains("ASCII");
+                }
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        if(p!=null){
-            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            while (true) {
-                try {
-                    if ((line = input.readLine()) != null) {
-                        if (line.contains("ASCII")) return true;
-                    } else return false;
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            }
-        }else return false;
+        return ret;
     }
 
     @Override
