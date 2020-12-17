@@ -102,7 +102,6 @@ public class HistoryController implements Initializable {
                 i++;
             }
             csvPrinter.flush();
-            System.out.println("He llegao hasta abajo");
         }
 
 
