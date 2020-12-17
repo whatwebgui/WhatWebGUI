@@ -46,6 +46,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
     //compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    compile group: 'org.apache.poi', name: 'poi', version: '3.9'
+    compile 'org.apache.commons:commons-csv:1.8'
 }
 
 repositories {
@@ -68,9 +71,8 @@ jlink {
             icon = "C:\\Users\\ANDER\\favicon.ico";
         } else if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
             jpackageHome = "/Users/kerman/.sdkman/candidates/java/15.0.1.fx-zulu";
-            installerOptions += ['--mac-package-identifier WhatWebGUI', '--mac-package-name WhatWebGUI']
-            icon = "/iconsmall.png";
-        } else if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            icon = "/Users/kerman/Desktop/Workspace/WhatWebGUI/src/main/resources/img/iconsmall.icns";
+        } else if (org.gradle.internal.os .OperatingSystem.current().linux) {
             jpackageHome = "/home/adeiarias/.sdkman/candidates/java/15.0.1.fx-zulu";
             installerOptions += ['--linux-shortcut']
             icon = "/home/adeiarias/IdeaProjects/WhatWebGUI/src/main/resources/img/iconsmall.png";

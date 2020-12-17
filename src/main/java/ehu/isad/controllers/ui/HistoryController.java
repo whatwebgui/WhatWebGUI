@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.HistoryModel;
+import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -10,18 +11,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
-
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 public class HistoryController implements Initializable {
 
     @FXML
@@ -44,7 +59,8 @@ public class HistoryController implements Initializable {
     private HistoryController(){ }
 
     public static HistoryController getInstance() { return instance; }
-
+    @FXML
+    private Button exportBtn;
     @FXML
     private MenuItem openBrowser;
     @FXML
@@ -63,6 +79,37 @@ public class HistoryController implements Initializable {
         HistoryModel history = tableview.getSelectionModel().getSelectedItem();
         this.openURL(history.getDomain());
     }
+
+    @FXML
+    void onClick(ActionEvent event) throws IOException {
+        if (event.getSource() == exportBtn) {
+            this.createCSV();
+
+        }
+    }
+
+    private void createCSV() throws IOException {
+        String SAMPLE_CSV_FILE = "./history.csv";
+        try (
+                BufferedWriter writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE));
+                CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
+                        .withHeader("Index","Domain", "Tab", "Date"));
+        ) {
+            List<HistoryModel> hist=  HistoryDB.getInstance().getFromHistoryDB();
+            int i =1;
+            for (HistoryModel h:hist){
+                csvPrinter.printRecord(i, h.getDomain().toString().split("'")[1],h.getTab(),h.getDate());
+                i++;
+            }
+            csvPrinter.flush();
+            System.out.println("He llegao hasta abajo");
+        }
+
+
+    }
+
+
+
 
     void openURL(Hyperlink url) throws IOException {
         if(System.getProperty("os.name").toLowerCase().contains("linux")){

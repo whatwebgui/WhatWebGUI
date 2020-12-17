@@ -11,5 +11,7 @@ open module whatwebgui {
     requires de.jensd.fx.fontawesomefx.fontawesome;
     requires javafx.media;
     requires sqlite.jdbc;
+    requires poi;
+    requires commons.csv;
     exports ehu.isad;
 }
