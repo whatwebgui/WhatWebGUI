@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.controllers.db.SecurityDB;
 import ehu.isad.model.SecurityModel;
 import ehu.isad.model.ServerCMSModel;
@@ -15,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+
+import java.util.Date;
 
 public class SecurityController {
 
@@ -92,6 +95,17 @@ public class SecurityController {
         tableview.setItems(sortedData);
     }
 
+    static void Style(TableColumn<SecurityModel, String> targetColumn, TableColumn<SecurityModel, String> IPColumn, TableColumn<SecurityModel, String> countryColumn) {
+        targetColumn.setReorderable(false);
+        targetColumn.setStyle("-fx-alignment: CENTER;");
+        IPColumn.setReorderable(false);
+        IPColumn.setReorderable(false);
+        countryColumn.setStyle("-fx-alignment: CENTER;");
+        countryColumn.setReorderable(false);
+    }
+
+    private void style(){ Style(targetColumn, IPColumn, countryColumn); }
+
     public void setItems() {
         targetColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         IPColumn.setCellValueFactory(new PropertyValueFactory<>("IP"));
@@ -108,6 +122,7 @@ public class SecurityController {
         list.add("Not vulnerable");
         comboBox.setValue("All");
         comboBox.setItems(list);
+        style();
     }
 
 }
