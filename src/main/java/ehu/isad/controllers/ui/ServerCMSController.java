@@ -105,7 +105,7 @@ public class ServerCMSController {
         }
     }
 
-    void linkClick(TableView<ServerCMSModel> table){
+    void        linkClick(TableView<ServerCMSModel> table){
         table.setRowFactory( tr -> {
             final TableRow<ServerCMSModel> row = new TableRow<>();
             row.setOnMouseMoved(event -> {

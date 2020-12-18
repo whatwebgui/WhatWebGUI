@@ -40,19 +40,10 @@ public class SecurityController {
     private ComboBox<String> comboBox;
 
     @FXML
-    private Label label;
-
-    @FXML
-    private Label labelMiTM;
-
-    @FXML
-    private Label labelForm;
-
-    @FXML
-    private Label labelNothing;
-
-    @FXML
     private Button vuln;
+
+    @FXML
+    private MenuItem menuVuln;
 
     private static SecurityController instance = new SecurityController();
 
@@ -62,32 +53,38 @@ public class SecurityController {
 
     public SecurityDB securityDB = SecurityDB.getInstance();
 
-    private void findVulnerabilities(String url){
-        int c = 0;
-        if(url.contains("http://")){
-            labelMiTM.setText("VULNERABLE TO MAN IN THE MIDDLE ATTACK. INFORMATION IS NOT ENCODED, TOOLS LIKE WIRESHARK COULD BE USED TO DO THIS TYPE OF ATTACKS");
-            labelNothing.setText("");
-            c++;
+    @FXML
+    void onClickVuln(ActionEvent event) {
+        SecurityModel sm = tableview.getSelectionModel().getSelectedItem();
+        String url = sm.getUrl().getText();
+        String text;
+        if(url.contains("http:") && securityDB.passwordField(url)){
+            text = "This website is vulnerable to Man in The Middle attack and it may also have a form, so it could also be vulnerable to SQLi or XSS attack";
+            showMessage("vuln",text);
+        }else if(url.contains("http:") && !securityDB.passwordField(url)){
+            text = "This website is vulnerable to Man in The Middle attack";
+            showMessage("vuln",text);
+        }else if(!url.contains("http:") && securityDB.passwordField(url)){
+            text = "This website may have a form, so it could be vulnerable to SQLi or XSS attack";
+            showMessage("vuln",text);
         }else{
-            labelMiTM.setText("NOT VULNERABLE TO MAN IN THE MIDDLE ATTACK");
-        }
-        if(securityDB.passwordField(url)) {
-            labelForm.setText("THIS WEBSITE MAY HAVE A FORM. IT COULD BE VULNERABLE TO SQLi OR XSS ATTACKS");
-            labelNothing.setText("");
-            c++;
-        }
-        if(c==0){
-            labelMiTM.setText("");
-            labelNothing.setText("THIS WEBSITE DOES NOT SEEM TO HAVE A FORM AND IS NOT VULNERABLE TO MAN IN THE MIDDLE ATTACK");
+            text = "This website seems to be secure";
+            showMessage("notVuln",text);
         }
     }
 
-    @FXML
-    void onClick(ActionEvent event) {
-        SecurityModel sm = tableview.getSelectionModel().getSelectedItem();
-        if(sm != null){
-            findVulnerabilities(sm.getUrl().getText());
+    private void showMessage(String type, String text){
+        Alert alert;
+        if(type.equals("vuln")){
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Vulnerabilites found");
+        }else{
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("No vulnerabilities found");
         }
+        alert.setTitle("Scan completed");
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 
     public void filterAll(){
