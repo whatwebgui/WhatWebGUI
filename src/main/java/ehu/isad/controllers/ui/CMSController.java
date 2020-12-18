@@ -1,5 +1,6 @@
 package ehu.isad.controllers.ui;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import ehu.isad.controllers.db.SecurityDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
@@ -59,6 +60,7 @@ public class CMSController {
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
+    private SecurityController securityController = SecurityController.getInstance();
     private ServerController server = ServerController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
@@ -246,6 +248,7 @@ public class CMSController {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
         //again both filters will be called
+        securityController.filterAll();
         server.filterAll();
         filterAll();
     }

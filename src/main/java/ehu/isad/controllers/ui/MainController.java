@@ -111,7 +111,6 @@ public class MainController implements Initializable {
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
         }
-
         if (actionEvent.getSource() == btn6) {
             output = 6;
             pane.getChildren().add(pane6);
@@ -252,10 +251,10 @@ public class MainController implements Initializable {
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
 
-        FXMLLoader loaderpane5 = new FXMLLoader(getClass().getResource("/panes/pane8.fxml"));
-        securityController = loaderpane5.getController();
-        loaderpane5.setController(securityController);
-        pane8 = loaderpane5.load(); //security
+        FXMLLoader loaderpane8 = new FXMLLoader(MainController.class.getResource("/panes/pane8.fxml"));
+        securityController = SecurityController.getInstance();
+        loaderpane8.setController(securityController);
+        pane8 = loaderpane8.load(); //security
     }
 
     @Override

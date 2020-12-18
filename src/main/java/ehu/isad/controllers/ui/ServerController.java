@@ -61,6 +61,7 @@ public class ServerController {
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
+    private SecurityController securityController = SecurityController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -215,6 +216,7 @@ public class ServerController {
         String domain = url.replace("/", "").split(":")[1];
         serverCMSController.click(domain, url,multiadd);
         CMSController.getInstance().filterAll();
+        securityController.filterAll();
         filterAll();
     }
 
