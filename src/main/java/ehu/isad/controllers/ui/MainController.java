@@ -36,6 +36,8 @@ public class MainController implements Initializable {
     SettingsController settingsController;
     private  Parent pane7;
     MultiController multiController;
+    private Parent pane8;
+    SecurityController securityController;
 
     int output=1;
 
@@ -62,6 +64,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button btn7;
+
+    @FXML
+    private Button btn8;
 
     @FXML
     private Label lbl_title;
@@ -106,11 +111,7 @@ public class MainController implements Initializable {
             pane.getChildren().add(pane4);
             lbl_title.setText("History");
         }
-        /*
-        if (actionEvent.getSource() == btn5) {
-            pane.getChildren().add(pane5);
-            lbl_title.setText("Statistics");
-        }*/
+
         if (actionEvent.getSource() == btn6) {
             output = 6;
             pane.getChildren().add(pane6);
@@ -120,6 +121,10 @@ public class MainController implements Initializable {
             output = 7;
             pane.getChildren().add(pane7);
             lbl_title.setText("Multi-add");
+        }
+        if (actionEvent.getSource() == btn8) {
+            pane.getChildren().add(pane8);
+            lbl_title.setText("Security");
         }
     }
 
@@ -189,10 +194,10 @@ public class MainController implements Initializable {
                             pane.getChildren().add(pane4);
                             lbl_title.setText("History");
                             break;
-//                        case 5:
-//                            pane.getChildren().add(pane5);
-//                            lbl_title.setText("Statistics");
-//                            break;
+                        case 5:
+                            pane.getChildren().add(pane8);
+                            lbl_title.setText("Security");
+                            break;
                         case 6:
                             pane.getChildren().add(pane6);
                             lbl_title.setText("Settings");
@@ -237,10 +242,6 @@ public class MainController implements Initializable {
         loaderpane4.setController(historyController);
         pane4 = loaderpane4.load(); //history
 
-        /*FXMLLoader loaderpane5 = new FXMLLoader(getClass().getResource("/pane5.fxml"));
-        pane5 = loaderpane5.load(); //stats
-        statisticsController = loaderpane4.getController();*/
-
         FXMLLoader loaderpane6 = new FXMLLoader(MainController.class.getResource("/panes/pane6.fxml"));
         settingsController = SettingsController.getInstance();
         loaderpane6.setController(settingsController);
@@ -250,6 +251,11 @@ public class MainController implements Initializable {
         multiController = MultiController.getInstance();
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
+
+        FXMLLoader loaderpane5 = new FXMLLoader(getClass().getResource("/panes/pane8.fxml"));
+        securityController = loaderpane5.getController();
+        loaderpane5.setController(securityController);
+        pane8 = loaderpane5.load(); //security
     }
 
     @Override
