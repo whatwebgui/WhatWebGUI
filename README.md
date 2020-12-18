@@ -44,9 +44,6 @@ sudo apt-get update && sudo apt-get upgrade && sudo apt install whatweb
 Install the application, open it and now you're ready to scan any website!
 > NOTE: Java 11 must be installed. 
 
-### Windows 8 and older
-As these Windows versions are too old, we haven't prepare the application to run on these. In fact, the previously mentioned WSL isn't available for these versions, so there are some extra steps that have to be made in order to being able to run it. However, it is in our future plans to make it available, though we can't assure it will be carried out. 
-
 ## Usage
 The usage is very intuitive. There's a search bar where you have to type the website you want to scan. Then, press enter or click the Scan button and it will scan the website!
 
