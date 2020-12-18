@@ -61,6 +61,17 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
+            <Button fx:id="btn8" alignment="BASELINE_LEFT" graphicTextGap="9.0" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Security">
+               <graphic>
+                  <FontAwesomeIconView fill="#fbfbfc" glyphName="SHIELD" size="18" />
+               </graphic>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <padding>
+                    <Insets left="65.0" />
+                </padding>
+            </Button>
                 <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="9.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Multi-add">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="LIST" size="18" />
@@ -102,11 +113,6 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-            <Button fx:id="btn8" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Security">
-               <graphic>
-                  <FontAwesomeIconView fill="#fbfbfc" glyphName="SHIELD" size="18" />
-               </graphic>
-            </Button>
             </children>
         </VBox>
         <GridPane layoutX="250.0" layoutY="145.0" prefHeight="241.0" prefWidth="380.0" visible="false">
