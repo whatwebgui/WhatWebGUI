@@ -8,12 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
@@ -45,6 +42,18 @@ public class SecurityController {
     @FXML
     private Label label;
 
+    @FXML
+    private Label labelMiTM;
+
+    @FXML
+    private Label labelForm;
+
+    @FXML
+    private Label labelNothing;
+
+    @FXML
+    private Button vuln;
+
     private static SecurityController instance = new SecurityController();
 
     private SecurityController(){}
@@ -52,6 +61,34 @@ public class SecurityController {
     public static SecurityController getInstance() { return instance; }
 
     public SecurityDB securityDB = SecurityDB.getInstance();
+
+    private void findVulnerabilities(String url){
+        int c = 0;
+        if(url.contains("http://")){
+            labelMiTM.setText("VULNERABLE TO MAN IN THE MIDDLE ATTACK. INFORMATION IS NOT ENCODED, TOOLS LIKE WIRESHARK COULD BE USED TO DO THIS TYPE OF ATTACKS");
+            labelNothing.setText("");
+            c++;
+        }else{
+            labelMiTM.setText("NOT VULNERABLE TO MAN IN THE MIDDLE ATTACK");
+        }
+        if(securityDB.passwordField(url)) {
+            labelForm.setText("THIS WEBSITE MAY HAVE A FORM. IT COULD BE VULNERABLE TO SQLi OR XSS ATTACKS");
+            labelNothing.setText("");
+            c++;
+        }
+        if(c==0){
+            labelMiTM.setText("");
+            labelNothing.setText("THIS WEBSITE DOES NOT SEEM TO HAVE A FORM AND IS NOT VULNERABLE TO MAN IN THE MIDDLE ATTACK");
+        }
+    }
+
+    @FXML
+    void onClick(ActionEvent event) {
+        SecurityModel sm = tableview.getSelectionModel().getSelectedItem();
+        if(sm != null){
+            findVulnerabilities(sm.getUrl().getText());
+        }
+    }
 
     public void filterAll(){
         FilteredList<SecurityModel> filteredData = new FilteredList<>(securityDB.getFromSecurityDB(), b -> true);

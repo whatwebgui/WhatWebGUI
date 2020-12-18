@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,10 +8,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-
 <Pane fx:id="pane8" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="tableview" editable="true" layoutX="14.0" layoutY="72.0" prefHeight="279.0" prefWidth="574.0">
+      <TableView fx:id="tableview" editable="true" layoutX="14.0" layoutY="72.0" prefHeight="300.0" prefWidth="574.0">
         <columns>
           <TableColumn fx:id="targetColumn" prefWidth="75.0" text="TARGET" />
           <TableColumn fx:id="IPColumn" prefWidth="75.0" text="IP" />
@@ -22,6 +22,10 @@
       </TableView>
       <TextField fx:id="texfield" alignment="CENTER" layoutX="14.0" layoutY="27.0" prefHeight="26.0" prefWidth="363.0" promptText="FILTER" />
       <ComboBox fx:id="comboBox" layoutX="396.0" layoutY="27.0" prefHeight="26.0" prefWidth="190.0" />
-      <Label fx:id="label" layoutX="14.0" layoutY="361.0" prefHeight="16.0" prefWidth="123.0" text="Vulnerabilities:" />
+      <Label fx:id="label" layoutX="14.0" layoutY="377.0" prefHeight="16.0" prefWidth="123.0" text="Vulnerabilities:" />
+      <Label fx:id="labelMiTM" layoutX="12.0" layoutY="405.0" prefHeight="26.0" prefWidth="574.0" />
+      <Label fx:id="labelForm" layoutX="13.0" layoutY="451.0" prefHeight="26.0" prefWidth="574.0" />
+      <Label fx:id="labelNothing" layoutX="13.0" layoutY="431.0" prefHeight="16.0" prefWidth="574.0" text="NO ROW IS SELECTED" />
+      <Button fx:id="vuln" layoutX="429.0" layoutY="376.0" mnemonicParsing="false" onAction="#onClick" prefHeight="26.0" prefWidth="157.0" text="Find vulnerabilities" />
    </children>
 </Pane>

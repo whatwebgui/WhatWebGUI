@@ -39,4 +39,23 @@ public class SecurityDB {
         }
         return list;
     }
+
+    public boolean passwordField(String url){
+        String query = "select name from plugins natural join scans natural join targets where target = '" + url + "' and name = \"PasswordField\"";
+        System.out.println(query);
+        ResultSet rs = dbcontroller.execSQL(query);
+        try{
+            while(rs.next()) {
+                String name = rs.getString("name");
+                if(name!=null){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
