@@ -2,7 +2,6 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.HistoryModel;
-import ehu.isad.utils.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,15 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
 import java.awt.*;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -31,7 +23,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -103,12 +94,7 @@ public class HistoryController implements Initializable {
             }
             csvPrinter.flush();
         }
-
-
     }
-
-
-
 
     void openURL(Hyperlink url) throws IOException {
         if(System.getProperty("os.name").toLowerCase().contains("linux")){

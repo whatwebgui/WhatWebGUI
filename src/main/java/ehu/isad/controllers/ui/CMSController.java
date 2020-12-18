@@ -1,6 +1,5 @@
 package ehu.isad.controllers.ui;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import ehu.isad.controllers.db.SecurityDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
@@ -10,7 +9,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;

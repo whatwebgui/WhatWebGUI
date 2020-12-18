@@ -21,11 +21,7 @@ public class DBController {
     private void conOpen() {
         try {
             Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
         try {
@@ -38,7 +34,6 @@ public class DBController {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
-
     }
 
     private void conClose() {

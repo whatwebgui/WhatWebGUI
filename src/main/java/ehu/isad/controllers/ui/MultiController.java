@@ -94,6 +94,7 @@ public class MultiController implements Initializable {
                                 });
                             }
                             try {
+                                assert input != null;
                                 input.close();
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
@@ -158,7 +159,7 @@ public class MultiController implements Initializable {
     }
 
     private boolean isValid(File file) {
-        Process p = null;
+        Process p;
         String line;
         boolean ret = false;
         try{

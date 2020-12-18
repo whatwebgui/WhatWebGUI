@@ -1,9 +1,8 @@
 package ehu.isad.controllers.ui;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+
 import ehu.isad.controllers.db.SecurityDB;
 import ehu.isad.model.SecurityModel;
-import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
-import java.util.Date;
 
 public class SecurityController {
 

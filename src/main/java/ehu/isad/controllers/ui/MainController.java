@@ -1,7 +1,6 @@
 package ehu.isad.controllers.ui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import ehu.isad.Main;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
@@ -176,7 +173,7 @@ public class MainController implements Initializable {
                 String line;
                 boolean gone=false;
                 int lineint;
-                while((line=br.readLine())!=null && gone==false) {
+                while((line=br.readLine())!=null && !gone) {
                     try{
                     lineint = Integer.parseInt(line);}
                     catch (Exception e){lineint=1;}

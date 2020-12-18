@@ -1,10 +1,7 @@
 package ehu.isad.model;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import java.util.Date;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.paint.Paint;
+
 
 public class SecurityModel {
 
