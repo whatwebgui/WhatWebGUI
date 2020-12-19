@@ -264,7 +264,7 @@ public class MainController implements Initializable {
         FXMLLoader loaderpane9 = new FXMLLoader(MainController.class.getResource("/panes/pane9.fxml"));
         chartController = chartController.getInstance();
         loaderpane9.setController(chartController);
-        pane9 = loaderpane9.load(); //security
+        pane9 = loaderpane9.load(); //charts
     }
 
     @Override

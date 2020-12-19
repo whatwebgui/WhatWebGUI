@@ -6,11 +6,10 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <PieChart fx:id="serverC" layoutX="36.0" layoutY="213.0" prefHeight="80.0" prefWidth="83.0" stylesheets="@style.css" title="Server" />
-      <LineChart fx:id="scanC" layoutX="36.0" layoutY="29.0" prefHeight="160.0" prefWidth="528.0" stylesheets="@style.css" title="Scans">
+      <PieChart fx:id="serverC" layoutX="6.0" layoutY="187.0" prefHeight="268.0" prefWidth="320.0" stylesheets="@style.css" title="Server" />
+      <LineChart fx:id="scanC" layoutX="3.0" layoutY="4.0" prefHeight="194.0" prefWidth="591.0" stylesheets="@style.css" title="Scans">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -18,6 +17,6 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <PieChart fx:id="cmsC" layoutX="364.0" layoutY="213.0" prefHeight="80.0" prefWidth="83.0" title="CMS" />
+      <PieChart fx:id="cmsC" layoutX="262.0" layoutY="187.0" prefHeight="268.0" prefWidth="332.0" title="CMS" />
    </children>
 </AnchorPane>
