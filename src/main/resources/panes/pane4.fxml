@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
@@ -33,5 +34,6 @@
          </contextMenu>
       </TableView>
       <TextField fx:id="textField" alignment="CENTER" layoutX="139.0" layoutY="14.0" prefHeight="26.0" prefWidth="322.0" promptText="Filter by domain" />
+      <Button fx:id="exportBtn" layoutX="496.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClick" prefHeight="32.0" prefWidth="79.0" text="Export" />
    </children>
 </Pane>

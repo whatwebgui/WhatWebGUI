@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.awt.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -26,6 +27,9 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 public class HistoryController implements Initializable {
@@ -80,7 +84,12 @@ public class HistoryController implements Initializable {
     }
 
     private void createCSV() throws IOException {
-        String SAMPLE_CSV_FILE = "./history.csv";
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File("src"));
+        Stage primaryStage = (Stage) exportBtn.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(primaryStage);
+        System.out.println(selectedDirectory.getAbsolutePath());
+        String SAMPLE_CSV_FILE = selectedDirectory.getAbsolutePath()+"/history.csv";
         try (
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT

@@ -35,7 +35,8 @@ public class MainController implements Initializable {
     MultiController multiController;
     private Parent pane8;
     SecurityController securityController;
-
+    private Parent pane9;
+    ChartController chartController;
     int output=1;
 
     @FXML
@@ -64,7 +65,8 @@ public class MainController implements Initializable {
 
     @FXML
     private Button btn8;
-
+    @FXML
+    private Button btn9;
     @FXML
     private Label lbl_title;
 
@@ -121,6 +123,10 @@ public class MainController implements Initializable {
         if (actionEvent.getSource() == btn8) {
             pane.getChildren().add(pane8);
             lbl_title.setText("Security");
+        }
+        if (actionEvent.getSource() == btn9) {
+            pane.getChildren().add(pane9);
+            lbl_title.setText("Charts");
         }
     }
 
@@ -202,6 +208,9 @@ public class MainController implements Initializable {
                             pane.getChildren().add(pane7);
                             lbl_title.setText("Multi-add");
                             break;
+                        case 9:
+                            pane.getChildren().add(pane9);
+                            lbl_title.setText("Charts");
                         default:
                             pane.getChildren().add(pane1);
                             lbl_title.setText("CMS");
@@ -252,6 +261,10 @@ public class MainController implements Initializable {
         securityController = SecurityController.getInstance();
         loaderpane8.setController(securityController);
         pane8 = loaderpane8.load(); //security
+        FXMLLoader loaderpane9 = new FXMLLoader(MainController.class.getResource("/panes/pane9.fxml"));
+        chartController = chartController.getInstance();
+        loaderpane9.setController(chartController);
+        pane9 = loaderpane9.load(); //security
     }
 
     @Override
