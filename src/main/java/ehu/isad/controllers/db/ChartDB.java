@@ -15,12 +15,16 @@ public class ChartDB {
         return instance;
     }
     private ChartDB() {}
-    public int getHowMany(Integer i) throws SQLException {
+    public int getHowMany(Integer i) {
         String query = "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+i+" %'";
         ResultSet rs = db.execSQL(query);
-        rs.next();
-        return rs.getInt("sum");
-
+        try {
+            rs.next();
+            return rs.getInt("sum");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
     }
     public ArrayList<String> cmsTypes() throws SQLException {
         ArrayList<String >cms = new ArrayList<>();

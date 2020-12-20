@@ -23,6 +23,8 @@
             <ContextMenu>
               <items>
                 <MenuItem fx:id="menuVuln" mnemonicParsing="false" onAction="#onClickVuln" text="Find vulnerabilities" />
+                  <MenuItem fx:id="menuVuln1" mnemonicParsing="false" onAction="#onClickVuln" text="Find vulnerabilities" />
+                  <MenuItem fx:id="menuVuln11" mnemonicParsing="false" onAction="#onClickVuln" text="Find vulnerabilities" />
               </items>
             </ContextMenu>
          </contextMenu>

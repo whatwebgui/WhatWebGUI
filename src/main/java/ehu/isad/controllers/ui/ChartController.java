@@ -26,6 +26,8 @@ public class ChartController implements Initializable {
     @FXML
     private PieChart cmsC;
 
+    private XYChart.Series series;
+
     private ChartController(){}
     private static ChartController instance = new ChartController();
     public static ChartController getInstance() { return instance; }
@@ -36,12 +38,7 @@ public class ChartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-            this.chartSetup();
-        } catch (SQLException throwables) {
-            System.out.println("he petado");
-            throwables.printStackTrace();
-        }
+        this.chartSetup();
         this.serverSetup();
         try {
             this.cmsSetup();
@@ -80,13 +77,14 @@ public class ChartController implements Initializable {
 
     }
 
-    private void chartSetup() throws SQLException {
+    public void chartSetup() {
         scanC.setCreateSymbols(false);
         ChartDB chartDB = ChartDB.getInstance();
-        XYChart.Series series = new XYChart.Series();
         scanC.setTitle("Daily usage");
+        XYChart.Series series = new XYChart.Series();
         YearMonth yearMonthObject = YearMonth.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH));
         int i=1;
+        scanC.getData().clear();
         while(i<= yearMonthObject.lengthOfMonth()){
             series.getData().add(new XYChart.Data(Integer.toString(i),chartDB.getHowMany(i)));
             i++;

@@ -1,10 +1,15 @@
 package ehu.isad.controllers.db;
 
+import ehu.isad.model.HistoryModel;
 import ehu.isad.model.SecurityModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.awt.*;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class SecurityDB {
 
@@ -27,17 +32,18 @@ public class SecurityDB {
         String country = "";
         try {
             while (rs.next()) {
-              // if (os.contains("mac")) {
-                //    ip = rs.getString("string");
-                  //  rs.next();
-                    //target = rs.getString("target");
-                    //country = rs.getString("string");
+               if (os.contains("mac")) {
+                    ip = rs.getString("string");
+                   rs.next();
+                    target = rs.getString("target");
+                    country = rs.getString("string");
 
-                //} else if (os.contains("linux")) {
-                target = rs.getString("target");
-                ip = rs.getString("string");
-                rs.next();
-                country = rs.getString("string");
+                } else if (os.contains("linux")) {
+                    target = rs.getString("target");
+                    country = rs.getString("string");
+                   rs.next();
+                    ip = rs.getString("string");
+                }
                 list.add(new SecurityModel(target,ip,country,false));
 
             }
@@ -47,7 +53,7 @@ public class SecurityDB {
         return list;
     }
 
-    public boolean passwordField (String url){
+    public boolean passwordField(String url){
         String query = "select name from plugins natural join scans natural join targets where target = '" + url + "' and name = \"PasswordField\"";
         System.out.println(query);
         ResultSet rs = dbcontroller.execSQL(query);

@@ -5,6 +5,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Url;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -61,6 +62,7 @@ public class ServerController {
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
     private SecurityController securityController = SecurityController.getInstance();
+    private ChartController chart = ChartController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -206,6 +208,9 @@ public class ServerController {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+            Platform.runLater( () -> {
+                chart.chartSetup();
+            } );
         });
         thread.start();
     }
