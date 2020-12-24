@@ -19,9 +19,13 @@ public class ServerCMSModel {
     public ServerCMSModel(String url, String cms, String versionc, String server, String versions, Date lastUpdated, int fav){
         this.url = new Hyperlink(url);
         this.cms = cms;
+        if (cms==null) this.cms = "unknown";
         this.versionc = versionc;
+        if (versionc==null) this.versionc = "unknown";
         this.server = server;
+        if (server==null) this.server = "unknown";
         this.versions = versions;
+        if (versions==null) this.versions = "unknown";
         this.lastUpdated = lastUpdated;
         this.star = new FontAwesomeIconView(FontAwesomeIcon.STAR);
         this.star.setSize("15");
