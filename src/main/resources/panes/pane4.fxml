@@ -14,7 +14,7 @@
       <TableView fx:id="tableview" layoutY="57.0" prefHeight="423.0" prefWidth="600.0">
         <columns>
           <TableColumn fx:id="col_domain" editable="false" maxWidth="225.0" minWidth="215.0" prefWidth="215.0" resizable="false" text="Domain" />
-            <TableColumn fx:id="col_tab" editable="false" prefWidth="189.0" resizable="false" text="Tab" />
+            <TableColumn fx:id="col_tab" editable="false" prefWidth="175.0" resizable="false" text="Tab" />
             <TableColumn fx:id="col_date" editable="false" prefWidth="195.0" resizable="false" sortType="DESCENDING" text="Date" />
         </columns>
          <contextMenu>

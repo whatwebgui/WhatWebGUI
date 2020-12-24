@@ -31,7 +31,7 @@
                   </ImageView>
                     </children>
                 </Pane>
-                <Button fx:id="btn1" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="CMS">
+                <Button fx:id="btn1" alignment="BASELINE_LEFT" graphicTextGap="13.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="CMS">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="TAG" size="18" />
                     </graphic>
@@ -41,7 +41,7 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn2" alignment="BASELINE_LEFT" graphicTextGap="11.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Server">
+                <Button fx:id="btn2" alignment="BASELINE_LEFT" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Server">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="DATABASE" size="18" />
                     </graphic>
@@ -51,7 +51,7 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn3" alignment="BASELINE_LEFT" graphicTextGap="9.0" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Formatter">
+                <Button fx:id="btn3" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Formatter">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="CODE" size="18" />
                     </graphic>
@@ -61,7 +61,7 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-            <Button fx:id="btn8" alignment="BASELINE_LEFT" graphicTextGap="9.0" layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Security">
+                <Button fx:id="btn8" alignment="BASELINE_LEFT" graphicTextGap="16.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Security">
                <graphic>
                   <FontAwesomeIconView fill="#fbfbfc" glyphName="SHIELD" size="18" />
                </graphic>
@@ -72,7 +72,7 @@
                     <Insets left="65.0" />
                 </padding>
             </Button>
-                <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="9.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Multi-add">
+                <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="11.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Multi-add">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="LIST" size="18" />
                     </graphic>
@@ -80,7 +80,7 @@
                         <Insets left="65.0" />
                     </padding>
                 </Button>
-                <Button fx:id="btn4" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="History">
+                <Button fx:id="btn4" alignment="BASELINE_LEFT" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="History">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="HISTORY" size="18" />
                     </graphic>
@@ -90,16 +90,7 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-            <Button fx:id="btn9" alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Charts">
-               <graphic>
-                  <FontAwesomeIconView fill="#FBFBFC" size="18" text="" />
-               </graphic>
-               <padding>
-                  <Insets left="65.0" />
-               </padding>
-            </Button>
-                <!--
-                <Button fx:id="btn5" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Statistics">
+                <Button fx:id="btn9" alignment="BASELINE_LEFT" graphicTextGap="11.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Charts">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="HASHTAG" size="18" />
                     </graphic>
@@ -109,9 +100,8 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding>
-                </Button>
-                -->
-                <Button fx:id="btn6" alignment="BASELINE_LEFT" graphicTextGap="12.0" layoutX="10.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Settings">
+            </Button>
+                <Button fx:id="btn6" alignment="BASELINE_LEFT" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Settings">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="COG" size="18" />
                     </graphic>
