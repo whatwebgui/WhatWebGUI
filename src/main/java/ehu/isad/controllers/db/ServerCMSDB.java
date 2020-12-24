@@ -93,7 +93,7 @@ public class ServerCMSDB {
                     }
                 }
             }
-            results.add(new ServerCMSModel(url,cms,versionc,server,versions,lastUpdated,fav));
+            if (!first) results.add(new ServerCMSModel(url,cms,versionc,server,versions,lastUpdated,fav));
         } catch (Exception e){
             e.printStackTrace();
         }
