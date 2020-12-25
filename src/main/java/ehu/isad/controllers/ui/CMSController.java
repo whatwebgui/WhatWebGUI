@@ -240,7 +240,7 @@ public class CMSController {
                 ioException.printStackTrace();
             }
             Platform.runLater( () -> {
-                chart.chartSetup();
+                chart.uploadCharts();
             } );
         });
         thread.start();

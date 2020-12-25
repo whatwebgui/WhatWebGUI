@@ -209,7 +209,7 @@ public class ServerController {
                 ioException.printStackTrace();
             }
             Platform.runLater( () -> {
-                chart.chartSetup();
+                chart.uploadCharts();
             } );
         });
         thread.start();
@@ -280,7 +280,6 @@ public class ServerController {
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("All");
         list.add("Favorites");
-        comboBox.setValue("All");
         comboBox.setValue("All");
         comboBox.setItems(list);
         comboBox.setOnAction(e -> {

@@ -2,6 +2,7 @@ package ehu.isad.controllers.db;
 
 import ehu.isad.model.HistoryModel;
 import ehu.isad.model.SecurityModel;
+import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -64,6 +65,50 @@ public class SecurityDB {
             }
         } catch(SQLException e){
             e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean cmsVulnerability(ServerCMSModel model){
+        String query = "select version from Versions where name = '"+model.getCms()+"'";
+        ResultSet rs = dbcontroller.execSQL(query);
+        try{
+            String v = null;
+            while(rs.next()){
+                v = rs.getString("version");
+            }
+            if(!model.getVersionc().equals(v)) return true;
+            else return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean serverVulnerability(ServerCMSModel model){
+        String query = "select version from Versions where name = '"+model.getServer()+"'";
+        ResultSet rs = dbcontroller.execSQL(query);
+        try{
+            String v = null;
+            while(rs.next()){
+                v = rs.getString("version");
+            }
+            if(!model.getVersions().equals(v)) return true;
+            else return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isCMSVersionInDB(String name){
+        String query = "select * from Versions where name = '"+name+"'";
+        ResultSet rs = dbcontroller.execSQL(query);
+        try {
+            if (rs.next()) return true;
+            else return false;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return false;
     }

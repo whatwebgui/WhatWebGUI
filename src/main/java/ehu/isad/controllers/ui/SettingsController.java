@@ -34,6 +34,7 @@ public class SettingsController {
             WhatWebDB.getInstance().clearDB();
             CMSController.getInstance().filterAll();
             ServerController.getInstance().filterAll();
+            ChartController.getInstance().clearCharts();
         }
         else if (btn.equals(btn_cache)) WhatWebDB.getInstance().deleteCache();
         else if (btn.equals(btn_tutorial)){

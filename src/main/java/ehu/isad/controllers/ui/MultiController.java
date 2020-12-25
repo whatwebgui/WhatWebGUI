@@ -24,6 +24,7 @@ public class MultiController implements Initializable {
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
     ServerController server = ServerController.getInstance();
+    ChartController chartController = ChartController.getInstance();
     private int cont;
     @FXML
     private Button btnOk;
@@ -139,6 +140,9 @@ public class MultiController implements Initializable {
                     server.Server(target,true);
                     HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
                 } catch (IOException ioException) { ioException.printStackTrace(); }
+                Platform.runLater( () -> {
+                    chartController.uploadCharts();
+                });
             }else{
                 cont++;
                 Platform.runLater( () -> {
@@ -170,8 +174,15 @@ public class MultiController implements Initializable {
                 p = Runtime.getRuntime().exec("file " + file.getAbsolutePath());
                 if(p!=null){
                     BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    ret = true;
-                    while (ret) ret = ((line = input.readLine()) != null) && line.contains("text");
+                    while (true) {
+                        try {
+                            if ((line = input.readLine()) != null) {
+                                if (line.contains("text")) return true;
+                            } else return false;
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
                 }
             }
         } catch (IOException ioException) {

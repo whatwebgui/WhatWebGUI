@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.ChartDB;
 import ehu.isad.controllers.db.DBController;
+import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,54 +29,93 @@ public class ChartController implements Initializable {
 
     private XYChart.Series series;
 
+    private ObservableList<PieChart.Data> listC = FXCollections.observableArrayList();
+    private ObservableList<PieChart.Data> listS = FXCollections.observableArrayList();
+
+    private ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private ChartController(){}
     private static ChartController instance = new ChartController();
     public static ChartController getInstance() { return instance; }
 
+    public void uploadCharts(){
+        chartSetup();
+        pieChartSetup();
+    }
 
+    private void pieChartSetup(){
+        ObservableList<ServerCMSModel> list = serverCMSController.getServerCMSList();
+        ServerCMSModel model = null;
+        for(int i=0; i<list.size(); i++){
+            model = list.get(i);
+            addCMS(model);
+            addServer(model);
+        }
+        cmsC.setData(listC);
+        serverC.setData(listS);
+        cmsC.setTitle("Cms types");
+        cmsC.setLabelLineLength(1);
+        serverC.setTitle("Server types");
+        serverC.setLabelLineLength(1);
+    }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        this.chartSetup();
-        this.serverSetup();
-        try {
-            this.cmsSetup();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    private void addCMS(ServerCMSModel model){
+        boolean finish = false;
+        int i = 0;
+        PieChart.Data data = null;
+        if(listC.isEmpty()){
+            listC.add(new PieChart.Data(model.getCms(),1));
+        }else{
+            while(!finish && i < listC.size()){
+                data = listC.get(i);
+                if(data.getName().equals(model.getCms())){
+                    finish=true;
+                }
+                i++;
+            }
+            if(!finish)listC.add(new PieChart.Data(model.getCms(),1));
+            else{
+                listC.remove(data);
+                listC.add(new PieChart.Data(data.getName(),data.getPieValue()+1));
+            }
         }
     }
 
-    private void cmsSetup() throws SQLException {
-        //Metodo para saber que tipos de cms aparece
-        //ArrayList<String> data = ChartDB.getInstance().cmsTypes();
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        //for(String d:data){
-           // pieChartData.add(new PieChart.Data(d, ChartDB.getInstance().getCount(d)));
-        //}
-        cmsC.setData( FXCollections.observableArrayList(
-                new PieChart.Data("Grapefruit", 13),
-                new PieChart.Data("Oranges", 25),
-                new PieChart.Data("Plums", 10),
-                new PieChart.Data("Pears", 22),
-                new PieChart.Data("Apples", 30)));
-        cmsC.setTitle("Cms types");
-        cmsC.setLabelLineLength(1);
-
+    private void addServer(ServerCMSModel model){
+        boolean finish = false;
+        int i = 0;
+        PieChart.Data data = null;
+        if(listS.isEmpty()){
+            listS.add(new PieChart.Data(model.getServer(), 1));
+        }else{
+            while(!finish && i < listS.size()){
+                data = listS.get(i);
+                if(data.getName().equals(model.getServer())){
+                    finish=true;
+                }
+                i++;
+            }
+            if(!finish)listS.add(new PieChart.Data(model.getServer(),1));
+            else{
+                listS.remove(data);
+                listS.add(new PieChart.Data(data.getName(),data.getPieValue()+1));
+            }
+        }
     }
 
-    private void serverSetup() {
-        serverC.setData( FXCollections.observableArrayList(
-                new PieChart.Data("Grapefruit", 13),
-                new PieChart.Data("Oranges", 25),
-                new PieChart.Data("Plums", 10),
-                new PieChart.Data("Pears", 22),
-                new PieChart.Data("Apples", 30)));
-        serverC.setTitle("Server types");
-        serverC.setLabelLineLength(1);
-
+    public void clearCharts(){
+        listS.clear();
+        listC.clear();
+        chartSetup();
+        pieChartSetup();
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.chartSetup();
+        pieChartSetup();
+    }
+
+
 
     public void chartSetup() {
         scanC.setCreateSymbols(false);
