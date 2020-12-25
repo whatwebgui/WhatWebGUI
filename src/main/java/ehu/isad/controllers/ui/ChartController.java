@@ -43,6 +43,8 @@ public class ChartController implements Initializable {
     }
 
     private void pieChartSetup(){
+        listC.clear();
+        listS.clear();
         ObservableList<ServerCMSModel> list = serverCMSController.getServerCMSList();
         ServerCMSModel model = null;
         for(int i=0; i<list.size(); i++){
