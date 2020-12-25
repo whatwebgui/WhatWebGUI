@@ -48,7 +48,7 @@ public class ChartController implements Initializable {
     }
 
     private void cmsSetup() throws SQLException {
-        //Metodo para saber que tipos de cms aparecen
+        //Metodo para saber que tipos de cms aparece
         //ArrayList<String> data = ChartDB.getInstance().cmsTypes();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         //for(String d:data){
