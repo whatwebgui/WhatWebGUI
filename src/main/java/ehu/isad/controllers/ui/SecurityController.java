@@ -101,14 +101,14 @@ public class SecurityController {
                 text = "This web page doesn't seem to have a cms";
                 showCMS_ServerMessages("notvuln",text);
             }else if(!securityDB.isCMSVersionInDB(cms)){
-                text = "";
+                text = "This CMS is not supported";
                 showCMS_ServerMessages("notvuln",text);
             }else{
                 if(securityDB.cmsVulnerability(model)){
-                    text = "WARNING!!!! This web page's cms is not updated";//no esta actualizado
+                    text = "WARNING!!!! This web page's "+ model.getCms() +" CMS version is " + model.getVersionc() + " and the latest version is " + securityDB.getVersion(model.getCms());
                     showCMS_ServerMessages("vuln",text);
                 }else{
-                    text = "This web page's cms is updated";
+                    text = "This web page's "+ model.getCms() +" CMS is updated to the latest version";
                     showCMS_ServerMessages("notvuln",text);
                 }
             }
@@ -125,14 +125,14 @@ public class SecurityController {
                 text = "This web page doesn't seem to have a server";
                 showCMS_ServerMessages("notvuln",text);
             }else if(!securityDB.isCMSVersionInDB(server)){
-                text = "";
+                text = "This server version is not supported";
                 showCMS_ServerMessages("notvuln",text);
             }else{
                 if(securityDB.serverVulnerability(model)){
-                    text = "WARNING!!!! This web page's server is not updated";//no esta actualizado
+                    text = "WARNING!!!! This web page's " + model.getServer() + " server version is " + model.getVersions() + " and the latest version is " + securityDB.getVersion(model.getServer());
                     showCMS_ServerMessages("vuln",text);
                 }else{
-                    text = "This web page's server is updated";
+                    text = "This web page's "+ model.getServer() +" server is updated to the latest version";
                     showCMS_ServerMessages("notvuln",text);
                 }
             }

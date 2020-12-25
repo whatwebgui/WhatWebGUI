@@ -112,4 +112,16 @@ public class SecurityDB {
         }
         return false;
     }
+
+    public String getVersion(String plugin){
+        String query = "select version from Versions where name = '" + plugin + "'";
+        ResultSet rs = dbcontroller.execSQL(query);
+        try{
+            rs.next();
+            return rs.getString("version");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
