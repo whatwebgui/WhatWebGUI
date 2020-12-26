@@ -21,7 +21,7 @@
             <contextMenu>
                 <ContextMenu>
                     <items>
-                        <MenuItem fx:id="menuServer" mnemonicParsing="false" onAction="#onClickServer" text="ServerVulnerability" />
+                        <MenuItem fx:id="menuServer" mnemonicParsing="false" onAction="#onClickServer" text="Server Vulnerability" />
                         <MenuItem fx:id="menuCMS" mnemonicParsing="false" onAction="#onClickCMS" text="CMS Vulnerability" />
                         <MenuItem fx:id="menuVuln" mnemonicParsing="false" onAction="#onClickVuln" text="Find Vulnerabilties" />
                     </items>

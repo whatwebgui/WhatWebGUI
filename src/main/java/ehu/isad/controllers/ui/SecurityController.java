@@ -2,6 +2,7 @@ package ehu.isad.controllers.ui;
 
 
 import ehu.isad.controllers.db.SecurityDB;
+import ehu.isad.model.HistoryModel;
 import ehu.isad.model.SecurityModel;
 import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
@@ -11,8 +12,15 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 
 
 public class SecurityController {
@@ -46,6 +54,8 @@ public class SecurityController {
 
     @FXML
     private TextField texfield;
+
+    Desktop desktop = java.awt.Desktop.getDesktop();
 
     private static SecurityController instance = new SecurityController();
 
@@ -100,8 +110,11 @@ public class SecurityController {
             if(cms.equals("unknown")){
                 text = "This web page doesn't seem to have a cms";
                 showCMS_ServerMessages("notvuln",text);
-            }else if(!securityDB.isCMSVersionInDB(cms)){
+            }else if(!securityDB.isCMSVersionInDB(cms)) {
                 text = "This CMS is not supported";
+                showCMS_ServerMessages("notvuln", text);
+            }else if(model.getVersionc().equals("unknown")){
+                text = "This web page's CMS is "+ model.getCms() +". However, the app has not been able to find its version";
                 showCMS_ServerMessages("notvuln",text);
             }else{
                 if(securityDB.cmsVulnerability(model)){
@@ -126,6 +139,9 @@ public class SecurityController {
                 showCMS_ServerMessages("notvuln",text);
             }else if(!securityDB.isCMSVersionInDB(server)){
                 text = "This server version is not supported";
+                showCMS_ServerMessages("notvuln",text);
+            }else if(model.getVersions().equals("unknown")){
+                text = "This web page's server is "+ model.getServer() +". However, the app has not been able to find its version";
                 showCMS_ServerMessages("notvuln",text);
             }else{
                 if(securityDB.serverVulnerability(model)){
@@ -168,6 +184,34 @@ public class SecurityController {
         }
         if(!finish) return null;
         else return model;
+    }
+
+    void openURL(Hyperlink url) throws IOException {
+        if(System.getProperty("os.name").toLowerCase().contains("linux")){
+            Runtime.getRuntime().exec("sensible-browser " + url.getText());
+        }else{
+            desktop.browse(URI.create(url.getText()));
+        }
+    }
+
+    private void hoverAndLinkClick(){
+        tableview.setRowFactory( tr -> {
+            final TableRow<SecurityModel> row = new TableRow<>();
+            row.setOnMouseMoved(event -> {
+                if (! row.isEmpty() ) {
+                    Hyperlink hl = row.getItem().getUrl();
+                    hl.setOnAction(e -> {
+                        try {
+                            openURL(hl);
+                            hl.setVisited(false);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                }
+            });
+            return row;
+        });
     }
 
     public void filterAll(){
@@ -224,6 +268,7 @@ public class SecurityController {
         setItems();
         filterAll();
         style();
+        hoverAndLinkClick();
     }
 
 }
