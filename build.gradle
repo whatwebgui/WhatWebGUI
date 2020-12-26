@@ -66,16 +66,13 @@ jlink {
 
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            jpackageHome = "C:\\Users\\ANDER\\.sdkman\\candidates\\java\\15.0.1.fx-zulu";
+            imageOptions += ['--icon', 'src/main/resources/img/whatwebgui.ico']
             installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
-            icon = "C:\\Users\\ANDER\\favicon.ico";
         } else if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
-            jpackageHome = "/Users/kerman/.sdkman/candidates/java/15.0.1.fx-zulu";
-            icon = "/Users/kerman/Desktop/Workspace/WhatWebGUI/src/main/resources/img/iconsmall.icns";
+            imageOptions += ['--icon', 'src/main/resources/img/iconsmall.icns']
         } else if (org.gradle.internal.os .OperatingSystem.current().linux) {
-            jpackageHome = "/home/adeiarias/.sdkman/candidates/java/15.0.1.fx-zulu";
+            imageOptions += ['--icon', 'src/main/resources/img/iconsmall.png']
             installerOptions += ['--linux-shortcut']
-            icon = "/home/adeiarias/IdeaProjects/WhatWebGUI/src/main/resources/img/iconsmall.png";
             installerType = "deb";
         }
     }
