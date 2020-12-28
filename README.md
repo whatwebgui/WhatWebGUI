@@ -1,4 +1,3 @@
-# WhatWebGUI
 ![wwgui](files/wwgui.png)
 
 WhatWebGUI is a cross-platform compatible Java-based application for Windows 10, Mac OSX and Linux which implements the front end of the popular web scanning tool WhatWeb, the next generation web scanner, and provides it with a fresh-looking UI with some interesting features.
