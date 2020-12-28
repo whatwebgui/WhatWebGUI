@@ -66,7 +66,7 @@ jlink {
 
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            imageOptions += ['--icon', 'src/main/resources/img/whatwebgui.ico']
+            imageOptions += ['--icon', 'src/main/resources/img/favicon.ico']
             installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
         } else if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
             imageOptions += ['--icon', 'src/main/resources/img/iconsmall.icns']
