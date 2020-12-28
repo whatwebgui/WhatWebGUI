@@ -29,12 +29,6 @@ sudo apt-get update && sudo apt-get upgrade && sudo apt install whatweb
 ```
 > NOTE2: In Linux, Java 15 must be installed. In Mac, Java 11 is enough. 
 
-Linux package(.deb)
-
-> MD5 hash -> 4fe907ebf18b0dcd131b317cb9535b80
-
-> SHA1 hash -> 4733cae5b6d8646e886d2d324a4bda20f1c91bef
-
 ### Windows 10
 The installation is tougher in Windows.  First of all, the WSL (Windows Subsystem for Linux) needs to be installed, as WhatWeb is not available for the OS developed by Microsoft. To install it, there's [an official tutorial](https://docs.microsoft.com/en-us/windows/wsl/install-win10). However, we decided to prepare some scripts so the installation would require just two clicks for you. The steps are the following:
 1. Download [the zip containing all of the scripts](https://github.com/whatwebgui/ww/raw/main/WSL.zip).
