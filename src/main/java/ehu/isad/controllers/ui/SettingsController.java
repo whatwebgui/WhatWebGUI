@@ -95,6 +95,11 @@ public class SettingsController {
         MongoUser.getInstance().setCollection("");
         btnLogOut.setVisible(false);
         paneLogIn.setVisible(false);
+
+        txtCollection.setText("");
+        txtPass.setText("");
+        txtUser.setText("");
+        passPass.setText("");
     }
 
     @FXML
