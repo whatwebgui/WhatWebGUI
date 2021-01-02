@@ -28,7 +28,6 @@ public class MainController implements Initializable {
     FormatterController formatterController;
     private Parent pane4;
     HistoryController historyController;
-    private Parent pane5;
     private Parent pane6;
     SettingsController settingsController;
     private  Parent pane7;
@@ -120,13 +119,14 @@ public class MainController implements Initializable {
             pane.getChildren().add(pane7);
             lbl_title.setText("Multi-add");
         }
-        if (actionEvent.getSource() == btn8) {
-            pane.getChildren().add(pane8);
-            lbl_title.setText("Security");
-        }
         if (actionEvent.getSource() == btn9) {
             pane.getChildren().add(pane9);
             lbl_title.setText("Charts");
+        }
+
+        if (actionEvent.getSource() == btn8) {
+            pane.getChildren().add(pane8);
+            lbl_title.setText("Security");
         }
     }
 
