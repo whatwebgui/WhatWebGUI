@@ -71,8 +71,21 @@ public class FormatterController {
                 try {
                     String url = urlUtils.processUrl(textField.getText());
                     if (url != null) {
-                        pgr.setVisible(true);
-                        setText(btn, url);
+                        //Check if logged in mongo
+                        Extension comboItem=combo.getValue();
+                        if (comboItem != null) {
+                            if (comboItem.getType().equals("mongo") && MongoUser.getInstance().getCollection().equals("")) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error in FORMATTER");
+                                alert.setHeaderText("Error on MongoDB");
+                                alert.setContentText("Try logging in on Settings");
+                                alert.showAndWait();
+                            }
+                        }
+                        else {
+                            pgr.setVisible(true);
+                            setText(btn, url);
+                        }
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -80,7 +93,7 @@ public class FormatterController {
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error in FORMATTER");
-                alert.setHeaderText("Error on reading the provided URL");
+                alert.setHeaderText("Error reading the provided URL");
                 alert.setContentText("Textfield is empty");
                 alert.showAndWait();
             }
@@ -139,10 +152,8 @@ public class FormatterController {
         try {
             if(comboChoice.getType().equals("mongo") && !MongoUser.getInstance().getCollection().equals("")){
                 executeCommand(comboChoice, domain); //This will execute and create the file.
-                currentProcess.waitFor();
-                while (currentProcess.isAlive()) {
-                    textArea.setPromptText(""); /* wait for the process to finish */
-                }
+                textArea.setPromptText("");
+                currentProcess.waitFor();/* wait for the process to finish */
             }
             else{
                 formatterDB.addDomainToDB(domain);
@@ -150,14 +161,13 @@ public class FormatterController {
                     if (btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
                     executeCommand(comboChoice, domain); //This will execute and create the file.
                     formatterDB.addFormatToDB(domain, comboChoice.getType());
-                    while (currentProcess.isAlive()) {
-                        textArea.setPromptText(""); /* wait for the process to finish */
-                    }
+                    textArea.setPromptText("");
+                    currentProcess.waitFor();/* wait for the process to finish */
                 }
             }
             HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType());
             emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
-        } catch (Exception err) {
+        } catch (InterruptedException | IOException | SQLException err) {
             err.printStackTrace();
         }
         return emaitza;

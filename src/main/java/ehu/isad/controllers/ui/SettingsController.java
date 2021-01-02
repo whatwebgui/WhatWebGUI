@@ -91,6 +91,11 @@ public class SettingsController implements Initializable {
         MongoUser.getInstance().setCollection("");
         btnLogOut.setVisible(false);
         paneLogIn.setVisible(false);
+
+        txtCollection.setText("");
+        txtPass.setText("");
+        txtUser.setText("");
+        passPass.setText("");
     }
 
     @FXML
