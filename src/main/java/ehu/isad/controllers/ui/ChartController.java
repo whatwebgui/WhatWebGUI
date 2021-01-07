@@ -124,7 +124,7 @@ public class ChartController implements Initializable {
         ChartDB chartDB = ChartDB.getInstance();
         scanC.setTitle("Daily usage");
         XYChart.Series series = new XYChart.Series();
-        YearMonth yearMonthObject = YearMonth.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH));
+        YearMonth yearMonthObject = YearMonth.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH+1));
         int i=1;
         scanC.getData().clear();
         while(i<= yearMonthObject.lengthOfMonth()){
