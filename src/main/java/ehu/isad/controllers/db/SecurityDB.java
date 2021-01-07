@@ -43,7 +43,7 @@ public class SecurityDB {
                     target = rs.getString("target");
                     country = rs.getString("string");
                    rs.next();
-                    ip = rs.getString("string");
+                   ip = rs.getString("string");
                 }
                 list.add(new SecurityModel(target,ip,country,false));
 

@@ -43,6 +43,7 @@ public class ChartController implements Initializable {
     }
 
     private void pieChartSetup(){
+        System.out.println("hola");
         listC.clear();
         listS.clear();
         ObservableList<ServerCMSModel> list = serverCMSController.getServerCMSList();
@@ -127,10 +128,11 @@ public class ChartController implements Initializable {
         YearMonth yearMonthObject = YearMonth.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH+1));
         int i=1;
         scanC.getData().clear();
-        while(i<= yearMonthObject.lengthOfMonth()){
+        while(i< yearMonthObject.lengthOfMonth()){
             series.getData().add(new XYChart.Data(Integer.toString(i),chartDB.getHowMany(i)));
             i++;
         }
+        System.out.println(i);
         scanC.getData().add(series);
     }
 }

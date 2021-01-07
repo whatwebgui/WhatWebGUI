@@ -16,8 +16,7 @@ public class ChartDB {
     }
     private ChartDB() {}
     public int getHowMany(Integer i) {
-        String query = "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+i+" %'";
-        ResultSet rs = db.execSQL(query);
+        ResultSet rs = db.execSQL(howManyQuery(i));
         try {
             rs.next();
             return rs.getInt("sum");
@@ -39,5 +38,17 @@ public class ChartDB {
         ResultSet rs = db.execSQL(query);
         rs.next();
         return rs.getInt("sum");
+    }
+
+    private String howManyQuery(Integer k) {
+        if (k < 10 && Calendar.getInstance().get(Calendar.MONTH + 1) < 10) {
+            return "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-0"+(Calendar.getInstance().get(Calendar.MONTH+1))+"-0"+k+"%'";
+        } else if (k < 10) {
+            return "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH+1))+"-0"+k+"%'";
+        } else if (Calendar.getInstance().get(Calendar.MONTH + 1) < 10) {
+            return "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-0"+(Calendar.getInstance().get(Calendar.MONTH+1))+"-"+k+"%'";
+        } else {
+            return "select count(*) as sum from history where date like '%" + Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH+1))+"-"+k+"%'";
+        }
     }
 }
