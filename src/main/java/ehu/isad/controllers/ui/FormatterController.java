@@ -204,15 +204,17 @@ public class FormatterController {
         }
 
         if (!directory.exists()) directory.mkdir();
+        int lvl = SettingsController.getInstance().getAggressive();
+
         switch (type) {
             case "shell":
-                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never -a "+lvl+ " --log-brief=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "ruby":
-                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never -a "+lvl+ " --log-object=" + path2 + domain + extension + " " + target+"/";
                 break;
             default:
-                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never -a "+lvl+ " --log-" + type + "=" + path2 + domain + extension + " " + target+"/";
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {

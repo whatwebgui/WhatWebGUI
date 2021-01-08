@@ -33,14 +33,15 @@ public class ServerCMSController {
     ObservableList<ServerCMSModel> getFav() { return serverCMSDB.favoritesList(); }
 
     void createSQLFile(String domain, String target) throws IOException {
+        int lvl = SettingsController.getInstance().getAggressive();
         Process p;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.directory(new File(path));
-            processBuilder.command("cmd.exe", "/C", "wsl whatweb --color=never --log-sql=" + domain + " " + target);
+            processBuilder.command("cmd.exe", "/C", "wsl whatweb --color=never -a "+lvl+" --log-sql=" + domain + " " + target);
             p = processBuilder.start();
         } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never --log-sql=" + path + domain + " " + target);
+            p = Runtime.getRuntime().exec("whatweb --color=never -a "+lvl+ " --log-sql=" + path + domain + " " + target);
         }
         while(p.isAlive()){}
     }
