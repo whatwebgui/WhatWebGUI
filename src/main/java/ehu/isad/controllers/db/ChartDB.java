@@ -1,7 +1,5 @@
 package ehu.isad.controllers.db;
 
-import org.sqlite.core.DB;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

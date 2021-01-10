@@ -2,19 +2,17 @@ package ehu.isad.controllers.ui;
 
 
 import ehu.isad.controllers.db.SecurityDB;
-import ehu.isad.model.HistoryModel;
 import ehu.isad.model.SecurityModel;
 import ehu.isad.model.ServerCMSModel;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 

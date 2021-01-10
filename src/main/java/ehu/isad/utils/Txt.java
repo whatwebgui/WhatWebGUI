@@ -1,7 +1,5 @@
 package ehu.isad.utils;
 
-import java.util.Arrays;
-
 public class Txt {
 
     public static String[] getTxt(String file){

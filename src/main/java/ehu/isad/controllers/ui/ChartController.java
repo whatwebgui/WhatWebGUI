@@ -1,19 +1,17 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.ChartDB;
-import ehu.isad.controllers.db.DBController;
 import ehu.isad.model.ServerCMSModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
-import javafx.scene.chart.*;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
