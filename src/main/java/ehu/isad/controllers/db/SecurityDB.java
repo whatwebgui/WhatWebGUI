@@ -35,14 +35,12 @@ public class SecurityDB {
             while (rs.next()) {
                if (os.contains("mac")) {
                     ip = rs.getString("string");
-                   rs.next();
                     target = rs.getString("target");
                     country = rs.getString("string");
 
                 } else if (os.contains("linux")) {
                     target = rs.getString("target");
                     country = rs.getString("string");
-                   rs.next();
                    ip = rs.getString("string");
                 }
                 list.add(new SecurityModel(target,ip,country,false));
