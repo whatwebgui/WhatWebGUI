@@ -17,7 +17,8 @@ public class SecurityDB {
     private static final SecurityDB instance = new SecurityDB();
     private static final DBController dbcontroller = DBController.getController();
 
-    private SecurityDB() {   }
+    private SecurityDB() {
+    }
 
     public static SecurityDB getInstance() {
         return instance;
@@ -33,7 +34,7 @@ public class SecurityDB {
         String country = "";
         try {
             while (rs.next()) {
-               if (os.contains("mac")) {
+                if (os.contains("mac")) {
                     ip = rs.getString("string");
                     target = rs.getString("target");
                     country = rs.getString("string");
@@ -41,66 +42,66 @@ public class SecurityDB {
                 } else if (os.contains("linux")) {
                     target = rs.getString("target");
                     country = rs.getString("string");
-                   ip = rs.getString("string");
+                    ip = rs.getString("string");
                 }
-                list.add(new SecurityModel(target,ip,country,false));
+                list.add(new SecurityModel(target, ip, country, false));
 
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    public boolean passwordField(String url){
+    public boolean passwordField(String url) {
         String query = "select name from plugins natural join scans natural join targets where target = '" + url + "' and name = \"PasswordField\"";
         System.out.println(query);
         ResultSet rs = dbcontroller.execSQL(query);
-        try{
-            while(rs.next()) {
+        try {
+            while (rs.next()) {
                 String name = rs.getString("name");
                 return name != null;
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean cmsVulnerability(ServerCMSModel model){
-        String query = "select version from Versions where name = '"+model.getCms()+"'";
+    public boolean cmsVulnerability(ServerCMSModel model) {
+        String query = "select version from Versions where name = '" + model.getCms() + "'";
         ResultSet rs = dbcontroller.execSQL(query);
-        try{
+        try {
             String v = null;
-            while(rs.next()){
+            while (rs.next()) {
                 v = rs.getString("version");
             }
-            if(!model.getVersionc().equals(v)) return true;
+            if (!model.getVersionc().equals(v)) return true;
             else return false;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean serverVulnerability(ServerCMSModel model){
-        String query = "select version from Versions where name = '"+model.getServer()+"'";
+    public boolean serverVulnerability(ServerCMSModel model) {
+        String query = "select version from Versions where name = '" + model.getServer() + "'";
         ResultSet rs = dbcontroller.execSQL(query);
-        try{
+        try {
             String v = null;
-            while(rs.next()){
+            while (rs.next()) {
                 v = rs.getString("version");
             }
-            if(!model.getVersions().equals(v)) return true;
+            if (!model.getVersions().equals(v)) return true;
             else return false;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean isCMSVersionInDB(String name){
-        String query = "select * from Versions where name = '"+name+"'";
+    public boolean isCMSVersionInDB(String name) {
+        String query = "select * from Versions where name = '" + name + "'";
         ResultSet rs = dbcontroller.execSQL(query);
         try {
             if (rs.next()) return true;
@@ -111,13 +112,13 @@ public class SecurityDB {
         return false;
     }
 
-    public String getVersion(String plugin){
+    public String getVersion(String plugin) {
         String query = "select version from Versions where name = '" + plugin + "'";
         ResultSet rs = dbcontroller.execSQL(query);
-        try{
+        try {
             rs.next();
             return rs.getString("version");
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
