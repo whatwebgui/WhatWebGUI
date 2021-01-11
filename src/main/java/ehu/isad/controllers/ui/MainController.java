@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.*;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -64,8 +63,10 @@ public class MainController implements Initializable {
 
     @FXML
     private Button btn8;
+
     @FXML
     private Button btn9;
+
     @FXML
     private Label lbl_title;
 
@@ -227,42 +228,42 @@ public class MainController implements Initializable {
     }
 
     void getPanels() throws IOException {
-        FXMLLoader loaderpane1 = new FXMLLoader(MainController.class.getResource("/panes/pane1.fxml"));
+        FXMLLoader loaderpane1 = new FXMLLoader(MainController.class.getResource("/panes/CMSPane.fxml"));
         cmsController = CMSController.getInstance();
         loaderpane1.setController(cmsController);
         pane1 = loaderpane1.load(); //cms
 
-        FXMLLoader loaderpane2 = new FXMLLoader(MainController.class.getResource("/panes/pane2.fxml"));
+        FXMLLoader loaderpane2 = new FXMLLoader(MainController.class.getResource("/panes/ServerPane.fxml"));
         serverController = ServerController.getInstance();
         loaderpane2.setController(serverController);
         pane2 = loaderpane2.load(); //server
 
-        FXMLLoader loaderpane3 = new FXMLLoader(MainController.class.getResource("/panes/pane3.fxml"));
+        FXMLLoader loaderpane3 = new FXMLLoader(MainController.class.getResource("/panes/FormatterPane.fxml"));
         formatterController = FormatterController.getInstance();
         loaderpane3.setController(formatterController);
         pane3 = loaderpane3.load(); //formatter
 
-        FXMLLoader loaderpane4 = new FXMLLoader(MainController.class.getResource("/panes/pane4.fxml"));
+        FXMLLoader loaderpane4 = new FXMLLoader(MainController.class.getResource("/panes/HistoryPane.fxml"));
         historyController = HistoryController.getInstance();
         loaderpane4.setController(historyController);
         pane4 = loaderpane4.load(); //history
 
-        FXMLLoader loaderpane6 = new FXMLLoader(MainController.class.getResource("/panes/pane6.fxml"));
+        FXMLLoader loaderpane6 = new FXMLLoader(MainController.class.getResource("/panes/SettingsPane.fxml"));
         settingsController = SettingsController.getInstance();
         loaderpane6.setController(settingsController);
         pane6 = loaderpane6.load(); //settings
 
-        FXMLLoader loaderpane7 = new FXMLLoader(MainController.class.getResource("/panes/pane7.fxml"));
+        FXMLLoader loaderpane7 = new FXMLLoader(MainController.class.getResource("/panes/MultiAddPane.fxml"));
         multiController = MultiController.getInstance();
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
 
-        FXMLLoader loaderpane8 = new FXMLLoader(MainController.class.getResource("/panes/pane8.fxml"));
+        FXMLLoader loaderpane8 = new FXMLLoader(MainController.class.getResource("/panes/SecurityPane.fxml"));
         securityController = SecurityController.getInstance();
         loaderpane8.setController(securityController);
         pane8 = loaderpane8.load(); //security
 
-        FXMLLoader loaderpane9 = new FXMLLoader(MainController.class.getResource("/panes/pane9.fxml"));
+        FXMLLoader loaderpane9 = new FXMLLoader(MainController.class.getResource("/panes/ChartsPane.fxml"));
         chartController = chartController.getInstance();
         loaderpane9.setController(chartController);
         pane9 = loaderpane9.load(); //charts
