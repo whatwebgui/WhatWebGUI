@@ -3,7 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,12 +15,12 @@
 <Pane fx:id="pane6" prefHeight="500.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
        <ScrollPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="600.0">
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="580.0">
+         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="580.0">
          <children>
             <Button fx:id="btn_clear" layoutX="257.0" layoutY="81.0" mnemonicParsing="false" onAction="#onClick" text="Clear DB" />
             <Button fx:id="btn_cache" layoutX="228.0" layoutY="174.0" mnemonicParsing="false" onAction="#onClick" text="Delete cache files" />
             <Button fx:id="btn_tutorial" layoutX="240.0" layoutY="267.0" mnemonicParsing="false" onAction="#onClick" text="Show tutorial" />
-            <Button fx:id="btn_code" layoutX="385.0" layoutY="476.0" mnemonicParsing="false" onAction="#onClick" text="Show source code" />
+            <Button fx:id="btn_code" layoutX="385.0" layoutY="616.0" mnemonicParsing="false" onAction="#onClick" text="Show source code" />
             <Label layoutX="38.0" layoutY="31.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="Clear DB:">
                <font>
                   <Font size="16.0" />
@@ -37,45 +39,65 @@
                </font>
             </Label>
             <Label layoutX="38.0" layoutY="236.0" prefHeight="17.0" prefWidth="531.0" text="Shows the tutorial that appeared in the first usage" />
-            <Label layoutX="38.0" layoutY="373.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="WhatWebGUI version: v1.0">
+            <Label layoutX="38.0" layoutY="740.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="WhatWebGUI version: v1.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="38.0" layoutY="396.0" prefHeight="17.0" prefWidth="531.0" text="Based on WhatWeb - v0.4.8-dev" />
-            <Label layoutX="38.0" layoutY="438.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="Developers:">
+            <Label layoutX="38.0" layoutY="760.0" prefHeight="17.0" prefWidth="531.0" text="Based on WhatWeb - v0.4.8-dev" />
+            <Label layoutX="38.0" layoutY="578.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="Developers:">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="38.0" layoutY="463.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Adei" />
-            <Label layoutX="38.0" layoutY="484.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Anderpri" />
-            <Label layoutX="38.0" layoutY="506.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Kerman" />
-            <Label layoutX="197.0" layoutY="463.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="\@adeiarias" />
-            <Label layoutX="197.0" layoutY="484.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="\@anderra57" />
-            <Label layoutX="197.0" layoutY="506.0" prefHeight="20.0" prefWidth="130.0" style="-fx-font-size: 14;" text="\@Kerman-Sanjuan" />
-            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="38.0" layoutY="603.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Adei" />
+            <Label layoutX="38.0" layoutY="625.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Anderpri" />
+            <Label layoutX="38.0" layoutY="650.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="Kerman" />
+            <Label layoutX="197.0" layoutY="603.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="\@adeiarias" />
+            <Label layoutX="197.0" layoutY="625.0" prefHeight="20.0" prefWidth="120.0" style="-fx-font-size: 14;" text="\@anderra57" />
+            <Label layoutX="197.0" layoutY="650.0" prefHeight="20.0" prefWidth="130.0" style="-fx-font-size: 14;" text="\@Kerman-Sanjuan" />
+            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="603.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/GitHub.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="486.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="625.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/GitHub.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="508.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="174.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/GitHub.png" />
                </image>
             </ImageView>
-               <CheckBox fx:id="cbAgg" layoutX="287.0" layoutY="325.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="12.0" />
-               <Label layoutX="38.0" layoutY="305.0" prefHeight="22.0" prefWidth="335.0" style="-fx-font-size: 16;" text="Aggressive mode:">
+               <CheckBox fx:id="cbAgg" layoutX="287.0" layoutY="510.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="12.0" />
+               <Label layoutX="38.0" layoutY="480.0" prefHeight="22.0" prefWidth="335.0" style="-fx-font-size: 16;" text="Aggressive mode:">
                   <font>
                      <Font size="16.0" />
                   </font>
                </Label>
-               <Label layoutX="37.0" layoutY="326.0" prefHeight="18.0" prefWidth="245.0" text="Sets the aggressive mode to level 3" />
+               <Label layoutX="37.0" layoutY="510.0" prefHeight="18.0" prefWidth="245.0" text="Sets the aggressive mode to level 3" />
+            <Label layoutX="38.0" layoutY="307.0" prefHeight="17.0" prefWidth="531.0" style="-fx-font-size: 16;" text="MongoDB:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="38.0" layoutY="333.0" prefHeight="18.0" prefWidth="53.0" text="User" />
+            <Label layoutX="39.0" layoutY="397.0" prefHeight="18.0" prefWidth="108.0" text="Collection" />
+            <Label layoutX="39.0" layoutY="365.0" prefHeight="18.0" prefWidth="74.0" text="Password" />
+            <TextField fx:id="txtUser" layoutX="158.0" layoutY="327.0" />
+            <TextField fx:id="txtPass" layoutX="158.0" layoutY="359.0" />
+            <PasswordField fx:id="passPass" layoutX="158.0" layoutY="359.0" />
+            <TextField fx:id="txtCollection" layoutX="158.0" layoutY="391.0" />
+            <Button layoutX="441.0" layoutY="335.0" mnemonicParsing="false" onAction="#onClickLogIn" prefHeight="32.0" prefWidth="76.0" text="Log In" />
+            <Button fx:id="btnLogOut" layoutX="441.0" layoutY="384.0" mnemonicParsing="false" onAction="#onClickLogOut" text="Log Out" />
+            <CheckBox fx:id="chbxView" layoutX="350.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickCheckBox" text="View" />
+            <Pane fx:id="paneLogIn" layoutX="317.0" layoutY="430.0" prefHeight="37.0" prefWidth="256.0" style="-fx-border-color: 008000; -fx-background-color: adff2f;">
+               <children>
+                  <Label layoutX="57.0" layoutY="10.0" prefHeight="18.0" prefWidth="143.0" text="Successfully logged in!" />
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
        </ScrollPane>

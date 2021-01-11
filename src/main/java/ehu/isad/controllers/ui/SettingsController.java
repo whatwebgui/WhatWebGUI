@@ -1,9 +1,11 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.WhatWebDB;
+import ehu.isad.model.MongoUser;
 import ehu.isad.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
@@ -17,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class SettingsController {
+public class SettingsController implements Initializable {
     @FXML
     Button btn_clear;
     MainController mainController = MainController.getInstance();
