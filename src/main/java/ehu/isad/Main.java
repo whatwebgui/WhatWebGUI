@@ -35,7 +35,7 @@ public class Main extends Application {
     stageMain = primaryStage;
     stageSplashSetup();
     Thread threadInit = new Thread(() -> {
-      initialize();
+      initialize(); // FIXME only if it is not created!!!!
       try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
       Platform.runLater(() -> {
         try {stageMainSetup();} catch (IOException e) {e.printStackTrace();}
@@ -46,8 +46,8 @@ public class Main extends Application {
 
   private void initialize() {
     Properties p = Utils.getProperties();
-    File directory = new File(p.getProperty("pathToFolder"));
-    if(!directory.exists()) directory.mkdir();
+    File directory = new File(p.getProperty("pathToFolder")); // .whatwebgui/
+    if(!directory.exists()) directory.mkdir(); // FIXME user.home !
     Utils.createDirectories();
     Utils.createDB();
   }
