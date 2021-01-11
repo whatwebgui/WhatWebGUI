@@ -171,7 +171,7 @@ public class FormatterController {
             }
             HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType());
             emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
-        } catch (InterruptedException | IOException | SQLException err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return emaitza;
@@ -228,8 +228,6 @@ public class FormatterController {
         }
 
         if (!directory.exists()) directory.mkdir();
-        int lvl = SettingsController.getInstance().getAggressive();
-
         switch (type) {
             case "shell":
                 command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target+"/";
