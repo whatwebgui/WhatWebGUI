@@ -81,6 +81,10 @@ public class FormatterController {
                                 alert.setContentText("Try logging in on Settings");
                                 alert.showAndWait();
                             }
+                            else {
+                                pgr.setVisible(true);
+                                setText(btn, url);
+                            }
                         }
                         else {
                             pgr.setVisible(true);
@@ -231,7 +235,7 @@ public class FormatterController {
                 command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "ruby":
-                command = "/home/duxon/Apps/WhatWeb-0.5.4/whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "mongo":
                 command="/home/duxon/Apps/WhatWeb-0.5.4/whatweb --color=never --log-mongo-host localhost --log-mongo-database "+
