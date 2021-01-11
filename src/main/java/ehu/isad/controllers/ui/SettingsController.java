@@ -57,30 +57,6 @@ public class SettingsController implements Initializable {
 
     /*-----------*/
 
-    /*mongo stuff*/
-    @FXML
-    private TextField txtUser;
-
-    @FXML
-    private PasswordField passPass;
-
-    @FXML
-    private TextField txtPass;
-
-    @FXML
-    private TextField txtCollection;
-
-    @FXML
-    private CheckBox chbxView;
-
-    @FXML
-    private Button btnLogOut;
-
-    @FXML
-    private Pane paneLogIn;
-
-    /*-----------*/
-
     private static SettingsController instance = new SettingsController();
 
     private SettingsController(){ }
