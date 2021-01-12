@@ -86,10 +86,6 @@ public class FormatterController {
                                 setText(btn, url);
                             }
                         }
-                        else {
-                            pgr.setVisible(true);
-                            setText(btn, url);
-                        }
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -236,7 +232,7 @@ public class FormatterController {
                 command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "mongo":
-                command="/home/duxon/Apps/WhatWeb-0.5.4/whatweb --color=never --log-mongo-host localhost --log-mongo-database "+
+                command="whatweb --color=never --log-mongo-host localhost --log-mongo-database "+
                 Utils.getProperties().getProperty("dbMongo")+" --log-mongo-collection "+
                 MongoUser.getInstance().getCollection()+" --log-json="+path2+domain+extension+" "+target;
                 break;
