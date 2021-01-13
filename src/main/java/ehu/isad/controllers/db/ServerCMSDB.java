@@ -188,4 +188,9 @@ public class ServerCMSDB {
         }
         return list;
     }
+
+    public void deleteInfoFromScans(String target) {
+        String query = "delete from scans where target_id = (select target_id from targets where target like '%"+target+"%')";
+        dbcontroller.execSQL(query);
+    }
 }

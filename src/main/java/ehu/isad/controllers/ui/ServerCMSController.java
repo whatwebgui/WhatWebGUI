@@ -5,6 +5,7 @@ import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -74,18 +75,18 @@ public class ServerCMSController {
     public void click(String domain, String target, boolean multiadd) {
         Thread thread = new Thread( () -> {
             if(serverCMSDB.domainInDB(target)){//file is already in the table
+                serverCMSDB.deleteInfoFromScans(target);
                 serverCMSDB.updateDate(target);
-            }else{//file is not in the table, so we will have to create the sql file and insert it into the database
-                try {
-                    createSQLFile(domain+".sql",target);
-                    insertIntoDB(domain,target);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                File file = new File(path + domain + ".sql");
-                if(file.exists()){
-                    file.delete();
-                }
+            }
+            try {
+                createSQLFile(domain+".sql",target);
+                insertIntoDB(domain,target);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            File file = new File(path + domain + ".sql");
+            if(file.exists()){
+                file.delete();
             }
             if (!multiadd) HistoryDB.getInstance().addToHistoryDB(target,"CMS/Server");
         });
