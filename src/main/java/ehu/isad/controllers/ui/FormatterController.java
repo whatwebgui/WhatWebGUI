@@ -3,6 +3,7 @@ package ehu.isad.controllers.ui;
 import ehu.isad.controllers.db.FormatterDB;
 import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.Extension;
+import ehu.isad.model.MongoUser;
 import ehu.isad.utils.Url;
 import ehu.isad.utils.Utils;
 import javafx.application.Platform;
@@ -70,8 +71,21 @@ public class FormatterController {
                 try {
                     String url = urlUtils.processUrl(textField.getText());
                     if (url != null) {
-                        pgr.setVisible(true);
-                        setText(btn, url);
+                        //Check if logged in mongo
+                        Extension comboItem=combo.getValue();
+                        if (comboItem != null) {
+                            if (comboItem.getType().equals("mongo") && MongoUser.getInstance().getCollection().equals("")) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error in FORMATTER");
+                                alert.setHeaderText("Error on MongoDB");
+                                alert.setContentText("Try logging in on Settings");
+                                alert.showAndWait();
+                            }
+                            else {
+                                pgr.setVisible(true);
+                                setText(btn, url);
+                            }
+                        }
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -79,7 +93,7 @@ public class FormatterController {
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error in FORMATTER");
-                alert.setHeaderText("Error on reading the provided URL");
+                alert.setHeaderText("Error reading the provided URL");
                 alert.setContentText("Textfield is empty");
                 alert.showAndWait();
             }
@@ -136,13 +150,19 @@ public class FormatterController {
         domain = url.replace("/", "").split(":")[1];
         List<String> emaitza = null;
         try {
-            formatterDB.addDomainToDB(domain);
-            if ((btn.equals(btn_forcescan) || (btn.equals(btn_scan)) && !formatterDB.formatExists(domain, comboChoice))) {
-                if (btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
+            if(comboChoice.getType().equals("mongo") && !MongoUser.getInstance().getCollection().equals("")){
                 executeCommand(comboChoice, domain); //This will execute and create the file.
-                formatterDB.addFormatToDB(domain, comboChoice.getType());
-                while (currentProcess.isAlive()) {
-                    textArea.setPromptText(""); /* wait for the process to finish */
+                textArea.setPromptText("");
+                currentProcess.waitFor();/* wait for the process to finish */
+            }
+            else{
+                formatterDB.addDomainToDB(domain);
+                if ((btn.equals(btn_forcescan) || (btn.equals(btn_scan)) && !formatterDB.formatExists(domain, comboChoice))) {
+                    if (btn.equals(btn_forcescan)) deleteFileIfExists(comboChoice, domain);
+                    executeCommand(comboChoice, domain); //This will execute and create the file.
+                    formatterDB.addFormatToDB(domain, comboChoice.getType());
+                    textArea.setPromptText("");
+                    currentProcess.waitFor();/* wait for the process to finish */
                 }
             }
             HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType());
@@ -204,17 +224,20 @@ public class FormatterController {
         }
 
         if (!directory.exists()) directory.mkdir();
-        int lvl = SettingsController.getInstance().getAggressive();
-
         switch (type) {
             case "shell":
-                command = "whatweb --color=never -a "+lvl+ " --log-brief=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never --log-brief=" + path2 + domain + extension + " " + target+"/";
                 break;
             case "ruby":
-                command = "whatweb --color=never -a "+lvl+ " --log-object=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never --log-object=" + path2 + domain + extension + " " + target+"/";
+                break;
+            case "mongo":
+                command="whatweb --color=never --log-mongo-host localhost --log-mongo-database "+
+                Utils.getProperties().getProperty("dbMongo")+" --log-mongo-collection "+
+                MongoUser.getInstance().getCollection()+" --log-json="+path2+domain+extension+" "+target;
                 break;
             default:
-                command = "whatweb --color=never -a "+lvl+ " --log-" + type + "=" + path2 + domain + extension + " " + target+"/";
+                command = "whatweb --color=never --log-" + type + "=" + path2 + domain + extension + " " + target+"/";
                 break;
         }
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
@@ -228,9 +251,9 @@ public class FormatterController {
     }
 
     private void loadComboBox(){
-        String[] displayName = {"Verbose output", "Brief shell output", "JSON format file", "XML format file", "MySQL INSERT format file", "Ruby object inspection format", "MagicTree XML format file"};
-        String[] extension = {".txt", ".out", ".json", ".xml", ".sql", ".rb", ".magictree.xml"};
-        String[] type = {"verbose", "shell", "json", "xml", "sql", "ruby", "magictree"};
+        String[] displayName = {"Verbose output", "Brief shell output", "JSON format file", "XML format file", "MySQL INSERT format file", "Ruby object inspection format", "MagicTree XML format file","insert into MongoDB"};
+        String[] extension = {".txt", ".out", ".json", ".xml", ".sql", ".rb", ".magictree.xml",".json"};
+        String[] type = {"verbose", "shell", "json", "xml", "sql", "ruby", "magictree","mongo"};
         ObservableList<Extension> list = FXCollections.observableArrayList();
         for (int i = 0; i < displayName.length; i++) {
             list.add(new Extension(displayName[i], extension[i], type[i]));

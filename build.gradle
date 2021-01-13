@@ -49,6 +49,13 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.poi/poi
     compile group: 'org.apache.poi', name: 'poi', version: '3.9'
     compile 'org.apache.commons:commons-csv:1.8'
+
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.7'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }
 
 repositories {
