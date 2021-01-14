@@ -1,11 +1,10 @@
 package ehu.isad.controllers.db;
 
 import ehu.isad.model.ServerCMSModel;
-import ehu.isad.utils.Txt;
-import ehu.isad.utils.Utils;
+import ehu.isad.utils.Setup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.io.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -101,13 +100,13 @@ public class ServerCMSDB {
         StringBuffer sb = new StringBuffer();
         String[] file;
         if (tab.equals("cms")) {
-            file = Txt.getTxt("cmslist");
+            file = Setup.getList("cms");
             sb.append("('WordPress', 'Joomla', 'Drupal', 'phpMyAdmin',");
         } else if (tab.equals("server")) {
-            file = Txt.getTxt("serverlist");
+            file = Setup.getList("server");
             sb.append("('Apache', 'nginx', ");
         } else {
-            file = Txt.getTxt("list");
+            file = Setup.getList();
             sb.append("(");
         }
         for (String line:file) sb.append("'").append(line).append("', ");

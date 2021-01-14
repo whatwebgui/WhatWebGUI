@@ -6,17 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Txt {
+public class Setup {
 
-    public static String[] getTxt(String file){
-        String[] ret = null;
-        if (file.equals("cmslist")) ret = getList("cms");
-        else if (file.equals("serverlist")) ret = getList("server");
-        else if (file.equals("list")) ret = getList();
-        return ret;
-    }
-
-    private static String[] getList(String type) {
+    public static String[] getList(String type) {
         String query = "select name from plugins where type='"+ type +"'";
         ResultSet rs = DBController.getController().execSQL(query);
         var plugins = new ArrayList<String>();
@@ -30,9 +22,7 @@ public class Txt {
         return plugins.toArray(new String[plugins.size()]);
     }
 
-
-
-    private static String[] getList() {
+    public static String[] getList() {
         String[] firstArray = getList("cms");
         String[] secondArray = getList("server");
         int fal = firstArray.length;

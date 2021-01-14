@@ -1,6 +1,5 @@
 package ehu.isad.controllers.db;
 
-import ehu.isad.utils.Txt;
 import org.apache.commons.io.FileUtils;
 import ehu.isad.utils.Utils;
 
