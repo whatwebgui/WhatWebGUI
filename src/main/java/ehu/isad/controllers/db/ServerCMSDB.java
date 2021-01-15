@@ -121,7 +121,9 @@ public class ServerCMSDB {
         } catch (Exception e) {
             domain = targ.replace("/", "");
         }
-        String query = "insert into servercmsDate values((select target_id from targets where target = '" + correctDomain(domain) + "'),DATETIME())";
+
+        // updates can occur
+        String query = "insert or replace into servercmsDate values((select target_id from targets where target = '" + correctDomain(domain) + "'),DATETIME())";
         dbcontroller.execSQL(query);
     }
 

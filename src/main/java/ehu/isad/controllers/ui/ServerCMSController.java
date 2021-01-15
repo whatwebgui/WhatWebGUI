@@ -5,7 +5,6 @@ import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -35,6 +34,7 @@ public class ServerCMSController {
 
     void createSQLFile(String domain, String target) throws IOException {
         int lvl = SettingsController.getInstance().getAggressive();
+        String whatwebPath = Utils.getProperties().getProperty("whatwebPath");
         Process p;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
@@ -42,7 +42,7 @@ public class ServerCMSController {
             processBuilder.command("cmd.exe", "/C", "wsl whatweb --color=never -a "+lvl+" --log-sql=" + domain + " " + target);
             p = processBuilder.start();
         } else {
-            p = Runtime.getRuntime().exec("whatweb --color=never -a "+lvl+ " --log-sql=" + path + domain + " " + target);
+            p = Runtime.getRuntime().exec(whatwebPath + "whatweb --color=never -a "+lvl+ " --log-sql=" + path + domain + " " + target);
         }
         while(p.isAlive()){}
     }
@@ -52,7 +52,12 @@ public class ServerCMSController {
         input = new BufferedReader(new FileReader(path + domain + ".sql"));
         String line;
         while ((line = input.readLine()) != null) {
-            ServerCMSDB.getInstance().insertQueryIntoDB(line.replace("IGNORE","OR IGNORE"));
+            line = line.replace("IGNORE","OR IGNORE");
+
+            // see https://stackoverflow.com/a/603579/243532
+            line = line.replace("\\'","''");
+
+            ServerCMSDB.getInstance().insertQueryIntoDB(line);
         }
         input.close();
         //now, we will insert date information
