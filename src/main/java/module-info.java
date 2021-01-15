@@ -14,5 +14,7 @@ open module whatwebgui {
     requires poi;
     requires commons.csv;
     requires org.apache.commons.io;
+    requires com.google.gson;
+    requires mongo.java.driver;
     exports ehu.isad;
 }
