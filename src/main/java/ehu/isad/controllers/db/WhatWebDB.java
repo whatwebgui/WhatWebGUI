@@ -1,10 +1,12 @@
 package ehu.isad.controllers.db;
 
-import ehu.isad.utils.Txt;
+import org.apache.commons.io.FileUtils;
 import ehu.isad.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class WhatWebDB {
@@ -59,10 +61,23 @@ public class WhatWebDB {
     }
 
     public void createDB() {
-        File directory = new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/");
+        int CONNECT_TIMEOUT = 1000, READ_TIMEOUT = 1000;
+
+        String dbpath = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/";
+        File directory = new File(dbpath);
         directory.mkdir();
-        String[] create = Txt.getTxt("db");
-        for (String query : create)
-            dbcontroller.execSQL(query);
+
+        try {
+            FileUtils.copyURLToFile(
+                    new URL(Utils.getProperties().getProperty("setupDB")),
+                    new File(System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToDB")),
+                    CONNECT_TIMEOUT,
+                    READ_TIMEOUT);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

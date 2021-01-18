@@ -62,7 +62,10 @@ public class DBController {
                 int count = s.executeUpdate(query);
                 System.out.println(count + " rows affected");
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            System.err.println(query);
+            e.printStackTrace();
+        }
         return rs;
     }
 

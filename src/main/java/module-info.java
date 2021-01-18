@@ -13,7 +13,8 @@ open module whatwebgui {
     requires sqlite.jdbc;
     requires poi;
     requires commons.csv;
-    requires mongo.java.driver;
+    requires org.apache.commons.io;
     requires com.google.gson;
+    requires mongo.java.driver;
     exports ehu.isad;
 }
