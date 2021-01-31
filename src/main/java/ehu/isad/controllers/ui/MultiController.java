@@ -23,7 +23,6 @@ public class MultiController implements Initializable {
     Url urlUtils = new Url();
     CMSController cms = CMSController.getInstance();
     ServerController server = ServerController.getInstance();
-    ChartController chartController = ChartController.getInstance();
     private int cont;
     @FXML
     private Button btnOk;
@@ -135,12 +134,10 @@ public class MultiController implements Initializable {
 
             if(target!=null){
                 try {
-                    cms.CMS(target,true);
-                    server.Server(target,true);
-                    HistoryDB.getInstance().addToHistoryDB(target,"Multi-add");
+                    cms.CMS(target);
+                    server.Server(target);
                 } catch (IOException ioException) { ioException.printStackTrace(); }
                 Platform.runLater( () -> {
-                    chartController.uploadCharts();
                 });
             }else{
                 cont++;

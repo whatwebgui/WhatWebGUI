@@ -63,9 +63,9 @@ public class WhatWebDB {
     public void createDB() {
         int CONNECT_TIMEOUT = 1000, READ_TIMEOUT = 1000;
 
-        String dbpath = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/";
+        /*String dbpath = System.getProperty("user.home")+"/"+Utils.getProperties().getProperty("pathToFolder")+"/db/";
         File directory = new File(dbpath);
-        directory.mkdir();
+        directory.mkdir();*/
 
         try {
             FileUtils.copyURLToFile(

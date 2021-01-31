@@ -61,8 +61,6 @@ public class ServerController {
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
-    private SecurityController securityController = SecurityController.getInstance();
-    private ChartController chart = ChartController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -190,7 +188,7 @@ public class ServerController {
         if(!textField.getText().equals("")){
             String url = urlUtils.processUrl(textField.getText());
             if(url!=null){
-                processUrl(url,false);
+                processUrl(url);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -201,26 +199,22 @@ public class ServerController {
         }
     }
 
-    void processUrl(String url,boolean multi){
+    void processUrl(String url){
         Thread thread = new Thread( () -> {
             try {
-                Server(url,multi);
+                Server(url);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            Platform.runLater( () -> {
-                chart.uploadCharts();
-            } );
         });
         thread.start();
     }
 
-    void Server(String url, boolean multiadd) throws IOException {
+    void Server(String url) throws IOException {
         textField.setText("");
         String domain = url.replace("/", "").split(":")[1];
-        serverCMSController.click(domain, url,multiadd);
+        serverCMSController.click(domain, url);
         CMSController.getInstance().filterAll();
-        securityController.filterAll();
         filterAll();
     }
 

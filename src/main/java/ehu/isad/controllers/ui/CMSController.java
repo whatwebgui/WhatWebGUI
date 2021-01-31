@@ -59,9 +59,7 @@ public class CMSController {
 
     private final ServerCMSController serverCMSController = ServerCMSController.getInstance();
     private final ServerCMSDB servercmsdb = ServerCMSDB.getInstance();
-    private SecurityController securityController = SecurityController.getInstance();
     private ServerController server = ServerController.getInstance();
-    private ChartController chart = ChartController.getInstance();
     Url urlUtils = new Url();
     Desktop desktop = java.awt.Desktop.getDesktop();
 
@@ -220,7 +218,7 @@ public class CMSController {
         if(!textField.getText().equals("")){//there is no url in the textfield
             String url = urlUtils.processUrl(textField.getText());
             if(url!=null){
-                processUrl(url,false);
+                processUrl(url);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -231,27 +229,23 @@ public class CMSController {
         }
     }
 
-    void processUrl(String url,boolean multi){
+    void processUrl(String url){
         Scene scene = scanBtn.getScene();
             Thread thread = new Thread( () -> {
             try {
-                CMS(url,multi);
+                CMS(url);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            Platform.runLater( () -> {
-                chart.uploadCharts();
-            } );
         });
         thread.start();
     }
 
-    void CMS(String url, boolean multiadd) throws IOException {
+    void CMS(String url) throws IOException {
         textField.clear();
         String domain = url.replace("/", "").split(":")[1];
-        serverCMSController.click(domain, url,multiadd);
+        serverCMSController.click(domain, url);
         //again both filters will be called
-        securityController.filterAll();
         server.filterAll();
         filterAll();
     }

@@ -76,7 +76,7 @@ public class ServerCMSController {
         return new String[]{target, var, version, date};
     }
 
-    public void click(String domain, String target, boolean multiadd) {
+    public void click(String domain, String target) {
         Thread thread = new Thread( () -> {
             if(serverCMSDB.domainInDB(target)){//file is already in the table
                 serverCMSDB.deleteInfoFromScans(target);
@@ -92,7 +92,6 @@ public class ServerCMSController {
             if(file.exists()){
                 file.delete();
             }
-            if (!multiadd) HistoryDB.getInstance().addToHistoryDB(target,"CMS/Server");
         });
         thread.start();
         try {
@@ -111,7 +110,7 @@ public class ServerCMSController {
         }
     }
 
-    void        linkClick(TableView<ServerCMSModel> table){
+    void linkClick(TableView<ServerCMSModel> table){
         table.setRowFactory( tr -> {
             final TableRow<ServerCMSModel> row = new TableRow<>();
             row.setOnMouseMoved(event -> {

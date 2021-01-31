@@ -26,16 +26,10 @@ public class MainController implements Initializable {
     ServerController serverController;
     private Parent pane3;
     FormatterController formatterController;
-    private Parent pane4;
-    HistoryController historyController;
     private Parent pane6;
     SettingsController settingsController;
     private  Parent pane7;
     MultiController multiController;
-    private Parent pane8;
-    SecurityController securityController;
-    private Parent pane9;
-    ChartController chartController;
     int output=1;
 
     @FXML
@@ -105,12 +99,6 @@ public class MainController implements Initializable {
             pane.getChildren().add(pane3);
             lbl_title.setText("Formatter");
         }
-        if (actionEvent.getSource() == btn4) {
-            output = 4;
-            historyController.setItems();
-            pane.getChildren().add(pane4);
-            lbl_title.setText("History");
-        }
         if (actionEvent.getSource() == btn6) {
             output = 6;
             pane.getChildren().add(pane6);
@@ -120,15 +108,6 @@ public class MainController implements Initializable {
             output = 7;
             pane.getChildren().add(pane7);
             lbl_title.setText("Multi-add");
-        }
-        if (actionEvent.getSource() == btn9) {
-            pane.getChildren().add(pane9);
-            lbl_title.setText("Charts");
-        }
-
-        if (actionEvent.getSource() == btn8) {
-            pane.getChildren().add(pane8);
-            lbl_title.setText("Security");
         }
     }
 
@@ -194,14 +173,6 @@ public class MainController implements Initializable {
                             pane.getChildren().add(pane3);
                             lbl_title.setText("Formatter");
                             break;
-                        case 4:
-                            pane.getChildren().add(pane4);
-                            lbl_title.setText("History");
-                            break;
-                        case 5:
-                            pane.getChildren().add(pane8);
-                            lbl_title.setText("Security");
-                            break;
                         case 6:
                             pane.getChildren().add(pane6);
                             lbl_title.setText("Settings");
@@ -210,9 +181,6 @@ public class MainController implements Initializable {
                             pane.getChildren().add(pane7);
                             lbl_title.setText("Multi-add");
                             break;
-                        case 9:
-                            pane.getChildren().add(pane9);
-                            lbl_title.setText("Charts");
                         default:
                             pane.getChildren().add(pane1);
                             lbl_title.setText("CMS");
@@ -244,11 +212,6 @@ public class MainController implements Initializable {
         loaderpane3.setController(formatterController);
         pane3 = loaderpane3.load(); //formatter
 
-        FXMLLoader loaderpane4 = new FXMLLoader(MainController.class.getResource("/panes/HistoryPane.fxml"));
-        historyController = HistoryController.getInstance();
-        loaderpane4.setController(historyController);
-        pane4 = loaderpane4.load(); //history
-
         FXMLLoader loaderpane6 = new FXMLLoader(MainController.class.getResource("/panes/SettingsPane.fxml"));
         settingsController = SettingsController.getInstance();
         loaderpane6.setController(settingsController);
@@ -259,15 +222,6 @@ public class MainController implements Initializable {
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
 
-        FXMLLoader loaderpane8 = new FXMLLoader(MainController.class.getResource("/panes/SecurityPane.fxml"));
-        securityController = SecurityController.getInstance();
-        loaderpane8.setController(securityController);
-        pane8 = loaderpane8.load(); //security
-
-        FXMLLoader loaderpane9 = new FXMLLoader(MainController.class.getResource("/panes/ChartsPane.fxml"));
-        chartController = chartController.getInstance();
-        loaderpane9.setController(chartController);
-        pane9 = loaderpane9.load(); //charts
     }
 
     @Override

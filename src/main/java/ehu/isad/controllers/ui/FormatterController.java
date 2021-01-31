@@ -164,7 +164,6 @@ public class FormatterController {
                     currentProcess.waitFor();/* wait for the process to finish */
                 }
             }
-            HistoryDB.getInstance().addToHistoryDB(target, "Formatter > " + comboChoice.getType());
             emaitza = readFile(domain, comboChoice); //This loads the file with the domain name.
         } catch (Exception err) {
             err.printStackTrace();
