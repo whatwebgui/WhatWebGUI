@@ -1,6 +1,5 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.utils.Url;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

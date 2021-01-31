@@ -1,6 +1,5 @@
 package ehu.isad.controllers.ui;
 
-import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.controllers.db.ServerCMSDB;
 import ehu.isad.model.ServerCMSModel;
 import ehu.isad.utils.Utils;

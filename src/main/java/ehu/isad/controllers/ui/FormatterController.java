@@ -1,7 +1,6 @@
 package ehu.isad.controllers.ui;
 
 import ehu.isad.controllers.db.FormatterDB;
-import ehu.isad.controllers.db.HistoryDB;
 import ehu.isad.model.Extension;
 import ehu.isad.model.MongoUser;
 import ehu.isad.utils.Url;

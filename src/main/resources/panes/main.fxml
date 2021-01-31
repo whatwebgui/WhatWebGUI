@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Pane fx:id="pane" layoutX="250.0" layoutY="100.0" prefHeight="500.0" prefWidth="600.0" />
         <VBox prefHeight="600.0" prefWidth="250.0" style="-fx-background-color: #103373;" stylesheets="@header.css">
@@ -61,17 +61,6 @@
                     <padding>
                         <Insets left="65.0" />
                     </padding></Button>
-                <Button fx:id="btn8" alignment="BASELINE_LEFT" graphicTextGap="16.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Security">
-               <graphic>
-                  <FontAwesomeIconView fill="#fbfbfc" glyphName="SHIELD" size="18" />
-               </graphic>
-                <VBox.margin>
-                    <Insets />
-                </VBox.margin>
-                <padding>
-                    <Insets left="65.0" />
-                </padding>
-            </Button>
                 <Button fx:id="btn7" alignment="BASELINE_LEFT" graphicTextGap="11.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Multi-add">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="LIST" size="18" />
@@ -80,27 +69,6 @@
                         <Insets left="65.0" />
                     </padding>
                 </Button>
-                <Button fx:id="btn4" alignment="BASELINE_LEFT" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="History">
-                    <graphic>
-                        <FontAwesomeIconView fill="#FBFBFC" glyphName="HISTORY" size="18" />
-                    </graphic>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="65.0" />
-                    </padding></Button>
-                <Button fx:id="btn9" alignment="BASELINE_LEFT" graphicTextGap="11.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Charts">
-                    <graphic>
-                        <FontAwesomeIconView fill="#FBFBFC" glyphName="HASHTAG" size="18" />
-                    </graphic>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="65.0" />
-                    </padding>
-            </Button>
                 <Button fx:id="btn6" alignment="BASELINE_LEFT" graphicTextGap="14.0" mnemonicParsing="false" onAction="#handleClick" prefHeight="55.0" prefWidth="250.0" stylesheets="@header.css" text="Settings">
                     <graphic>
                         <FontAwesomeIconView fill="#FBFBFC" glyphName="COG" size="18" />
