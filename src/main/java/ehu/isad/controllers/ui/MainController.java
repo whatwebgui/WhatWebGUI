@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,6 +31,8 @@ public class MainController implements Initializable {
     SettingsController settingsController;
     private  Parent pane7;
     MultiController multiController;
+    private Parent pane8;
+    StatusController statusController;
     int output=1;
 
     @FXML
@@ -111,6 +114,21 @@ public class MainController implements Initializable {
         }
     }
 
+    @FXML
+    void onClick(ActionEvent event) throws IOException {
+        try{
+            Stage window = new Stage();
+            Scene scene =  new Scene(pane8, 600 ,600);
+            window.setScene(scene);
+            window.show();
+        }catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error on active scans");
+            alert.setHeaderText("Active scans scene is already opened");
+            alert.showAndWait();
+        }
+
+    }
 
     @FXML
     void close() {
@@ -221,6 +239,11 @@ public class MainController implements Initializable {
         multiController = MultiController.getInstance();
         loaderpane7.setController(multiController);
         pane7 = loaderpane7.load(); //Multi-add option
+
+        FXMLLoader loaderpane8 = new FXMLLoader(MainController.class.getResource("/panes/StatusTable.fxml"));
+        statusController = StatusController.getInstance();
+        loaderpane8.setController(statusController);
+        pane8 = loaderpane8.load();
 
     }
 

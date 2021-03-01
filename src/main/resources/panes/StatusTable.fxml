@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" layoutY="14.0" prefHeight="40.0" prefWidth="600.0" text="ACTIVE SCANS">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <TableView fx:id="table" layoutY="67.0" prefHeight="488.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="urlCol" prefWidth="254.0" text="URL" />
+          <TableColumn fx:id="pathCol" prefWidth="113.0" text="PATH" />
+            <TableColumn fx:id="estimatedCol" prefWidth="133.0" text="ESTIMATED TIME" />
+            <TableColumn fx:id="statusCol" prefWidth="99.0" text="STATUS" />
+        </columns>
+      </TableView>
+      <Label layoutX="30.0" layoutY="564.0" text="TOTAL ACTIVE SCANS:">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalScans" layoutX="306.0" layoutY="564.0" text="0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

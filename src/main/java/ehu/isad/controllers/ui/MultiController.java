@@ -128,7 +128,11 @@ public class MultiController implements Initializable {
         Thread thread = new Thread(() -> {
             String target = null;
             try {
-                target = urlUtils.processUrlInMulti(url);
+                target = urlUtils.processUrlInMulti(url);Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error on URL");
+                    alert.setHeaderText("Error on reading the provided URL");
+                    alert.setContentText("The URL "+ url + "  doesn't seem to exist");
+                    alert.showAndWait();
             } catch (SQLException ioException) { ioException.printStackTrace();
             }
 
